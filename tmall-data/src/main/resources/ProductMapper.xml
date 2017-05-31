@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liferyan.mybatis.entity">
+
+  <insert id="saveProduct" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO product (cid, name, subtitle, original_price, promote_price, stock, create_date)
+    VALUES
+      (#{category.id}, #{name}, #{subTitle}, #{originalPrice}, #{promotePrice}, #{stock},
+       #{createDate})
+  </insert>
+
+  <delete id="deleteProduct">
+    DELETE FROM product
+    WHERE id = #{id}
+  </delete>
+
+  <update id="updateProduct">
+    UPDATE product
+    SET cid          = #{category.id}, name = #{name}, subtitle = #{subTitle},
+      original_price = #{originalPrice}, promote_price = #{promotePrice}, stock = #{stock},
+      create_date    = #{createDate}
+    WHERE id = #{id}
+  </update>
+
+  <sql id="joinSelectProduct">
+    SELECT
+      p.id             AS 'p_id',
+      p.name           AS 'p_name',
+      p.subtitle       AS 'p_subTitle',
+      p.original_price AS 'p_originalPrice',
+      p.promote_price  AS 'p_promotePrice',
+      p.create_date    AS 'p_createDate',
+      p.stock          AS 'p_stock',
+      c.id             AS 'c_id',
+      c.name           AS 'c_name'
+    FROM product AS p LEFT OUTER JOIN category AS c ON p.cid = c.id
+  </sql>
+
+  <sql id="selectProduct">
+    SELECT
+      id,
+      name,
+      stock,
+      subtitle       AS 'subTitle',
+      original_price AS 'originalPrice',
+      promote_price  AS 'promotePrice',
+      create_date    AS 'createDate',
+      cid            AS 'c_id'
+    FROM product
+  </sql>
+
+  <resultMap id="productResult" type="product">
+    <id column="p_id" property="id"/>
+    <result column="p_name" property="name"/>
+    <result column="p_subTitle" property="subTitle"/>
+    <result column="p_originalPrice" property="originalPrice"/>
+    <result column="p_promotePrice" property="promotePrice"/>
+    <result column="p_createDate" property="createDate"/>
+    <result column="p_stock" property="stock"/>
+    <association property="category" javaType="category" columnPrefix="c_"
+      resultMap="categoryAndPropertyMap"/>
+    <!--此处使用association是否合适!!!-->
+    <association column="p_id" property="saleCount" javaType="_int" select="saleCountSelect"/>
+    <association column="p_id" property="reviewCount" javaType="_int" select="reviewCountSelect"/>
+    <association column="p_id" property="firstProductImage" javaType="productImage"
+      select="firstProductImageSelect"/>
+    <collection column="p_id" property="singleProductImageList" ofType="productImage"
+      select="singleProductImageListSelect"/>
+    <collection column="p_id" property="detailProductImageList" ofType="productImage"
+      select="detailProductImageListSelect"/>
+  </resultMap>
+
+  <select id="getProductById" resultMap="productResult">
+    <include refid="joinSelectProduct"/>
+    WHERE p.id = #{id}
+  </select>
+
+  <select id="listProductByCategory" resultMap="productResult">
+    <include refid="joinSelectProduct"/>
+    WHERE p.cid = #{cid}
+    ORDER BY p.id
+  </select>
+
+  <select id="getProductCountByCategory" resultType="_int">
+    SELECT COUNT(*)
+    FROM product
+    WHERE cid = #{cid}
+  </select>
+
+  <!--分页使用 嵌套查询-->
+  <select id="listProductByPage" resultMap="productAllMap">
+    <include refid="selectProduct"/>
+    WHERE cid = #{cid}
+    ORDER BY id
+    LIMIT #{count} OFFSET #{start}
+  </select>
+
+  <select id="search" resultMap="productAllMap">
+    <include refid="selectProduct"/>
+    WHERE name REGEXP #{keyword}
+    LIMIT #{count} OFFSET #{start}
+  </select>
+
+  <resultMap id="productAllMap" type="product" autoMapping="true">
+    <id column="id" property="id"/>
+    <association column="c_id" property="category" javaType="category"
+      select="categoryAndPropertySelect"/>
+    <!--此处使用association是否合适!!!-->
+    <association column="id" property="saleCount" javaType="_int" select="saleCountSelect"/>
+    <association column="id" property="reviewCount" javaType="_int" select="reviewCountSelect"/>
+    <association column="id" property="firstProductImage" javaType="productImage"
+      select="firstProductImageSelect"/>
+    <collection column="id" property="singleProductImageList" ofType="productImage"
+      select="singleProductImageListSelect"/>
+    <collection column="id" property="detailProductImageList" ofType="productImage"
+      select="detailProductImageListSelect"/>
+  </resultMap>
+
+  <select id="productSelect" resultMap="productAndCategoryMap">
+    <include refid="selectProduct"/>
+    WHERE cid = #{cid}
+    ORDER BY id
+  </select>
+
+  <resultMap id="productAndCategoryMap" type="product" autoMapping="true">
+    <id column="id" property="id"/>
+    <association column="c_id" property="category" javaType="category" select="categorySelect"/>
+  </resultMap>
+
+  <resultMap id="productMap" type="product" autoMapping="true">
+    <id column="id" property="id"/>
+  </resultMap>
+</mapper>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liferyan.mybatis.entity">
+
+  <insert id="saveCategory" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO category (name) VALUES (#{name})
+  </insert>
+
+  <delete id="deleteCategory">
+    DELETE FROM category
+    WHERE id = #{id}
+  </delete>
+
+  <update id="updateCategory">
+    UPDATE category
+    SET name = #{name}
+    WHERE id = #{id}
+  </update>
+
+  <sql id="joinSelectCategory">
+    SELECT
+      c.id             AS 'c_id',
+      c.name           AS 'c_name',
+      p.id             AS 'p_id',
+      p.name           AS 'p_name',
+      p.subtitle       AS 'p_subTitle',
+      p.original_price AS 'p_originalPrice',
+      p.promote_price  AS 'p_promotePrice',
+      p.create_date    AS 'p_createDate',
+      p.stock          AS 'p_stock',
+      pp.id            AS 'pp_id',
+      pp.name          AS 'pp_name'
+    FROM category AS c
+      LEFT OUTER JOIN product AS p ON c.id = p.cid
+      LEFT OUTER JOIN property AS pp ON c.id = pp.cid
+  </sql>
+
+  <sql id="selectCategory">
+    SELECT
+      id,
+      name
+    FROM category
+  </sql>
+
+  <resultMap id="categoryResult" type="category">
+    <id column="c_id" property="id"/>
+    <result column="c_name" property="name"/>
+    <!--集合的嵌套结果-->
+    <collection property="products" ofType="product" resultMap="productResult"/>
+    <!--集合的嵌套结果-->
+    <collection property="properties" ofType="property" resultMap="propertyResult"/>
+  </resultMap>
+
+  <select id="getCategoryById" resultMap="categoryResult">
+    <include refid="joinSelectCategory"/>
+    WHERE c.id = #{id}
+  </select>
+
+  <select id="listCategory" resultMap="categoryResult">
+    <include refid="joinSelectCategory"/>
+    ORDER BY c.id
+  </select>
+
+  <select id="getCategoryCount" resultType="_int">
+    SELECT COUNT(*)
+    FROM category
+  </select>
+
+  <!--分页使用嵌套查询-->
+  <select id="listCategoryByPage" resultMap="categoryAllMap">
+    SELECT
+      id,
+      name
+    FROM category
+    ORDER BY id
+    LIMIT #{count} OFFSET #{start}
+  </select>
+
+  <resultMap id="categoryAllMap" type="category" autoMapping="true">
+    <id column="id" property="id"/>
+    <collection column="id" property="products" ofType="product" select="productSelect"/>
+    <collection column="id" property="properties" ofType="property" select="propertySelect"/>
+  </resultMap>
+
+  <select id="categorySelect" resultType="category">
+    <include refid="selectCategory"/>
+    WHERE id = #{id}
+  </select>
+
+  <select id="categoryAndPropertySelect" resultMap="categoryAndPropertyMap">
+    <include refid="selectCategory"/>
+    WHERE id = #{id}
+  </select>
+
+  <resultMap id="categoryAndPropertyMap" type="category" autoMapping="true">
+    <id column="id" property="id"/>
+    <collection column="id" property="properties" ofType="property" select="propertySelect"/>
+  </resultMap>
+</mapper>

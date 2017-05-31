@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liferyan.mybatis.entity">
+
+  <insert id="saveProperty" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO property (cid, name) VALUES (#{category.id}, #{name})
+  </insert>
+
+  <delete id="deleteProperty">
+    DELETE FROM property
+    WHERE id = #{id}
+  </delete>
+
+  <update id="updateProperty">
+    UPDATE property
+    SET cid = #{category.id}, name = #{name}
+    WHERE id = #{id}
+  </update>
+
+  <sql id="joinSelectProperty">
+    SELECT
+      pp.id   AS 'pp_id',
+      pp.name AS 'pp_name',
+      c.id    AS 'c_id',
+      c.name  AS 'c_name'
+    FROM property AS pp
+      LEFT OUTER JOIN category AS c ON pp.cid = c.id
+  </sql>
+
+  <sql id="selectProperty">
+    SELECT
+      id,
+      cid,
+      name
+    FROM property
+  </sql>
+
+  <resultMap id="propertyResult" type="property">
+    <id column="pp_id" property="id"/>
+    <result column="pp_name" property="name"/>
+    <!--关联的嵌套结果-->
+    <association property="category" javaType="category">
+      <id column="c_id" property="id"/>
+      <result column="c_name" property="name"/>
+    </association>
+  </resultMap>
+
+  <select id="getPropertyById" resultMap="propertyResult">
+    <include refid="joinSelectProperty"/>
+    WHERE pp.id = #{id}
+  </select>
+
+  <select id="listProperty" resultMap="propertyResult">
+    <include refid="joinSelectProperty"/>
+    WHERE pp.cid = #{cid}
+    ORDER BY pp.id
+  </select>
+
+  <select id="getPropertyCount" resultType="_int">
+    SELECT COUNT(*)
+    FROM property
+    WHERE cid = #{cid}
+  </select>
+
+  <select id="listPropertyByPage" resultMap="propertyAndCategoryMap">
+    <include refid="selectProperty"/>
+    WHERE cid = #{cid}
+    ORDER BY id
+    LIMIT #{count} OFFSET #{start}
+  </select>
+
+  <select id="propertySelect" resultType="property">
+    SELECT
+      id,
+      name
+    FROM property
+    WHERE cid = #{cid}
+    ORDER BY id
+  </select>
+
+  <resultMap id="propertyAndCategoryMap" type="property" autoMapping="true">
+    <id column="id" property="id"/>
+    <association column="cid" property="category" javaType="category" select="categorySelect"/>
+  </resultMap>
+</mapper>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liferyan.mybatis.entity.Order">
+  <insert id="saveOrder">
+    INSERT INTO order_ (uid, order_code, address, post, receiver, mobile,
+                        user_message, create_date, pay_date, delivery_date, confirm_date, status)
+    VALUES (#{uid}, #{order_code}, #{address}, #{post}, #{receiver}, #{mobile},
+                    #{user_message}, #{create_date}, #{pay_date}, #{delivery_date}, #{confirm_date},
+            #{status})
+  </insert>
+
+  <update id="deleteOrder">
+    UPDATE order_
+    SET status = 'DELETED'
+    WHERE id = #{id}
+  </update>
+
+  <update id="updateOrder">
+    UPDATE order_
+    SET uid       = #{uid}, order_code = #{order_code}, address = #{address}, post = #{post},
+      receiver    = #{receiver}, mobile = #{mobile}, user_message = #{user_message},
+      create_date = #{create_date},
+      pay_date    = #{pay_date}, delivery_date = #{delivery_date}, confirm_date = #{confirm_date},
+      status      = #{status}
+    WHERE id = #{id}
+  </update>
+
+  <select id="getOrderById">
+    SELECT *
+    FROM order_
+    WHERE id = #{id}
+  </select>
+
+  <select id="listOrderByPage">
+    SELECT *
+    FROM order_
+    ORDER BY id
+    LIMIT #{count} OFFSET #{start}
+  </select>
+
+  <select id="getOrderCount">
+    SELECT COUNT(*)
+    FROM order_
+  </select>
+</mapper>

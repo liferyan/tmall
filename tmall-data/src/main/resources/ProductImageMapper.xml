@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liferyan.mybatis.entity">
+  <insert id="saveProductImg">
+    INSERT INTO product_image (pid, type) VALUES (#{pid}, #{type})
+  </insert>
+
+  <delete id="deleteProductImg">
+    DELETE FROM product_image
+    WHERE id = #{id}
+  </delete>
+
+  <select id="getProductImgById">
+    SELECT *
+    FROM product_image
+    WHERE id = #{id}
+  </select>
+
+  <select id="listProductImg">
+    SELECT *
+    FROM product_image
+    WHERE pid = #{pid} AND type = #{type}
+    ORDER BY id DESC
+  </select>
+
+
+  <sql id="selectProductImage">
+    SELECT
+      id,
+      pid,
+      type
+    FROM product_image
+  </sql>
+
+  <select id="firstProductImageSelect" resultMap="productImageResult">
+    <include refid="selectProductImage"/>
+    WHERE pid = #{pid} AND type = 'type_single'
+    LIMIT 1
+  </select>
+
+  <select id="singleProductImageListSelect" resultMap="productImageResult">
+    <include refid="selectProductImage"/>
+    WHERE pid = #{pid} AND type = 'type_single'
+  </select>
+
+  <select id="detailProductImageListSelect" resultMap="productImageResult">
+    <include refid="selectProductImage"/>
+    WHERE pid = #{pid} AND type = 'type_detail'
+  </select>
+
+  <resultMap id="productImageResult" type="productImage">
+    <id column="id" property="id"/>
+    <result column="type" property="imageType" javaType="ImageTypeEnum"
+      typeHandler="com.liferyan.mybatis.dao.impl.type.ImageTypeEnumHandler"/>
+    <association column="pid" property="product" javaType="product">
+      <id column="pid" property="id"/>
+    </association>
+  </resultMap>
+</mapper>
