@@ -10,16 +10,16 @@
   </settings>
   <typeAliases>
     <typeAlias alias="ImageTypeEnumHandler"
-      type="com.liferyan.mybatis.dao.impl.type.ImageTypeEnumHandler"/>
+      type="com.liferyan.tmall.data.dao.impl.type.ImageTypeEnumHandler"/>
     <typeAlias alias="OrderStatusEnumHandler"
-      type="com.liferyan.mybatis.dao.impl.type.OrderStatusEnumHandler"/>
-    <package name="com.liferyan.mybatis.entity"/>
+      type="com.liferyan.tmall.data.dao.impl.type.OrderStatusEnumHandler"/>
+    <package name="com.liferyan.tmall.data.entity"/>
   </typeAliases>
   <typeHandlers>
     <typeHandler handler="ImageTypeEnumHandler"
-      javaType="com.liferyan.mybatis.entity.ImageTypeEnum"/>
+      javaType="com.liferyan.tmall.data.entity.ImageTypeEnum"/>
     <typeHandler handler="OrderStatusEnumHandler"
-      javaType="com.liferyan.mybatis.entity.OrderStatusEnum"/>
+      javaType="com.liferyan.tmall.data.entity.OrderStatusEnum"/>
   </typeHandlers>
   <environments default="development">
     <environment id="development">
