@@ -115,10 +115,10 @@ public class ProductDaoImpl implements ProductDao {
   }
 
   @Override
-  public List<Product> search(String keyword, int start, int count) {
+  public List<Product> searchProduct(String keyword, int start, int count) {
     List<Product> productList = null;
     try (SqlSession session = sqlSessionFactory.openSession()) {
-      String statement = "search";
+      String statement = "searchProduct";
       Map<String, Object> parameterMap = new HashMap<>();
       parameterMap.put("keyword", keyword);
       parameterMap.put("start", start);

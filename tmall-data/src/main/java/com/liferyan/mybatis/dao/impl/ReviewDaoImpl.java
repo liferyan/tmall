@@ -43,10 +43,10 @@ public class ReviewDaoImpl implements ReviewDao {
   }
 
   @Override
-  public List<Review> listReviewByPage(int pid, int start, int count) {
+  public List<Review> listProductReviewByPage(int pid, int start, int count) {
     List<Review> reviewList = null;
     try (SqlSession session = sqlSessionFactory.openSession()) {
-      String statement = "listReviewByPage";
+      String statement = "listProductReviewByPage";
       Map<String, Object> parameterMap = new HashMap<>();
       parameterMap.put("pid", pid);
       parameterMap.put("start", start);
@@ -59,10 +59,10 @@ public class ReviewDaoImpl implements ReviewDao {
   }
 
   @Override
-  public List<Review> listReview(int pid) {
+  public List<Review> listProductReview(int pid) {
     List<Review> reviewList = null;
     try (SqlSession session = sqlSessionFactory.openSession()) {
-      String statement = "listReview";
+      String statement = "listProductReview";
       reviewList = session.selectList(statement, pid);
     } catch (Exception e) {
       logger.error("获取评价异常：{}", e.getMessage());

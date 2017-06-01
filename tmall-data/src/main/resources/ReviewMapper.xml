@@ -17,7 +17,7 @@
     <association property="product" javaType="product" columnPrefix="p_" resultMap="productMap"/>
   </resultMap>
 
-  <select id="listReview" resultMap="reviewResult">
+  <select id="listProductReview" resultMap="reviewResult">
     SELECT
       r.id          AS 'r_id',
       r.content     AS 'r_content',
@@ -39,7 +39,7 @@
     WHERE pid = #{pid}
   </select>
 
-  <select id="listReviewByPage" resultMap="reviewMap">
+  <select id="listProductReviewByPage" resultMap="reviewMap">
     SELECT
     id,
     uid,

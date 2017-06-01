@@ -49,7 +49,7 @@
     FROM order_ AS o
       LEFT OUTER JOIN user AS u ON o.uid = u.id
     LEFT OUTER JOIN order_item AS oi ON o.id = oi.oid
-    INNER JOIN product AS p ON oi.pid = p.id
+    LEFT OUTER JOIN product AS p ON oi.pid = p.id
   </sql>
 
   <sql id="selectOrder">

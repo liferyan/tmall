@@ -77,7 +77,7 @@ public class ProductDaoTest {
     assertThat(size, is(productList.size()));
     List<Product> products = productDao.listProductByPage(categoryId, 0, 3);
     assertThat(products.size(), is(3));
-    List<Product> searchedProducts = productDao.search("车", 0, 10);
+    List<Product> searchedProducts = productDao.searchProduct("车", 0, 10);
     assertThat(searchedProducts.size(), greaterThan(3));
     List<List<Product>> productsList = new ArrayList<>();
     productsList.add(productList);

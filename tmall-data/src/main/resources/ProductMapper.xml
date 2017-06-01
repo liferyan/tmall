@@ -97,7 +97,7 @@
     LIMIT #{count} OFFSET #{start}
   </select>
 
-  <select id="search" resultMap="productAllMap">
+  <select id="searchProduct" resultMap="productAllMap">
     <include refid="selectProduct"/>
     WHERE name REGEXP #{keyword}
     LIMIT #{count} OFFSET #{start}

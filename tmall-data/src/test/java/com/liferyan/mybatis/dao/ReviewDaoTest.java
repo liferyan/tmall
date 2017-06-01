@@ -56,8 +56,8 @@ public class ReviewDaoTest {
 
   @Test
   public void listReview() throws Exception {
-    List<Review> reviewList = reviewDao.listReview(product.getId());
-    List<Review> reviews = reviewDao.listReviewByPage(product.getId(), 0, 2);
+    List<Review> reviewList = reviewDao.listProductReview(product.getId());
+    List<Review> reviews = reviewDao.listProductReviewByPage(product.getId(), 0, 2);
     assertThat(reviews.size(), is(2));
     List<List<Review>> listsList = new ArrayList<>();
     listsList.add(reviewList);
