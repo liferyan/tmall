@@ -118,7 +118,7 @@
       select="detailProductImageListSelect"/>
   </resultMap>
 
-  <select id="productSelect" resultMap="productAndCategoryMap">
+  <select id="productAndCategorySelect" resultMap="productAndCategoryMap">
     <include refid="selectProduct"/>
     WHERE cid = #{cid}
     ORDER BY id
@@ -128,6 +128,19 @@
     <id column="id" property="id"/>
     <association column="c_id" property="category" javaType="category" select="categorySelect"/>
   </resultMap>
+
+  <select id="productSelect" resultMap="productMap">
+    SELECT
+      id,
+      name,
+      stock,
+      subtitle       AS 'subTitle',
+      original_price AS 'originalPrice',
+      promote_price  AS 'promotePrice',
+      create_date    AS 'createDate'
+    FROM product
+    WHERE id = #{id}
+  </select>
 
   <resultMap id="productMap" type="product" autoMapping="true">
     <id column="id" property="id"/>

@@ -3,24 +3,34 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.liferyan.mybatis.entity">
-  <insert id="saveReview">
+
+  <insert id="saveReview" useGeneratedKeys="true" keyProperty="id">
     INSERT INTO review (pid, uid, content, create_date)
-    VALUES (#{pid}, #{uid}, #{content}, #{create_date})
+    VALUES (#{product.id}, #{user.id}, #{content}, #{createDate})
   </insert>
 
-  <select id="listReviewByPage">
-    SELECT *
-    FROM review
-    WHERE pid = #{pid}
-    ORDER BY create_date DESC
-    LIMIT #{count} OFFSET #{start}
-  </select>
+  <resultMap id="reviewResult" type="review">
+    <id column="r_id" property="id"/>
+    <result column="r_content" property="content"/>
+    <result column="r_createDate" property="createDate"/>
+    <association property="user" javaType="user" columnPrefix="u_" resultMap="userMap"/>
+    <association property="product" javaType="product" columnPrefix="p_" resultMap="productMap"/>
+  </resultMap>
 
-  <select id="listReview">
-    SELECT *
-    FROM review
-    WHERE pid = #{pid}
-    ORDER BY create_date DESC
+  <select id="listReview" resultMap="reviewResult">
+    SELECT
+      r.id          AS 'r_id',
+      r.content     AS 'r_content',
+      r.create_date AS 'r_createDate',
+      p.id          AS 'p_id',
+      p.name        AS 'p_name',
+      u.id          AS 'u_id',
+      u.name        AS 'u_name'
+    FROM review AS r
+      LEFT OUTER JOIN user AS u ON r.uid = u.id
+      LEFT OUTER JOIN product AS p ON r.pid = p.id
+    WHERE p.id = #{pid}
+    ORDER BY r.create_date DESC
   </select>
 
   <select id="getReviewCount">
@@ -28,6 +38,25 @@
     FROM review
     WHERE pid = #{pid}
   </select>
+
+  <select id="listReviewByPage" resultMap="reviewMap">
+    SELECT
+    id,
+    uid,
+    pid,
+    content,
+    create_date AS 'createDate'
+    FROM review
+    WHERE pid = #{pid}
+    ORDER BY create_date DESC
+    LIMIT #{count} OFFSET #{start}
+  </select>
+
+  <resultMap id="reviewMap" type="review" autoMapping="true">
+    <id column="id" property="id"/>
+    <association column="uid" property="user" javaType="user" select="userSelect"/>
+    <association column="pid" property="product" javaType="product" select="productSelect"/>
+  </resultMap>
 
   <select id="reviewCountSelect" resultType="_int">
     SELECT COUNT(*)

@@ -3,28 +3,32 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.liferyan.mybatis.entity">
-  <insert id="saveProductImg">
-    INSERT INTO product_image (pid, type) VALUES (#{pid}, #{type})
+
+  <insert id="saveProductImage" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO product_image (pid, type)
+    VALUES (#{product.id},
+    #{imageType,typeHandler=ImageTypeEnumHandler})
   </insert>
 
-  <delete id="deleteProductImg">
+  <delete id="deleteProductImage">
     DELETE FROM product_image
     WHERE id = #{id}
   </delete>
 
-  <select id="getProductImgById">
-    SELECT *
-    FROM product_image
-    WHERE id = #{id}
-  </select>
-
-  <select id="listProductImg">
-    SELECT *
-    FROM product_image
-    WHERE pid = #{pid} AND type = #{type}
-    ORDER BY id DESC
-  </select>
-
+  <sql id="joinSelectProductImage">
+    SELECT
+      pi.id            AS 'pi_id',
+      pi.type          AS 'pi_type',
+      p.id             AS 'p_id',
+      p.name           AS 'p_name',
+      p.subtitle       AS 'p_subTitle',
+      p.original_price AS 'p_originalPrice',
+      p.promote_price  AS 'p_promotePrice',
+      p.create_date    AS 'p_createDate',
+      p.stock          AS 'p_stock'
+    FROM product_image AS pi
+      LEFT OUTER JOIN product AS p ON pi.pid = p.id
+  </sql>
 
   <sql id="selectProductImage">
     SELECT
@@ -34,26 +38,45 @@
     FROM product_image
   </sql>
 
-  <select id="firstProductImageSelect" resultMap="productImageResult">
+  <resultMap id="productImageResult" type="productImage">
+    <id column="pi_id" property="id"/>
+    <result column="pi_type" property="imageType" javaType="ImageTypeEnum"
+      typeHandler="ImageTypeEnumHandler"/>
+    <association property="product" javaType="product" columnPrefix="p_" resultMap="productMap"/>
+  </resultMap>
+
+  <select id="getProductImageById" resultMap="productImageResult">
+    <include refid="joinSelectProductImage"/>
+    WHERE pi.id = #{id}
+  </select>
+
+  <select id="listProductImage" resultMap="productImageResult">
+    <include refid="joinSelectProductImage"/>
+    WHERE p.id = #{product.id}
+    AND pi.type = #{imageType,typeHandler=ImageTypeEnumHandler}
+    ORDER BY pi.id DESC
+  </select>
+
+  <select id="firstProductImageSelect" resultMap="productImageMap">
     <include refid="selectProductImage"/>
     WHERE pid = #{pid} AND type = 'type_single'
     LIMIT 1
   </select>
 
-  <select id="singleProductImageListSelect" resultMap="productImageResult">
+  <select id="singleProductImageListSelect" resultMap="productImageMap">
     <include refid="selectProductImage"/>
     WHERE pid = #{pid} AND type = 'type_single'
   </select>
 
-  <select id="detailProductImageListSelect" resultMap="productImageResult">
+  <select id="detailProductImageListSelect" resultMap="productImageMap">
     <include refid="selectProductImage"/>
     WHERE pid = #{pid} AND type = 'type_detail'
   </select>
 
-  <resultMap id="productImageResult" type="productImage">
+  <resultMap id="productImageMap" type="productImage">
     <id column="id" property="id"/>
     <result column="type" property="imageType" javaType="ImageTypeEnum"
-      typeHandler="com.liferyan.mybatis.dao.impl.type.ImageTypeEnumHandler"/>
+      typeHandler="ImageTypeEnumHandler"/>
     <association column="pid" property="product" javaType="product">
       <id column="pid" property="id"/>
     </association>

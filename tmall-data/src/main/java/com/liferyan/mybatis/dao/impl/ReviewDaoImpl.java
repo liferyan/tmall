@@ -36,13 +36,7 @@ public class ReviewDaoImpl implements ReviewDao {
   public void saveReview(Review review) {
     try (SqlSession session = sqlSessionFactory.openSession(true)) {
       String statement = "saveReview";
-      Map<String, Object> parameterMap = new HashMap<>();
-      parameterMap.put("pid", review.getProduct().getId());
-      parameterMap.put("uid", review.getUser().getId());
-      parameterMap.put("review", review);
-      /*parameterMap.put("content", review.getContent());
-      parameterMap.put("create_date", review.getCreateDate());*/
-      session.insert(statement, parameterMap);
+      session.insert(statement, review);
     } catch (Exception e) {
       logger.error("保存评价异常：{}", e.getMessage());
     }

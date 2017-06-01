@@ -38,10 +38,7 @@ public class ProductImageDaoImpl implements ProductImageDao {
   public void saveProductImage(ProductImage productImage) {
     try (SqlSession session = sqlSessionFactory.openSession(true)) {
       String statement = "saveProductImage";
-      Map<String, Object> parameterMap = new HashMap<>();
-      parameterMap.put("pid", productImage.getProduct().getId());
-      parameterMap.put("type", productImage.getImageType().getCode());
-      session.insert(statement, parameterMap);
+      session.insert(statement, productImage);
     } catch (Exception e) {
       logger.error("保存产品图片异常：{}", e.getMessage());
     }
@@ -75,8 +72,8 @@ public class ProductImageDaoImpl implements ProductImageDao {
     try (SqlSession session = sqlSessionFactory.openSession()) {
       String statement = "listProductImage";
       Map<String, Object> parameterMap = new HashMap<>();
-      parameterMap.put("pid", product.getId());
-      parameterMap.put("type", imageType.getCode());
+      parameterMap.put("product", product);
+      parameterMap.put("imageType", imageType);
       productImgList = session.selectList(statement, parameterMap);
     } catch (Exception e) {
       logger.error("获取产品图片异常：{}", e.getMessage());

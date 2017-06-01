@@ -44,7 +44,6 @@ public class UserDaoTest {
     assertThat(user, notNullValue());
     assertThat(user.getId(), not(0));
     assertThat(user.getName(), notNullValue());
-    assertThat(user.getPassword(), notNullValue());
     userDao.deleteUser(id);
     user = userDao.getUserById(id);
     assertThat(user, nullValue());
@@ -65,7 +64,6 @@ public class UserDaoTest {
     for (User user : userList) {
       assertThat(user.getId(), not(0));
       assertThat(user.getName(), notNullValue());
-      assertThat(user.getPassword(), notNullValue());
     }
   }
 

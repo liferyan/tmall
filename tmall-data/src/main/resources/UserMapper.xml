@@ -17,8 +17,7 @@
   <sql id="selectUser">
     SELECT
       id,
-      name,
-      password
+    name
     FROM user
   </sql>
 
@@ -52,4 +51,13 @@
     SELECT COUNT(*)
     FROM user
   </select>
+
+  <select id="userSelect" resultMap="userMap">
+    <include refid="selectUser"/>
+    WHERE id = #{id}
+  </select>
+
+  <resultMap id="userMap" type="user" autoMapping="true">
+    <id column="id" property="id"/>
+  </resultMap>
 </mapper>
