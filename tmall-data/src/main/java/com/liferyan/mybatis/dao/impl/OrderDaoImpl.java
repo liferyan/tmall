@@ -90,10 +90,10 @@ public class OrderDaoImpl implements OrderDao {
   }
 
   @Override
-  public List<Order> listByUser(int uid, int start, int count) {
+  public List<Order> listOrderByUserAndPage(int uid, int start, int count) {
     List<Order> orderList = null;
     try (SqlSession session = sqlSessionFactory.openSession()) {
-      String statement = "listByUser";
+      String statement = "listOrderByUser";
       Map<String, Object> parameterMap = new HashMap<>();
       parameterMap.put("uid", uid);
       parameterMap.put("start", start);
@@ -106,10 +106,10 @@ public class OrderDaoImpl implements OrderDao {
   }
 
   @Override
-  public List<Order> listByUser(int uid) {
+  public List<Order> listOrderByUser(int uid) {
     List<Order> orderList = null;
     try (SqlSession session = sqlSessionFactory.openSession()) {
-      String statement = "listByUser";
+      String statement = "listOrderByUser";
       orderList = session.selectList(statement, uid);
     } catch (Exception e) {
       logger.error("获取订单异常：{}", e.getMessage());

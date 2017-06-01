@@ -3,9 +3,10 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.liferyan.mybatis.entity">
-  <insert id="saveOrderItem">
+
+  <insert id="saveOrderItem" useGeneratedKeys="true" keyProperty="id">
     INSERT INTO order_item (pid, uid, oid, number, has_review)
-    VALUES (#{pid}, #{uid}, #{oid}, #{number}, #{has_review})
+    VALUES (#{product.id}, #{user.id}, #{order.id}, #{number}, #{hasReview})
   </insert>
 
   <delete id="deleteOrderItem">
@@ -15,39 +16,70 @@
 
   <update id="updateOrderItem">
     UPDATE order_item
-    SET pid = #{pid}, uid = #{uid}, oid = #{oid}, number = #{number}, has_review = #{has_review}
+    SET oid = #{order.id}, number = #{number}, has_review = #{hasReview}
     WHERE id = #{id}
   </update>
 
-  <select id="getOrderItemById">
-    SELECT *
-    FROM order_item
-    WHERE id = #{id}
+  <sql id="joinSelectOrderItem">
+    SELECT
+      oi.id            AS 'oi_id',
+      oi.number        AS 'oi_number',
+      oi.has_review    AS 'oi_hasReview',
+      u.id             AS 'u_id',
+      u.name           AS 'u_name',
+      p.id             AS 'p_id',
+      p.name           AS 'p_name',
+      p.subtitle       AS 'p_subTitle',
+      p.original_price AS 'p_originalPrice',
+      p.promote_price  AS 'p_promotePrice',
+      p.create_date    AS 'p_createDate',
+      p.stock          AS 'p_stock',
+      o.id             AS 'o_id',
+      o.order_code     AS 'o_orderCode',
+      o.address        AS 'o_address',
+      o.post           AS 'o_post',
+      o.receiver       AS 'o_receiver',
+      o.mobile         AS 'o_mobile',
+      o.user_message   AS 'o_userMessage',
+      o.create_date    AS 'o_createDate',
+      o.pay_date       AS 'o_payDate',
+      o.delivery_date  AS 'o_deliveryDate',
+      o.confirm_date   AS 'o_confirmDate',
+      o.status         AS 'o_orderStatus'
+    FROM order_item AS oi
+      LEFT OUTER JOIN user AS u ON oi.uid = u.id
+      LEFT OUTER JOIN product AS p ON oi.pid = p.id
+      LEFT OUTER JOIN order_ AS o ON oi.oid = o.id
+  </sql>
+
+  <resultMap id="orderItemResult" type="orderItem">
+    <id column="oi_id" property="id"/>
+    <result column="oi_number" property="number"/>
+    <result column="oi_hasReview" property="hasReview"/>
+    <association property="product" javaType="product" columnPrefix="p_" resultMap="productMap"/>
+    <association property="user" javaType="user" columnPrefix="u_" resultMap="userMap"/>
+    <association property="order" javaType="order" columnPrefix="o_" resultMap="orderMap"/>
+  </resultMap>
+
+  <select id="getOrderItemById" resultMap="orderItemResult">
+    <include refid="joinSelectOrderItem"/>
+    WHERE oi.id = #{id}
   </select>
 
-  <select id="listByOrder">
-    SELECT *
-    FROM order_item
-    WHERE oid = #{oid}
-    ORDER BY id
+  <select id="listOrderItemByOrder" resultMap="orderItemResult">
+    <include refid="joinSelectOrderItem"/>
+    WHERE o.id = #{oid}
+    ORDER BY oi.id
   </select>
 
-  <select id="getSaleCount">
-    SELECT sum(number)
-    FROM order_item
-    WHERE pid = #{pid}
+  <select id="getOrderItemInCart" resultMap="orderItemResult">
+    <include refid="joinSelectOrderItem"/>
+    WHERE o.id = -1 AND u.id = #{uid} AND p.id = #{pid}
   </select>
 
-  <select id="getOrderItemInCart">
-    SELECT *
-    FROM order_item
-    WHERE oid = -1 AND uid = #{uid} AND pid = #{pid}
-  </select>
-
-  <select id="getOrderItemsInCartByUser">
-    SELECT *
-    FROM order_item
-    WHERE oid = -1 AND uid = #{uid}
+  <select id="listOrderItemInCartByUser" resultMap="orderItemResult">
+    <include refid="joinSelectOrderItem"/>
+    WHERE o.id = -1 AND u.id = #{uid}
   </select>
 
   <select id="saleCountSelect" resultType="_int">
@@ -55,5 +87,4 @@
     FROM order_item
     WHERE pid = #{pid}
   </select>
-
 </mapper>

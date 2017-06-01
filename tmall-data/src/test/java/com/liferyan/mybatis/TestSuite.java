@@ -1,6 +1,8 @@
 package com.liferyan.mybatis;
 
 import com.liferyan.mybatis.dao.CategoryDaoTest;
+import com.liferyan.mybatis.dao.OrderDaoTest;
+import com.liferyan.mybatis.dao.OrderItemDaoTest;
 import com.liferyan.mybatis.dao.ProductDaoTest;
 import com.liferyan.mybatis.dao.ProductImageDaoTest;
 import com.liferyan.mybatis.dao.PropertyDaoTest;
@@ -21,7 +23,9 @@ import org.junit.runners.Suite;
     ProductDaoTest.class,
     PropertyValueDaoTest.class,
     ProductImageDaoTest.class,
-    ReviewDaoTest.class
+    ReviewDaoTest.class,
+    OrderDaoTest.class,
+    OrderItemDaoTest.class
 })
 public class TestSuite {
 

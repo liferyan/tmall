@@ -36,13 +36,7 @@ public class OrderItemDaoImpl implements OrderItemDao {
   public void saveOrderItem(OrderItem orderItem) {
     try (SqlSession session = sqlSessionFactory.openSession(true)) {
       String statement = "saveOrderItem";
-      Map<String, Object> parameterMap = new HashMap<>();
-      parameterMap.put("pid", orderItem.getProduct().getId());
-      parameterMap.put("uid", orderItem.getUser().getId());
-      parameterMap.put("oid", orderItem.getOrder().getId());
-      parameterMap.put("number", orderItem.getNumber());
-      parameterMap.put("has_review", orderItem.isHasReview() ? 1 : 0);
-      session.insert(statement, parameterMap);
+      session.insert(statement, orderItem);
     } catch (Exception e) {
       logger.error("保存订单项异常：{}", e.getMessage());
     }
@@ -81,10 +75,10 @@ public class OrderItemDaoImpl implements OrderItemDao {
   }
 
   @Override
-  public List<OrderItem> listByOrder(int oid) {
+  public List<OrderItem> listOrderItemByOrder(int oid) {
     List<OrderItem> orderItemList = null;
     try (SqlSession session = sqlSessionFactory.openSession()) {
-      String statement = "listByOrder";
+      String statement = "listOrderItemByOrder";
       orderItemList = session.selectList(statement, oid);
     } catch (Exception e) {
       logger.error("获取订单里的所有订单项异常：{}", e.getMessage());
@@ -108,10 +102,10 @@ public class OrderItemDaoImpl implements OrderItemDao {
   }
 
   @Override
-  public List<OrderItem> getOrderItemsInCartByUser(int uid) {
+  public List<OrderItem> listOrderItemInCartByUser(int uid) {
     List<OrderItem> orderItemList = null;
     try (SqlSession session = sqlSessionFactory.openSession()) {
-      String statement = "getOrderItemsInCartByUser";
+      String statement = "listOrderItemInCartByUser";
       orderItemList = session.selectList(statement, uid);
     } catch (Exception e) {
       logger.error("获取用户购物车里的所有订单项异常：{}", e.getMessage());

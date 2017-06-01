@@ -42,9 +42,9 @@ public interface OrderDao {
   int getOrderCount();
 
   @Select("SELECT * FROM order_ WHERE uid = #{uid} AND status != 'DELETED' ORDER BY id LIMIT #{count} OFFSET #{start}")
-  List<Order> listByUser(@Param("uid") int uid, @Param("start") int start,
+  List<Order> listOrderByUserAndPage(@Param("uid") int uid, @Param("start") int start,
       @Param("count") int count);
 
   @Select("SELECT * FROM order_ WHERE uid = #{uid} AND status != 'DELETED' ORDER BY id")
-  List<Order> listByUser(@Param("uid") int uid);
+  List<Order> listOrderByUser(@Param("uid") int uid);
 }

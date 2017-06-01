@@ -2,13 +2,14 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.liferyan.mybatis.entity.Order">
-  <insert id="saveOrder">
+<mapper namespace="com.liferyan.mybatis.entity">
+
+  <insert id="saveOrder" useGeneratedKeys="true" keyProperty="id">
     INSERT INTO order_ (uid, order_code, address, post, receiver, mobile,
-                        user_message, create_date, pay_date, delivery_date, confirm_date, status)
-    VALUES (#{uid}, #{order_code}, #{address}, #{post}, #{receiver}, #{mobile},
-                    #{user_message}, #{create_date}, #{pay_date}, #{delivery_date}, #{confirm_date},
-            #{status})
+    user_message, create_date, status)
+    VALUES (#{user.id}, #{orderCode}, #{address}, #{post}, #{receiver},
+    #{mobile}, #{userMessage}, #{createDate},
+    #{orderStatus,typeHandler=OrderStatusEnumHandler})
   </insert>
 
   <update id="deleteOrder">
@@ -19,28 +20,98 @@
 
   <update id="updateOrder">
     UPDATE order_
-    SET uid       = #{uid}, order_code = #{order_code}, address = #{address}, post = #{post},
-      receiver    = #{receiver}, mobile = #{mobile}, user_message = #{user_message},
-      create_date = #{create_date},
-      pay_date    = #{pay_date}, delivery_date = #{delivery_date}, confirm_date = #{confirm_date},
-      status      = #{status}
+    SET pay_date = #{payDate}, delivery_date = #{deliveryDate}, confirm_date = #{confirmDate},
+    status = #{orderStatus,typeHandler=OrderStatusEnumHandler}
     WHERE id = #{id}
   </update>
 
-  <select id="getOrderById">
-    SELECT *
+  <sql id="joinSelectOrder">
+    SELECT
+      o.id            AS 'o_id',
+      o.order_code    AS 'o_orderCode',
+      o.address       AS 'o_address',
+      o.post          AS 'o_post',
+      o.receiver      AS 'o_receiver',
+      o.mobile        AS 'o_mobile',
+      o.user_message  AS 'o_userMessage',
+      o.create_date   AS 'o_createDate',
+      o.pay_date      AS 'o_payDate',
+      o.delivery_date AS 'o_deliveryDate',
+      o.confirm_date  AS 'o_confirmDate',
+      o.status        AS 'o_orderStatus',
+      u.id            AS 'u_id',
+      u.name          AS 'u_name'
+    FROM order_ AS o
+      LEFT OUTER JOIN user AS u ON o.uid = u.id
+  </sql>
+
+  <sql id="selectOrder">
+    SELECT
+    id,
+    uid,
+    address,
+    post,
+    receiver,
+    mobile,
+    order_code AS 'orderCode',
+    user_message AS 'userMessage',
+    create_date AS 'createDate',
+    pay_date AS 'payDate',
+    delivery_date AS 'deliveryDate',
+    confirm_date AS 'confirmDate',
+    status AS 'orderStatus'
     FROM order_
-    WHERE id = #{id}
+  </sql>
+
+  <resultMap id="orderResult" type="order">
+    <id column="o_id" property="id"/>
+    <result column="o_orderCode" property="orderCode"/>
+    <result column="o_address" property="address"/>
+    <result column="o_post" property="post"/>
+    <result column="o_receiver" property="receiver"/>
+    <result column="o_mobile" property="mobile"/>
+    <result column="o_userMessage" property="userMessage"/>
+    <result column="o_createDate" property="createDate"/>
+    <result column="o_payDate" property="payDate"/>
+    <result column="o_deliveryDate" property="deliveryDate"/>
+    <result column="o_confirmDate" property="confirmDate"/>
+    <result column="o_orderStatus" property="orderStatus" javaType="OrderStatusEnum"
+      typeHandler="OrderStatusEnumHandler"/>
+    <association property="user" javaType="user" columnPrefix="u_" resultMap="userMap"/>
+  </resultMap>
+
+  <select id="getOrderById" resultMap="orderResult">
+    <include refid="joinSelectOrder"/>
+    WHERE o.id = #{id}
   </select>
 
-  <select id="listOrderByPage">
-    SELECT *
-    FROM order_
+  <select id="listOrderByUser" resultMap="orderResult">
+    <include refid="joinSelectOrder"/>
+    WHERE u.id = #{uid} AND o.status != 'DELETED'
+    ORDER BY o.id
+  </select>
+
+  <select id="listOrderByUserAndPage" resultMap="orderMap">
+    <include refid="selectOrder"/>
+    WHERE uid = #{uid} AND status != 'DELETED'
     ORDER BY id
     LIMIT #{count} OFFSET #{start}
   </select>
 
-  <select id="getOrderCount">
+  <select id="listOrderByPage" resultMap="orderMap">
+    <include refid="selectOrder"/>
+    ORDER BY id
+    LIMIT #{count} OFFSET #{start}
+  </select>
+
+  <resultMap id="orderMap" type="order" autoMapping="true">
+    <id column="id" property="id"/>
+    <result column="orderStatus" property="orderStatus" javaType="OrderStatusEnum"
+      typeHandler="OrderStatusEnumHandler"/>
+    <association column="uid" property="user" javaType="user" select="userSelect"/>
+  </resultMap>
+
+  <select id="getOrderCount" resultType="_int">
     SELECT COUNT(*)
     FROM order_
   </select>

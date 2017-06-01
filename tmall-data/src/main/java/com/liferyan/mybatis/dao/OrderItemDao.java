@@ -29,12 +29,12 @@ public interface OrderItemDao {
   OrderItem getOrderItemById(int id);
 
   @Select("SELECT * FROM order_item WHERE oid = #{oid} ORDER BY id")
-  List<OrderItem> listByOrder(@Param("oid") int oid);
+  List<OrderItem> listOrderItemByOrder(@Param("oid") int oid);
 
   @Select("SELECT * FROM order_item WHERE oid = -1 AND uid = #{uid} AND pid = #{pid}")
   OrderItem getOrderItemInCart(@Param("uid") int uid, @Param("pid") int pid);
 
   @Select("SELECT * FROM order_item WHERE oid = -1 AND uid = #{uid}")
-  List<OrderItem> getOrderItemsInCartByUser(@Param("uid") int uid);
+  List<OrderItem> listOrderItemInCartByUser(@Param("uid") int uid);
 
 }
