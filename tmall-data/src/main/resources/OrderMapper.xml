@@ -6,10 +6,10 @@
 
   <insert id="saveOrder" useGeneratedKeys="true" keyProperty="id">
     INSERT INTO order_ (uid, order_code, address, post, receiver, mobile,
-    user_message, create_date, status)
+                        user_message, create_date, status)
     VALUES (#{user.id}, #{orderCode}, #{address}, #{post}, #{receiver},
-    #{mobile}, #{userMessage}, #{createDate},
-    #{orderStatus,typeHandler=OrderStatusEnumHandler})
+            #{mobile}, #{userMessage}, #{createDate},
+            #{orderStatus,typeHandler=OrderStatusEnumHandler})
   </insert>
 
   <update id="deleteOrder">
