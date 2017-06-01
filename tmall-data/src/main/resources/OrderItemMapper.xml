@@ -23,6 +23,7 @@
   <sql id="joinSelectOrderItem">
     SELECT
       oi.id            AS 'oi_id',
+    oi.oid AS 'oi_oid',
       oi.number        AS 'oi_number',
       oi.has_review    AS 'oi_hasReview',
       u.id             AS 'u_id',
@@ -74,7 +75,7 @@
 
   <select id="getOrderItemInCart" resultMap="orderItemResult">
     <include refid="joinSelectOrderItem"/>
-    WHERE o.id = -1 AND u.id = #{uid} AND p.id = #{pid}
+    WHERE oi.oid = -1 AND u.id = #{uid} AND p.id = #{pid}
   </select>
 
   <select id="listOrderItemInCartByUser" resultMap="orderItemResult">

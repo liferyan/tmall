@@ -48,6 +48,11 @@ public class OrderItemDaoTest {
     orderItemDao.saveOrderItem(orderItem);
     assertThat(orderItem.getId(), not(0));
 
+    OrderItem item = orderItemDao.getOrderItemInCart(user.getId(), product.getId());
+    assertThat(item, notNullValue());
+    assertThat(item.getProduct(), notNullValue());
+    assertThat(item.getUser(), notNullValue());
+
     orderItem.setNumber(5);
     orderItem.setHasReview(false);
     orderItemDao.updateOrderItem(orderItem);
