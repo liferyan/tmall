@@ -87,4 +87,22 @@
     FROM order_item
     WHERE pid = #{pid}
   </select>
+
+  <resultMap id="orderItemAndProductMap" type="orderItem">
+    <id column="oi_id" property="id"/>
+    <result column="oi_number" property="number"/>
+    <association property="product" javaType="product" columnPrefix="p_" resultMap="productMap"/>
+  </resultMap>
+
+  <select id="orderItemSelect" resultMap="orderItemAndProductMap">
+    SELECT
+      oi.id           AS 'oi_id',
+      oi.number       AS 'oi_number',
+      p.id            AS 'p_id',
+      p.promote_price AS 'p_promotePrice'
+    FROM order_item AS oi
+      LEFT OUTER JOIN product AS p ON oi.pid = p.id
+    WHERE oi.oid = #{oid}
+    ORDER BY oi.id
+  </select>
 </mapper>

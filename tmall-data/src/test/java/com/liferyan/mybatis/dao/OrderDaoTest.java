@@ -2,6 +2,7 @@ package com.liferyan.mybatis.dao;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
@@ -91,8 +92,9 @@ public class OrderDaoTest {
         assertThat(order.getOrderStatus(), notNullValue());
         assertThat(order.getUser(), notNullValue());
         assertThat(order.getUser().getName(), notNullValue());
+        assertThat(order.getTotal(), greaterThanOrEqualTo(0f));
+        assertThat(order.getTotalNumber(), greaterThanOrEqualTo(0));
       }
     }
   }
-
 }

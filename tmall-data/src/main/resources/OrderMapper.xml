@@ -40,9 +40,16 @@
       o.confirm_date  AS 'o_confirmDate',
       o.status        AS 'o_orderStatus',
       u.id            AS 'u_id',
-      u.name          AS 'u_name'
+    u.name AS 'u_name',
+    oi.id AS 'oi_id',
+    oi.number AS 'oi_number',
+    oi.has_review AS 'oi_hasReview',
+    p.id AS 'p_id',
+    p.promote_price AS 'p_promotePrice'
     FROM order_ AS o
       LEFT OUTER JOIN user AS u ON o.uid = u.id
+    LEFT OUTER JOIN order_item AS oi ON o.id = oi.oid
+    INNER JOIN product AS p ON oi.pid = p.id
   </sql>
 
   <sql id="selectOrder">
@@ -77,7 +84,17 @@
     <result column="o_confirmDate" property="confirmDate"/>
     <result column="o_orderStatus" property="orderStatus" javaType="OrderStatusEnum"
       typeHandler="OrderStatusEnumHandler"/>
-    <association property="user" javaType="user" columnPrefix="u_" resultMap="userMap"/>
+    <association property="user" javaType="user" columnPrefix="u_"
+      resultMap="userMap"/>
+    <collection property="orderItems" ofType="OrderItem">
+      <id column="oi_id" property="id"/>
+      <result column="oi_number" property="number"/>
+      <result column="oi_hasReview" property="hasReview"/>
+      <association property="product" javaType="product">
+        <id column="p_id" property="id"/>
+        <result column="p_promotePrice" property="promotePrice"/>
+      </association>
+    </collection>
   </resultMap>
 
   <select id="getOrderById" resultMap="orderResult">
@@ -109,6 +126,7 @@
     <result column="orderStatus" property="orderStatus" javaType="OrderStatusEnum"
       typeHandler="OrderStatusEnumHandler"/>
     <association column="uid" property="user" javaType="user" select="userSelect"/>
+    <collection column="id" property="orderItems" ofType="OrderItem" select="orderItemSelect"/>
   </resultMap>
 
   <select id="getOrderCount" resultType="_int">

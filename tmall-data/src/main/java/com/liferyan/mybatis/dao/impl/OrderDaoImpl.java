@@ -2,6 +2,7 @@ package com.liferyan.mybatis.dao.impl;
 
 import com.liferyan.mybatis.dao.OrderDao;
 import com.liferyan.mybatis.entity.Order;
+import com.liferyan.mybatis.entity.OrderItem;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,6 +84,7 @@ public class OrderDaoImpl implements OrderDao {
       parameterMap.put("start", start);
       parameterMap.put("count", count);
       orderList = session.selectList(statement, parameterMap);
+      fillOrderItemsToOrderList(orderList);
     } catch (Exception e) {
       logger.error("获取订单异常：{}", e.getMessage());
     }
@@ -99,6 +101,7 @@ public class OrderDaoImpl implements OrderDao {
       parameterMap.put("start", start);
       parameterMap.put("count", count);
       orderList = session.selectList(statement, parameterMap);
+      fillOrderItemsToOrderList(orderList);
     } catch (Exception e) {
       logger.error("获取订单异常：{}", e.getMessage());
     }
@@ -111,6 +114,7 @@ public class OrderDaoImpl implements OrderDao {
     try (SqlSession session = sqlSessionFactory.openSession()) {
       String statement = "listOrderByUser";
       orderList = session.selectList(statement, uid);
+      fillOrderItemsToOrderList(orderList);
     } catch (Exception e) {
       logger.error("获取订单异常：{}", e.getMessage());
     }
@@ -127,5 +131,19 @@ public class OrderDaoImpl implements OrderDao {
       logger.error("获取订单总数异常：{}", e.getMessage());
     }
     return count;
+  }
+
+  private void fillOrderItemsToOrderList(List<Order> orderList) {
+    for (Order order : orderList) {
+      float total = 0;
+      int totalNumber = 0;
+      List<OrderItem> orderItemList = order.getOrderItems();
+      for (OrderItem orderItem : orderItemList) {
+        total += orderItem.getNumber() * orderItem.getProduct().getPromotePrice();
+        totalNumber += orderItem.getNumber();
+      }
+      order.setTotal(total);
+      order.setTotalNumber(totalNumber);
+    }
   }
 }
