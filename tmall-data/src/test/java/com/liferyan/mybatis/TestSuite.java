@@ -9,12 +9,14 @@ import com.liferyan.mybatis.dao.PropertyDaoTest;
 import com.liferyan.mybatis.dao.PropertyValueDaoTest;
 import com.liferyan.mybatis.dao.ReviewDaoTest;
 import com.liferyan.mybatis.dao.UserDaoTest;
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 /**
  * Created by Ryan on 2017/5/27.
  */
+@Ignore
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
     UserDaoTest.class,
