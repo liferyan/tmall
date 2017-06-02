@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+  version="3.1">
+
+  <servlet>
+    <servlet-name>CategoryServlet</servlet-name>
+    <servlet-class>com.liferyan.tmall.web.servlet.CategoryServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>PropertyServlet</servlet-name>
+    <servlet-class>com.liferyan.tmall.web.servlet.PropertyServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ProductServlet</servlet-name>
+    <servlet-class>com.liferyan.tmall.web.servlet.ProductServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ProductImageServlet</servlet-name>
+    <servlet-class>com.liferyan.tmall.web.servlet.ProductImageServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UserServlet</servlet-name>
+    <servlet-class>com.liferyan.tmall.web.servlet.UserServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>OrderServlet</servlet-name>
+    <servlet-class>com.liferyan.tmall.web.servlet.OrderServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ForeServlet</servlet-name>
+    <servlet-class>com.liferyan.tmall.web.servlet.ForeServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>CategoryServlet</servlet-name>
+    <url-pattern>/categoryServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PropertyServlet</servlet-name>
+    <url-pattern>/propertyServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ProductServlet</servlet-name>
+    <url-pattern>/productServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ProductImageServlet</servlet-name>
+    <url-pattern>/productImageServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserServlet</servlet-name>
+    <url-pattern>/userServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>OrderServlet</servlet-name>
+    <url-pattern>/orderServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ForeServlet</servlet-name>
+    <url-pattern>/foreServlet</url-pattern>
+  </servlet-mapping>
+
+  <filter>
+    <filter-name>EncodingFilter</filter-name>
+    <filter-class>com.liferyan.tmall.web.filter.EncodingFilter</filter-class>
+    <init-param>
+      <param-name>charset</param-name>
+      <param-value>utf-8</param-value>
+    </init-param>
+  </filter>
+
+  <filter>
+    <filter-name>ForeServletFilter</filter-name>
+    <filter-class>com.liferyan.tmall.web.filter.ForeServletFilter</filter-class>
+  </filter>
+
+  <filter>
+    <filter-name>BackServletFilter</filter-name>
+    <filter-class>com.liferyan.tmall.web.filter.BackServletFilter</filter-class>
+  </filter>
+  <filter>
+    <filter-name>ForeAuthFilter</filter-name>
+    <filter-class>com.liferyan.tmall.web.filter.ForeAuthFilter</filter-class>
+    <init-param>
+      <!--不需要登录也能访问的路径-->
+      <param-name>noNeedAuthPage</param-name>
+      <param-value>home|checkLogin|register|loginAjax|login|product|category|search</param-value>
+    </init-param>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>ForeAuthFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <filter-mapping>
+    <filter-name>EncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <filter-mapping>
+    <filter-name>ForeServletFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+    <!--默认只过滤Request请求-->
+    <dispatcher>REQUEST</dispatcher>
+    <!--增加过滤Forward请求-->
+    <dispatcher>FORWARD</dispatcher>
+  </filter-mapping>
+
+  <filter-mapping>
+    <filter-name>BackServletFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+</web-app>

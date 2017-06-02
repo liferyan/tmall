@@ -1,0 +1,83 @@
+<%@ page contentType="text/html;charset=utf-8" language="java" isELIgnored="false"
+         pageEncoding="utf-8" %>
+<%@ include file="../include/admin/adminHeader.jsp" %>
+<%@ include file="../include/admin/adminNavigator.jsp" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<script>
+  $(function () {
+    //检查产品修改页面的产品名称是否为空
+    $("#editForm").submit(function () {
+      if (!checkEmpty("name", "产品名称")) {
+        return false;
+      }
+      if (!checkEmpty("subtitle", "产品小标题")) {
+        return false;
+      }
+      if (!checkEmpty("original_price", "原价格")) {
+        return false;
+      }
+      if (!checkEmpty("promote_price", "优惠价格")) {
+        return false;
+      }
+      if (!checkEmpty("stock", "库存")) {
+        return false;
+      }
+      return true;
+    });
+  });
+</script>
+
+<title>编辑产品</title>
+
+<div class="workingArea">
+    <ol class="breadcrumb">
+        <li><a href="admin_category_list">所有产品</a></li>
+        <li class="active">编辑产品</li>
+    </ol>
+    <div class="panel panel-warning editDiv">
+        <div class="panel-heading">编辑产品</div>
+        <div class="panel-body">
+            <form method="post" id="editForm" action="admin_product_update">
+                <table class="editTable">
+                    <tr>
+                        <td><label for="name">产品名称</label></td>
+                        <td><input id="name" type="text" name="name"
+                                   class="form-control" value="${product.name}"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="subtitle">产品小标题</label></td>
+                        <td><input id="subtitle" type="text" name="subtitle" class="form-control"
+                                   value="${product.subTitle}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="original_price">原价格</label></td>
+                        <td><input id="original_price" type="text" name="original_price"
+                                   class="form-control" value="${product.originalPrice}"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="promote_price">优惠价格</label></td>
+                        <td><input id="promote_price" type="text" name="promote_price"
+                                   class="form-control" value="${product.promotePrice}"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="stock">库存</label></td>
+                        <td><input id="stock" type="text" name="stock"
+                                   class="form-control" value="${product.stock}"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <%--隐藏域--%>
+                            <input type="hidden" name="id" value="${product.id}">
+                            <input type="hidden" name="cid" value="${product.category.id}">
+                            <button type="submit" class="btn btn-success">提 交</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%@include file="../include/admin/adminFooter.jsp" %>
