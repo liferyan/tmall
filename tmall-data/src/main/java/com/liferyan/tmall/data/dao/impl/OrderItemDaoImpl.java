@@ -38,7 +38,7 @@ public class OrderItemDaoImpl implements OrderItemDao {
       String statement = "saveOrderItem";
       session.insert(statement, orderItem);
     } catch (Exception e) {
-      logger.error("保存订单项异常：{}", e.getMessage());
+      logger.error("保存订单项异常：", e);
     }
   }
 
@@ -48,7 +48,7 @@ public class OrderItemDaoImpl implements OrderItemDao {
       String statement = "deleteOrderItem";
       session.delete(statement, id);
     } catch (Exception e) {
-      logger.error("删除订单项异常：{}", e.getMessage());
+      logger.error("删除订单项异常：", e);
     }
   }
 
@@ -58,7 +58,7 @@ public class OrderItemDaoImpl implements OrderItemDao {
       String statement = "updateOrderItem";
       session.update(statement, orderItem);
     } catch (Exception e) {
-      logger.error("更新订单项异常：{}", e.getMessage());
+      logger.error("更新订单项异常：", e);
     }
   }
 
@@ -69,7 +69,7 @@ public class OrderItemDaoImpl implements OrderItemDao {
       String statement = "getOrderItemById";
       orderItem = session.selectOne(statement, id);
     } catch (Exception e) {
-      logger.error("获取订单项异常：{}", e.getMessage());
+      logger.error("获取订单项异常：", e);
     }
     return orderItem;
   }
@@ -81,7 +81,7 @@ public class OrderItemDaoImpl implements OrderItemDao {
       String statement = "listOrderItemByOrder";
       orderItemList = session.selectList(statement, oid);
     } catch (Exception e) {
-      logger.error("获取订单里的所有订单项异常：{}", e.getMessage());
+      logger.error("获取订单里的所有订单项异常：", e);
     }
     return orderItemList;
   }
@@ -96,7 +96,7 @@ public class OrderItemDaoImpl implements OrderItemDao {
       parameterMap.put("pid", pid);
       orderItem = session.selectOne(statement, parameterMap);
     } catch (Exception e) {
-      logger.error("获取购物车里指定产品的订单项异常：{}", e.getMessage());
+      logger.error("获取购物车里指定产品的订单项异常：", e);
     }
     return orderItem;
   }
@@ -108,7 +108,7 @@ public class OrderItemDaoImpl implements OrderItemDao {
       String statement = "listOrderItemInCartByUser";
       orderItemList = session.selectList(statement, uid);
     } catch (Exception e) {
-      logger.error("获取用户购物车里的所有订单项异常：{}", e.getMessage());
+      logger.error("获取用户购物车里的所有订单项异常：", e);
     }
     return orderItemList;
   }

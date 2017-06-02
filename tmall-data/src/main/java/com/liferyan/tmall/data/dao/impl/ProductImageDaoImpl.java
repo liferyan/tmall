@@ -40,7 +40,7 @@ public class ProductImageDaoImpl implements ProductImageDao {
       String statement = "saveProductImage";
       session.insert(statement, productImage);
     } catch (Exception e) {
-      logger.error("保存产品图片异常：{}", e.getMessage());
+      logger.error("保存产品图片异常：", e);
     }
   }
 
@@ -50,7 +50,7 @@ public class ProductImageDaoImpl implements ProductImageDao {
       String statement = "deleteProductImage";
       session.delete(statement, id);
     } catch (Exception e) {
-      logger.error("删除产品图片异常：{}", e.getMessage());
+      logger.error("删除产品图片异常：", e);
     }
   }
 
@@ -61,7 +61,7 @@ public class ProductImageDaoImpl implements ProductImageDao {
       String statement = "getProductImageById";
       productImg = session.selectOne(statement, id);
     } catch (Exception e) {
-      logger.error("获取产品图片异常：{}", e.getMessage());
+      logger.error("获取产品图片异常：", e);
     }
     return productImg;
   }
@@ -76,7 +76,7 @@ public class ProductImageDaoImpl implements ProductImageDao {
       parameterMap.put("imageType", imageType);
       productImgList = session.selectList(statement, parameterMap);
     } catch (Exception e) {
-      logger.error("获取产品图片异常：{}", e.getMessage());
+      logger.error("获取产品图片异常：", e);
     }
     return productImgList;
   }

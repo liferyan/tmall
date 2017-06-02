@@ -42,7 +42,7 @@ public class CategoryDaoImpl implements CategoryDao {
       String statement = "saveCategory";
       session.insert(statement, category);
     } catch (Exception e) {
-      logger.error("保存分类异常：{}", e.getMessage());
+      logger.error("保存分类异常：", e);
     }
   }
 
@@ -52,7 +52,7 @@ public class CategoryDaoImpl implements CategoryDao {
       String statement = "deleteCategory";
       session.delete(statement, id);
     } catch (Exception e) {
-      logger.error("删除分类异常：{}", e.getMessage());
+      logger.error("删除分类异常：", e);
     }
   }
 
@@ -62,7 +62,7 @@ public class CategoryDaoImpl implements CategoryDao {
       String statement = "updateCategory";
       session.update(statement, category);
     } catch (Exception e) {
-      logger.error("更新分类异常：{}", e.getMessage());
+      logger.error("更新分类异常：", e);
     }
   }
 
@@ -74,7 +74,7 @@ public class CategoryDaoImpl implements CategoryDao {
       category = session.selectOne(statement, id);
       setProductsByRow(category);
     } catch (Exception e) {
-      logger.error("获取分类异常：{}", e.getMessage());
+      logger.error("获取分类异常：", e);
     }
     return category;
   }
@@ -92,7 +92,7 @@ public class CategoryDaoImpl implements CategoryDao {
         setProductsByRow(category);
       }
     } catch (Exception e) {
-      logger.error("获取分类异常：{}", e.getMessage());
+      logger.error("获取分类异常：", e);
     }
     return categoryList;
   }
@@ -107,7 +107,7 @@ public class CategoryDaoImpl implements CategoryDao {
         setProductsByRow(category);
       }
     } catch (Exception e) {
-      logger.error("获取分类异常：{}", e.getMessage());
+      logger.error("获取分类异常：", e);
     }
     return categoryList;
   }
@@ -119,7 +119,7 @@ public class CategoryDaoImpl implements CategoryDao {
       String statement = "getCategoryCount";
       count = session.selectOne(statement);
     } catch (Exception e) {
-      logger.error("获取分类总数异常：{}", e.getMessage());
+      logger.error("获取分类总数异常：", e);
     }
     return count;
   }

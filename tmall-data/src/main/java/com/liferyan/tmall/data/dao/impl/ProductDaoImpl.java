@@ -38,7 +38,7 @@ public class ProductDaoImpl implements ProductDao {
       String statement = "saveProduct";
       session.insert(statement, product);
     } catch (Exception e) {
-      logger.error("保存产品异常：{}", e.getMessage());
+      logger.error("保存产品异常：{}", e);
     }
   }
 
@@ -48,7 +48,7 @@ public class ProductDaoImpl implements ProductDao {
       String statement = "deleteProduct";
       session.insert(statement, id);
     } catch (Exception e) {
-      logger.error("删除产品异常：{}", e.getMessage());
+      logger.error("删除产品异常：{}", e);
     }
   }
 
@@ -58,7 +58,7 @@ public class ProductDaoImpl implements ProductDao {
       String statement = "updateProduct";
       session.insert(statement, product);
     } catch (Exception e) {
-      logger.error("更新产品异常：{}", e.getMessage());
+      logger.error("更新产品异常：{}", e);
     }
   }
 
@@ -69,7 +69,7 @@ public class ProductDaoImpl implements ProductDao {
       String statement = "getProductById";
       product = session.selectOne(statement, id);
     } catch (Exception e) {
-      logger.error("获取产品异常：{}", e.getMessage());
+      logger.error("获取产品异常：{}", e);
     }
     return product;
   }
@@ -85,7 +85,7 @@ public class ProductDaoImpl implements ProductDao {
       parameterMap.put("count", count);
       productList = session.selectList(statement, parameterMap);
     } catch (Exception e) {
-      logger.error("获取产品异常：{}", e.getMessage());
+      logger.error("获取产品异常：{}", e);
     }
     return productList;
   }
@@ -97,7 +97,7 @@ public class ProductDaoImpl implements ProductDao {
       String statement = "listProductByCategory";
       productList = session.selectList(statement, cid);
     } catch (Exception e) {
-      logger.error("获取产品异常：{}", e.getMessage());
+      logger.error("获取产品异常：{}", e);
     }
     return productList;
   }
@@ -109,7 +109,7 @@ public class ProductDaoImpl implements ProductDao {
       String statement = "getProductCountByCategory";
       count = session.selectOne(statement, cid);
     } catch (Exception e) {
-      logger.error("获取产品数异常：{}", e.getMessage());
+      logger.error("获取产品数异常：{}", e);
     }
     return count;
   }
@@ -125,7 +125,7 @@ public class ProductDaoImpl implements ProductDao {
       parameterMap.put("count", count);
       productList = session.selectList(statement, parameterMap);
     } catch (Exception e) {
-      logger.error("搜索产品异常：{}", e.getMessage());
+      logger.error("搜索产品异常：{}", e);
     }
     return productList;
   }

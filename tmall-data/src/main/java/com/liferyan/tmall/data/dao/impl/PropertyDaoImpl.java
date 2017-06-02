@@ -37,17 +37,8 @@ public class PropertyDaoImpl implements PropertyDao {
     try (SqlSession session = sqlSessionFactory.openSession(true)) {
       String statement = "saveProperty";
       session.insert(statement, property);
-      /*Map<String, Object> parameterMap = new HashMap<>();
-      parameterMap.put("cid", property.getCategory().getId());
-      parameterMap.put("name", property.getName());
-      session.insert(statement, parameterMap);
-      //生成的主键信息默认会存储在Map中 并且是Long类型
-      if (parameterMap.containsKey("id")) {
-        int id = (int) ((long) parameterMap.get("id"));
-        property.setId(id);
-      }*/
     } catch (Exception e) {
-      logger.error("保存属性异常：{}", e.getMessage());
+      logger.error("保存属性异常：", e);
     }
   }
 
@@ -57,7 +48,7 @@ public class PropertyDaoImpl implements PropertyDao {
       String statement = "deleteProperty";
       session.delete(statement, id);
     } catch (Exception e) {
-      logger.error("删除属性异常：{}", e.getMessage());
+      logger.error("删除属性异常：", e);
     }
   }
 
@@ -67,7 +58,7 @@ public class PropertyDaoImpl implements PropertyDao {
       String statement = "updateProperty";
       session.update(statement, property);
     } catch (Exception e) {
-      logger.error("更新属性异常：{}", e.getMessage());
+      logger.error("更新属性异常：", e);
     }
   }
 
@@ -78,7 +69,7 @@ public class PropertyDaoImpl implements PropertyDao {
       String statement = "getPropertyById";
       property = session.selectOne(statement, id);
     } catch (Exception e) {
-      logger.error("获取属性异常：{}", e.getMessage());
+      logger.error("获取属性异常：", e);
     }
     return property;
   }
@@ -94,7 +85,7 @@ public class PropertyDaoImpl implements PropertyDao {
       parameterMap.put("count", count);
       propertyList = session.selectList(statement, parameterMap);
     } catch (Exception e) {
-      logger.error("获取属性异常：{}", e.getMessage());
+      logger.error("获取属性异常：", e);
     }
     return propertyList;
   }
@@ -106,7 +97,7 @@ public class PropertyDaoImpl implements PropertyDao {
       String statement = "listProperty";
       propertyList = session.selectList(statement, cid);
     } catch (Exception e) {
-      logger.error("获取属性异常：{}", e.getMessage());
+      logger.error("获取属性异常：", e);
     }
     return propertyList;
   }
@@ -118,7 +109,7 @@ public class PropertyDaoImpl implements PropertyDao {
       String statement = "getPropertyCount";
       count = session.selectOne(statement, cid);
     } catch (Exception e) {
-      logger.error("获取属性总数异常：{}", e.getMessage());
+      logger.error("获取属性总数异常：", e);
     }
     return count;
   }

@@ -39,7 +39,7 @@ public class OrderDaoImpl implements OrderDao {
       String statement = "saveOrder";
       session.insert(statement, order);
     } catch (Exception e) {
-      logger.error("保存订单异常：{}", e.getMessage());
+      logger.error("保存订单异常：", e);
     }
   }
 
@@ -49,7 +49,7 @@ public class OrderDaoImpl implements OrderDao {
       String statement = "deleteOrder";
       session.delete(statement, id);
     } catch (Exception e) {
-      logger.error("删除订单异常：{}", e.getMessage());
+      logger.error("删除订单异常：", e);
     }
   }
 
@@ -59,7 +59,7 @@ public class OrderDaoImpl implements OrderDao {
       String statement = "updateOrder";
       session.update(statement, order);
     } catch (Exception e) {
-      logger.error("更新订单异常：{}", e.getMessage());
+      logger.error("更新订单异常：", e);
     }
   }
 
@@ -70,7 +70,7 @@ public class OrderDaoImpl implements OrderDao {
       String statement = "getOrderById";
       order = session.selectOne(statement, id);
     } catch (Exception e) {
-      logger.error("获取订单异常：{}", e.getMessage());
+      logger.error("获取订单异常：", e);
     }
     return order;
   }
@@ -86,7 +86,7 @@ public class OrderDaoImpl implements OrderDao {
       orderList = session.selectList(statement, parameterMap);
       fillOrderItemsToOrderList(orderList);
     } catch (Exception e) {
-      logger.error("获取订单异常：{}", e.getMessage());
+      logger.error("获取订单异常：", e);
     }
     return orderList;
   }
@@ -103,7 +103,7 @@ public class OrderDaoImpl implements OrderDao {
       orderList = session.selectList(statement, parameterMap);
       fillOrderItemsToOrderList(orderList);
     } catch (Exception e) {
-      logger.error("获取订单异常：{}", e.getMessage());
+      logger.error("获取订单异常：", e);
     }
     return orderList;
   }
@@ -116,7 +116,7 @@ public class OrderDaoImpl implements OrderDao {
       orderList = session.selectList(statement, uid);
       fillOrderItemsToOrderList(orderList);
     } catch (Exception e) {
-      logger.error("获取订单异常：{}", e.getMessage());
+      logger.error("获取订单异常：", e);
     }
     return orderList;
   }
@@ -128,7 +128,7 @@ public class OrderDaoImpl implements OrderDao {
       String statement = "getOrderCount";
       count = session.selectOne(statement);
     } catch (Exception e) {
-      logger.error("获取订单总数异常：{}", e.getMessage());
+      logger.error("获取订单总数异常：", e);
     }
     return count;
   }

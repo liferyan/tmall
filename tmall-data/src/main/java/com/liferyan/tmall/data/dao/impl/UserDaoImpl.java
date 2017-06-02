@@ -38,7 +38,7 @@ public class UserDaoImpl implements UserDao {
       String statement = "saveUser";
       session.insert(statement, user);
     } catch (Exception e) {
-      logger.error("保存用户异常：{}", e.getMessage());
+      logger.error("保存用户异常：", e);
     }
   }
 
@@ -48,7 +48,7 @@ public class UserDaoImpl implements UserDao {
       String statement = "deleteUser";
       session.delete(statement, id);
     } catch (Exception e) {
-      logger.error("删除用户异常：{}", e.getMessage());
+      logger.error("删除用户异常：", e);
     }
   }
 
@@ -59,7 +59,7 @@ public class UserDaoImpl implements UserDao {
       String statement = "getUserById";
       user = session.selectOne(statement, id);
     } catch (Exception e) {
-      logger.error("获取用户异常：{}", e.getMessage());
+      logger.error("获取用户异常：", e);
     }
     return user;
   }
@@ -71,7 +71,7 @@ public class UserDaoImpl implements UserDao {
       String statement = "getUserByName";
       user = session.selectOne(statement, name);
     } catch (Exception e) {
-      logger.error("获取用户异常：{}", e.getMessage());
+      logger.error("获取用户异常：", e);
     }
     return user;
   }
@@ -86,7 +86,7 @@ public class UserDaoImpl implements UserDao {
       parameterMap.put("count", count);
       userList = session.selectList(statement, parameterMap);
     } catch (Exception e) {
-      logger.error("获取用户异常：{}", e.getMessage());
+      logger.error("获取用户异常：", e);
     }
     return userList;
   }
@@ -98,7 +98,7 @@ public class UserDaoImpl implements UserDao {
       String statement = "listUser";
       userList = session.selectList(statement);
     } catch (Exception e) {
-      logger.error("获取用户异常：{}", e.getMessage());
+      logger.error("获取用户异常：", e);
     }
     return userList;
   }
@@ -113,7 +113,7 @@ public class UserDaoImpl implements UserDao {
       newUser.setPassword(password);
       user = session.selectOne(statement, newUser);
     } catch (Exception e) {
-      logger.error("获取用户异常：{}", e.getMessage());
+      logger.error("获取用户异常：", e);
     }
     return user;
   }
@@ -125,7 +125,7 @@ public class UserDaoImpl implements UserDao {
       String statement = "getUserCount";
       count = session.selectOne(statement);
     } catch (Exception e) {
-      logger.error("获取用户总数异常：{}", e.getMessage());
+      logger.error("获取用户总数异常：", e);
     }
     return count;
   }

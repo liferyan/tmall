@@ -38,7 +38,7 @@ public class ReviewDaoImpl implements ReviewDao {
       String statement = "saveReview";
       session.insert(statement, review);
     } catch (Exception e) {
-      logger.error("保存评价异常：{}", e.getMessage());
+      logger.error("保存评价异常：", e);
     }
   }
 
@@ -53,7 +53,7 @@ public class ReviewDaoImpl implements ReviewDao {
       parameterMap.put("count", count);
       reviewList = session.selectList(statement, parameterMap);
     } catch (Exception e) {
-      logger.error("获取评价异常：{}", e.getMessage());
+      logger.error("获取评价异常：", e);
     }
     return reviewList;
   }
@@ -65,7 +65,7 @@ public class ReviewDaoImpl implements ReviewDao {
       String statement = "listProductReview";
       reviewList = session.selectList(statement, pid);
     } catch (Exception e) {
-      logger.error("获取评价异常：{}", e.getMessage());
+      logger.error("获取评价异常：", e);
     }
     return reviewList;
   }

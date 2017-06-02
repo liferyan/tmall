@@ -46,7 +46,7 @@ public class PropertyValueDaoImpl implements PropertyValueDao {
         }
       }
     } catch (Exception e) {
-      logger.error("保存属性值异常：{}", e.getMessage());
+      logger.error("保存属性值异常：", e);
     }
   }
 
@@ -56,7 +56,7 @@ public class PropertyValueDaoImpl implements PropertyValueDao {
       String statement = "updatePropertyValue";
       session.update(statement, propertyValue);
     } catch (Exception e) {
-      logger.error("更新属性值异常：{}", e.getMessage());
+      logger.error("更新属性值异常：", e);
     }
   }
 
@@ -67,7 +67,7 @@ public class PropertyValueDaoImpl implements PropertyValueDao {
       String statement = "listPropertyValue";
       propertyValueList = session.selectList(statement, productId);
     } catch (Exception e) {
-      logger.error("获取属性值异常：{}", e.getMessage());
+      logger.error("获取属性值异常：", e);
     }
     return propertyValueList;
   }
@@ -81,7 +81,7 @@ public class PropertyValueDaoImpl implements PropertyValueDao {
       parameterMap.put("pid", productId);
       propertyValue = session.selectOne(statement, parameterMap);
     } catch (Exception e) {
-      logger.error("获取属性值异常：{}", e.getMessage());
+      logger.error("获取属性值异常：", e);
     }
     return propertyValue;
   }

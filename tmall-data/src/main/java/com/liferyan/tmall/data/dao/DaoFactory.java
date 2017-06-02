@@ -34,7 +34,7 @@ public class DaoFactory {
       Reader reader = Resources.getResourceAsReader(resource);
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     } catch (IOException e) {
-      logger.error("读取Mybatis配置文件异常：{}", e.getMessage());
+      logger.error("读取Mybatis配置文件异常：", e);
     }
   }
 
