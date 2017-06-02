@@ -64,6 +64,9 @@ public class MyBatisCacheTest {
   }
 
   @Test
+  /**
+   * MyBatis二级缓存测试
+   */
   public void applicationCache() throws Exception {
     long first = System.currentTimeMillis();
     DaoFactory.getCategoryDao().listCategory();
