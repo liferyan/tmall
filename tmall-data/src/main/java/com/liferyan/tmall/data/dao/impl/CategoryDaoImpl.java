@@ -131,7 +131,10 @@ public class CategoryDaoImpl implements CategoryDao {
     for (fromIndex = 0; fromIndex < productList.size(); fromIndex += PRODUCT_NUMBER_EACH_ROW) {
       toIndex = fromIndex + PRODUCT_NUMBER_EACH_ROW;
       toIndex = toIndex > productList.size() ? productList.size() : toIndex;
-      List<Product> productsOfEachRow = productList.subList(fromIndex, toIndex);
+      //java.io.NotSerializableException: java.util.ArrayList$SubList
+      //List<Product> productsOfEachRow = productList.subList(fromIndex, toIndex);
+      ArrayList<Product> productsOfEachRow = new ArrayList<>(
+          productList.subList(fromIndex, toIndex));
       productsByRow.add(productsOfEachRow);
     }
     category.setProductsByRow(productsByRow);

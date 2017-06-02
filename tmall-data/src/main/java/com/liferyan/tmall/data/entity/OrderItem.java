@@ -1,11 +1,14 @@
 package com.liferyan.tmall.data.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by Ryan on 2017/4/18.
  * 订单项
  */
-public class OrderItem {
+public class OrderItem implements Serializable {
 
+  private static final long serialVersionUID = -1468455827226559348L;
   /**
    * 订单ID
    */

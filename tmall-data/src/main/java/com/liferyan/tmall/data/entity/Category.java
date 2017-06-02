@@ -1,5 +1,6 @@
 package com.liferyan.tmall.data.entity;
 
+import java.io.Serializable;
 import java.util.List;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -9,8 +10,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * Created by Ryan on 2017/4/18.
  * 商品分类
  */
-public class Category {
+public class Category implements Serializable {
 
+  private static final long serialVersionUID = -8060813009244565097L;
   /**
    * 分类ID
    */

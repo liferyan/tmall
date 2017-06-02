@@ -1,11 +1,14 @@
 package com.liferyan.tmall.data.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by Ryan on 2017/4/17.
  * 用户
  */
-public class User {
+public class User implements Serializable {
 
+  private static final long serialVersionUID = -4517084657242009151L;
   /**
    * 用户ID
    */
@@ -17,7 +20,7 @@ public class User {
   /**
    * 密码
    */
-  private String password;
+  transient private String password;
 
   public int getId() {
     return id;

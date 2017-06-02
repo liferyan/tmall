@@ -1,5 +1,6 @@
 package com.liferyan.tmall.data.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -7,8 +8,9 @@ import java.util.List;
  * Created by Ryan on 2017/4/18.
  * 订单
  */
-public class Order {
+public class Order implements Serializable {
 
+  private static final long serialVersionUID = 5713225629070996530L;
   /**
    * 订单ID
    */

@@ -1,5 +1,6 @@
 package com.liferyan.tmall.data.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -10,8 +11,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * Created by Ryan on 2017/4/18.
  * 商品
  */
-public class Product {
+public class Product implements Serializable {
 
+  private static final long serialVersionUID = -5524226068789285108L;
   /**
    * 商品ID
    */

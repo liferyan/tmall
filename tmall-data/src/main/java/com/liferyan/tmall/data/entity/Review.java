@@ -1,13 +1,15 @@
 package com.liferyan.tmall.data.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Ryan on 2017/4/18.
  * 用户商品评价
  */
-public class Review {
+public class Review implements Serializable {
 
+  private static final long serialVersionUID = 5217479594472292333L;
   /**
    * 用户商品评价ID
    */
