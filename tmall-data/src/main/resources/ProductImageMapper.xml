@@ -2,12 +2,12 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.liferyan.tmall.data.entity">
+<mapper namespace="com.liferyan.tmall.data.entity.ProductImageMapper">
 
   <insert id="saveProductImage" useGeneratedKeys="true" keyProperty="id">
     INSERT INTO product_image (pid, type)
     VALUES (#{product.id},
-    #{imageType,typeHandler=ImageTypeEnumHandler})
+            #{imageType,typeHandler=ImageTypeEnumHandler})
   </insert>
 
   <delete id="deleteProductImage">
@@ -42,7 +42,8 @@
     <id column="pi_id" property="id"/>
     <result column="pi_type" property="imageType" javaType="ImageTypeEnum"
       typeHandler="ImageTypeEnumHandler"/>
-    <association property="product" javaType="product" columnPrefix="p_" resultMap="productMap"/>
+    <association property="product" javaType="product" columnPrefix="p_"
+      resultMap="com.liferyan.tmall.data.entity.ProductMapper.productMap"/>
   </resultMap>
 
   <select id="getProductImageById" resultMap="productImageResult">

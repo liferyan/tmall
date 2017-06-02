@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.liferyan.tmall.data.entity">
+<mapper namespace="com.liferyan.tmall.data.entity.ProductMapper">
 
   <insert id="saveProduct" useGeneratedKeys="true" keyProperty="id">
     INSERT INTO product (cid, name, subtitle, original_price, promote_price, stock, create_date)
@@ -60,16 +60,18 @@
     <result column="p_createDate" property="createDate"/>
     <result column="p_stock" property="stock"/>
     <association property="category" javaType="category" columnPrefix="c_"
-      resultMap="categoryAndPropertyMap"/>
+      resultMap="com.liferyan.tmall.data.entity.CategoryMapper.categoryAndPropertyMap"/>
     <!--此处使用association是否合适!!!-->
-    <association column="p_id" property="saleCount" javaType="_int" select="saleCountSelect"/>
-    <association column="p_id" property="reviewCount" javaType="_int" select="reviewCountSelect"/>
+    <association column="p_id" property="saleCount" javaType="_int"
+      select="com.liferyan.tmall.data.entity.OrderItemMapper.saleCountSelect"/>
+    <association column="p_id" property="reviewCount" javaType="_int"
+      select="com.liferyan.tmall.data.entity.ReviewMapper.reviewCountSelect"/>
     <association column="p_id" property="firstProductImage" javaType="productImage"
-      select="firstProductImageSelect"/>
+      select="com.liferyan.tmall.data.entity.ProductImageMapper.firstProductImageSelect"/>
     <collection column="p_id" property="singleProductImageList" ofType="productImage"
-      select="singleProductImageListSelect"/>
+      select="com.liferyan.tmall.data.entity.ProductImageMapper.singleProductImageListSelect"/>
     <collection column="p_id" property="detailProductImageList" ofType="productImage"
-      select="detailProductImageListSelect"/>
+      select="com.liferyan.tmall.data.entity.ProductImageMapper.detailProductImageListSelect"/>
   </resultMap>
 
   <select id="getProductById" resultMap="productResult">
@@ -106,16 +108,18 @@
   <resultMap id="productAllMap" type="product" autoMapping="true">
     <id column="id" property="id"/>
     <association column="c_id" property="category" javaType="category"
-      select="categoryAndPropertySelect"/>
+      select="com.liferyan.tmall.data.entity.CategoryMapper.categoryAndPropertySelect"/>
     <!--此处使用association是否合适!!!-->
-    <association column="id" property="saleCount" javaType="_int" select="saleCountSelect"/>
-    <association column="id" property="reviewCount" javaType="_int" select="reviewCountSelect"/>
+    <association column="id" property="saleCount" javaType="_int"
+      select="com.liferyan.tmall.data.entity.OrderItemMapper.saleCountSelect"/>
+    <association column="id" property="reviewCount" javaType="_int"
+      select="com.liferyan.tmall.data.entity.ReviewMapper.reviewCountSelect"/>
     <association column="id" property="firstProductImage" javaType="productImage"
-      select="firstProductImageSelect"/>
+      select="com.liferyan.tmall.data.entity.ProductImageMapper.firstProductImageSelect"/>
     <collection column="id" property="singleProductImageList" ofType="productImage"
-      select="singleProductImageListSelect"/>
+      select="com.liferyan.tmall.data.entity.ProductImageMapper.singleProductImageListSelect"/>
     <collection column="id" property="detailProductImageList" ofType="productImage"
-      select="detailProductImageListSelect"/>
+      select="com.liferyan.tmall.data.entity.ProductImageMapper.detailProductImageListSelect"/>
   </resultMap>
 
   <select id="productAndCategorySelect" resultMap="productAndCategoryMap">
@@ -126,7 +130,8 @@
 
   <resultMap id="productAndCategoryMap" type="product" autoMapping="true">
     <id column="id" property="id"/>
-    <association column="c_id" property="category" javaType="category" select="categorySelect"/>
+    <association column="c_id" property="category" javaType="category"
+      select="com.liferyan.tmall.data.entity.CategoryMapper.categorySelect"/>
   </resultMap>
 
   <select id="productSelect" resultMap="productMap">

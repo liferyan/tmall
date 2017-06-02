@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.liferyan.tmall.data.entity">
+<mapper namespace="com.liferyan.tmall.data.entity.OrderMapper">
 
   <insert id="saveOrder" useGeneratedKeys="true" keyProperty="id">
     INSERT INTO order_ (uid, order_code, address, post, receiver, mobile,
@@ -21,7 +21,7 @@
   <update id="updateOrder">
     UPDATE order_
     SET pay_date = #{payDate}, delivery_date = #{deliveryDate}, confirm_date = #{confirmDate},
-    status = #{orderStatus,typeHandler=OrderStatusEnumHandler}
+      status     = #{orderStatus,typeHandler=OrderStatusEnumHandler}
     WHERE id = #{id}
   </update>
 
@@ -40,33 +40,33 @@
       o.confirm_date  AS 'o_confirmDate',
       o.status        AS 'o_orderStatus',
       u.id            AS 'u_id',
-    u.name AS 'u_name',
-    oi.id AS 'oi_id',
-    oi.number AS 'oi_number',
-    oi.has_review AS 'oi_hasReview',
-    p.id AS 'p_id',
-    p.promote_price AS 'p_promotePrice'
+      u.name          AS 'u_name',
+      oi.id           AS 'oi_id',
+      oi.number       AS 'oi_number',
+      oi.has_review   AS 'oi_hasReview',
+      p.id            AS 'p_id',
+      p.promote_price AS 'p_promotePrice'
     FROM order_ AS o
       LEFT OUTER JOIN user AS u ON o.uid = u.id
-    LEFT OUTER JOIN order_item AS oi ON o.id = oi.oid
-    LEFT OUTER JOIN product AS p ON oi.pid = p.id
+      LEFT OUTER JOIN order_item AS oi ON o.id = oi.oid
+      LEFT OUTER JOIN product AS p ON oi.pid = p.id
   </sql>
 
   <sql id="selectOrder">
     SELECT
-    id,
-    uid,
-    address,
-    post,
-    receiver,
-    mobile,
-    order_code AS 'orderCode',
-    user_message AS 'userMessage',
-    create_date AS 'createDate',
-    pay_date AS 'payDate',
-    delivery_date AS 'deliveryDate',
-    confirm_date AS 'confirmDate',
-    status AS 'orderStatus'
+      id,
+      uid,
+      address,
+      post,
+      receiver,
+      mobile,
+      order_code    AS 'orderCode',
+      user_message  AS 'userMessage',
+      create_date   AS 'createDate',
+      pay_date      AS 'payDate',
+      delivery_date AS 'deliveryDate',
+      confirm_date  AS 'confirmDate',
+      status        AS 'orderStatus'
     FROM order_
   </sql>
 
@@ -85,7 +85,7 @@
     <result column="o_orderStatus" property="orderStatus" javaType="OrderStatusEnum"
       typeHandler="OrderStatusEnumHandler"/>
     <association property="user" javaType="user" columnPrefix="u_"
-      resultMap="userMap"/>
+      resultMap="com.liferyan.tmall.data.entity.UserMapper.userMap"/>
     <collection property="orderItems" ofType="OrderItem">
       <id column="oi_id" property="id"/>
       <result column="oi_number" property="number"/>
@@ -125,8 +125,10 @@
     <id column="id" property="id"/>
     <result column="orderStatus" property="orderStatus" javaType="OrderStatusEnum"
       typeHandler="OrderStatusEnumHandler"/>
-    <association column="uid" property="user" javaType="user" select="userSelect"/>
-    <collection column="id" property="orderItems" ofType="OrderItem" select="orderItemSelect"/>
+    <association column="uid" property="user" javaType="user"
+      select="com.liferyan.tmall.data.entity.UserMapper.userSelect"/>
+    <collection column="id" property="orderItems" ofType="OrderItem"
+      select="com.liferyan.tmall.data.entity.OrderItemMapper.orderItemSelect"/>
   </resultMap>
 
   <select id="getOrderCount" resultType="_int">

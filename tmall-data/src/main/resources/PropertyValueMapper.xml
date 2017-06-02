@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.liferyan.tmall.data.entity">
+<mapper namespace="com.liferyan.tmall.data.entity.PropertyValueMapper">
 
   <insert id="savePropertyValue" useGeneratedKeys="true" keyProperty="id">
     INSERT INTO property_value (ppid, pid) VALUES (#{ppid}, #{pid})
@@ -49,6 +49,7 @@
       <id column="pp_id" property="id"/>
       <result column="pp_name" property="name"/>
     </association>
-    <association property="product" javaType="product" columnPrefix="p_" resultMap="productMap"/>
+    <association property="product" javaType="product" columnPrefix="p_"
+      resultMap="com.liferyan.tmall.data.entity.ProductMapper.productMap"/>
   </resultMap>
 </mapper>

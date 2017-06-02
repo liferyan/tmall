@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.liferyan.tmall.data.entity">
+<mapper namespace="com.liferyan.tmall.data.entity.ReviewMapper">
 
   <insert id="saveReview" useGeneratedKeys="true" keyProperty="id">
     INSERT INTO review (pid, uid, content, create_date)
@@ -13,8 +13,10 @@
     <id column="r_id" property="id"/>
     <result column="r_content" property="content"/>
     <result column="r_createDate" property="createDate"/>
-    <association property="user" javaType="user" columnPrefix="u_" resultMap="userMap"/>
-    <association property="product" javaType="product" columnPrefix="p_" resultMap="productMap"/>
+    <association property="user" javaType="user" columnPrefix="u_"
+      resultMap="com.liferyan.tmall.data.entity.UserMapper.userMap"/>
+    <association property="product" javaType="product" columnPrefix="p_"
+      resultMap="com.liferyan.tmall.data.entity.ProductMapper.productMap"/>
   </resultMap>
 
   <select id="listProductReview" resultMap="reviewResult">
@@ -41,11 +43,11 @@
 
   <select id="listProductReviewByPage" resultMap="reviewMap">
     SELECT
-    id,
-    uid,
-    pid,
-    content,
-    create_date AS 'createDate'
+      id,
+      uid,
+      pid,
+      content,
+      create_date AS 'createDate'
     FROM review
     WHERE pid = #{pid}
     ORDER BY create_date DESC
@@ -54,8 +56,10 @@
 
   <resultMap id="reviewMap" type="review" autoMapping="true">
     <id column="id" property="id"/>
-    <association column="uid" property="user" javaType="user" select="userSelect"/>
-    <association column="pid" property="product" javaType="product" select="productSelect"/>
+    <association column="uid" property="user" javaType="user"
+      select="com.liferyan.tmall.data.entity.UserMapper.userSelect"/>
+    <association column="pid" property="product" javaType="product"
+      select="com.liferyan.tmall.data.entity.ProductMapper.productSelect"/>
   </resultMap>
 
   <select id="reviewCountSelect" resultType="_int">

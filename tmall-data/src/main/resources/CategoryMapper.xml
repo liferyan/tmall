@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.liferyan.tmall.data.entity">
+<mapper namespace="com.liferyan.tmall.data.entity.CategoryMapper">
 
   <insert id="saveCategory" useGeneratedKeys="true" keyProperty="id">
     INSERT INTO category (name) VALUES (#{name})
@@ -48,9 +48,11 @@
     <id column="c_id" property="id"/>
     <result column="c_name" property="name"/>
     <!--集合的嵌套结果-->
-    <collection property="products" ofType="product" resultMap="productResult"/>
+    <collection property="products" ofType="product"
+      resultMap="com.liferyan.tmall.data.entity.ProductMapper.productResult"/>
     <!--集合的嵌套结果-->
-    <collection property="properties" ofType="property" resultMap="propertyResult"/>
+    <collection property="properties" ofType="property"
+      resultMap="com.liferyan.tmall.data.entity.PropertyMapper.propertyResult"/>
   </resultMap>
 
   <select id="getCategoryById" resultMap="categoryResult">
@@ -80,8 +82,10 @@
 
   <resultMap id="categoryAllMap" type="category" autoMapping="true">
     <id column="id" property="id"/>
-    <collection column="id" property="products" ofType="product" select="productAndCategorySelect"/>
-    <collection column="id" property="properties" ofType="property" select="propertySelect"/>
+    <collection column="id" property="products" ofType="product"
+      select="com.liferyan.tmall.data.entity.ProductMapper.productAndCategorySelect"/>
+    <collection column="id" property="properties" ofType="property"
+      select="com.liferyan.tmall.data.entity.PropertyMapper.propertySelect"/>
   </resultMap>
 
   <select id="categorySelect" resultType="category">
@@ -96,6 +100,7 @@
 
   <resultMap id="categoryAndPropertyMap" type="category" autoMapping="true">
     <id column="id" property="id"/>
-    <collection column="id" property="properties" ofType="property" select="propertySelect"/>
+    <collection column="id" property="properties" ofType="property"
+      select="com.liferyan.tmall.data.entity.PropertyMapper.propertySelect"/>
   </resultMap>
 </mapper>

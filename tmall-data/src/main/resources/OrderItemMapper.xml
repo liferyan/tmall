@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.liferyan.tmall.data.entity">
+<mapper namespace="com.liferyan.tmall.data.entity.OrderItemMapper">
 
   <insert id="saveOrderItem" useGeneratedKeys="true" keyProperty="id">
     INSERT INTO order_item (pid, uid, oid, number, has_review)
@@ -23,7 +23,7 @@
   <sql id="joinSelectOrderItem">
     SELECT
       oi.id            AS 'oi_id',
-    oi.oid AS 'oi_oid',
+      oi.oid           AS 'oi_oid',
       oi.number        AS 'oi_number',
       oi.has_review    AS 'oi_hasReview',
       u.id             AS 'u_id',
@@ -57,9 +57,12 @@
     <id column="oi_id" property="id"/>
     <result column="oi_number" property="number"/>
     <result column="oi_hasReview" property="hasReview"/>
-    <association property="product" javaType="product" columnPrefix="p_" resultMap="productMap"/>
-    <association property="user" javaType="user" columnPrefix="u_" resultMap="userMap"/>
-    <association property="order" javaType="order" columnPrefix="o_" resultMap="orderMap"/>
+    <association property="product" javaType="product" columnPrefix="p_"
+      resultMap="com.liferyan.tmall.data.entity.ProductMapper.productMap"/>
+    <association property="user" javaType="user" columnPrefix="u_"
+      resultMap="com.liferyan.tmall.data.entity.UserMapper.userMap"/>
+    <association property="order" javaType="order" columnPrefix="o_"
+      resultMap="com.liferyan.tmall.data.entity.OrderMapper.orderMap"/>
   </resultMap>
 
   <select id="getOrderItemById" resultMap="orderItemResult">
@@ -92,7 +95,8 @@
   <resultMap id="orderItemAndProductMap" type="orderItem">
     <id column="oi_id" property="id"/>
     <result column="oi_number" property="number"/>
-    <association property="product" javaType="product" columnPrefix="p_" resultMap="productMap"/>
+    <association property="product" javaType="product" columnPrefix="p_"
+      resultMap="com.liferyan.tmall.data.entity.ProductMapper.productMap"/>
   </resultMap>
 
   <select id="orderItemSelect" resultMap="orderItemAndProductMap">

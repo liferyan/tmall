@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.liferyan.tmall.data.entity">
+<mapper namespace="com.liferyan.tmall.data.entity.PropertyMapper">
 
   <insert id="saveProperty" useGeneratedKeys="true" keyProperty="id">
     INSERT INTO property (cid, name) VALUES (#{category.id}, #{name})
@@ -82,6 +82,7 @@
 
   <resultMap id="propertyAndCategoryMap" type="property" autoMapping="true">
     <id column="id" property="id"/>
-    <association column="cid" property="category" javaType="category" select="categorySelect"/>
+    <association column="cid" property="category" javaType="category"
+      select="com.liferyan.tmall.data.entity.CategoryMapper.categorySelect"/>
   </resultMap>
 </mapper>
