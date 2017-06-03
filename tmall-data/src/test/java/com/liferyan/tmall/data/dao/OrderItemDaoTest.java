@@ -59,7 +59,7 @@ public class OrderItemDaoTest {
     int id = orderItem.getId();
     orderItem = orderItemDao.getOrderItemById(id);
     assertThat(orderItem.getNumber(), is(5));
-    assertThat(orderItem.isHasReview(), is(false));
+    assertThat(orderItem.getHasReview(), is(false));
 
     order.setId(30);
     orderItem.setOrder(order);

@@ -9,6 +9,7 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 
 import com.liferyan.tmall.data.entity.Order;
+import com.liferyan.tmall.data.entity.OrderItem;
 import com.liferyan.tmall.data.entity.OrderStatusEnum;
 import com.liferyan.tmall.data.entity.User;
 import java.text.SimpleDateFormat;
@@ -94,6 +95,15 @@ public class OrderDaoTest {
         assertThat(order.getUser().getName(), notNullValue());
         assertThat(order.getTotal(), greaterThanOrEqualTo(0f));
         assertThat(order.getTotalNumber(), greaterThanOrEqualTo(0));
+        List<OrderItem> orderItems = order.getOrderItems();
+        assertThat(orderItems, notNullValue());
+        for (OrderItem orderItem : orderItems) {
+          assertThat(orderItem.getProduct(), notNullValue());
+          assertThat(orderItem.getProduct().getId(), notNullValue());
+          assertThat(orderItem.getProduct().getName(), notNullValue());
+          assertThat(orderItem.getProduct().getFirstProductImage(), notNullValue());
+          assertThat(orderItem.getProduct().getFirstProductImage().getId(), not(0));
+        }
       }
     }
   }

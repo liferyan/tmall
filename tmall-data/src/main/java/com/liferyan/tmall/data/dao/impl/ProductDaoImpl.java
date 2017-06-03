@@ -56,7 +56,7 @@ public class ProductDaoImpl implements ProductDao {
   public void updateProduct(Product product) {
     try (SqlSession session = sqlSessionFactory.openSession(true)) {
       String statement = "updateProduct";
-      session.insert(statement, product);
+      session.update(statement, product);
     } catch (Exception e) {
       logger.error("更新产品异常：{}", e);
     }

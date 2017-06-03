@@ -20,9 +20,8 @@
 
   <update id="updateProduct">
     UPDATE product
-    SET cid          = #{category.id}, name = #{name}, subtitle = #{subTitle},
-      original_price = #{originalPrice}, promote_price = #{promotePrice}, stock = #{stock},
-      create_date    = #{createDate}
+    SET name         = #{name}, subtitle = #{subTitle},
+      original_price = #{originalPrice}, promote_price = #{promotePrice}, stock = #{stock}
     WHERE id = #{id}
   </update>
 
@@ -151,5 +150,7 @@
 
   <resultMap id="productMap" type="product" autoMapping="true">
     <id column="id" property="id"/>
+    <association column="id" property="firstProductImage" javaType="productImage"
+      select="com.liferyan.tmall.data.entity.ProductImageMapper.firstProductImageSelect"/>
   </resultMap>
 </mapper>

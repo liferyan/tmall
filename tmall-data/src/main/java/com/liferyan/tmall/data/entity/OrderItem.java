@@ -79,7 +79,7 @@ public class OrderItem implements Serializable {
     this.order = order;
   }
 
-  public boolean isHasReview() {
+  public boolean getHasReview() {
     return hasReview;
   }
 

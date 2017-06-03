@@ -85,7 +85,7 @@
 
   <select id="listOrderItemInCartByUser" resultMap="orderItemResult">
     <include refid="joinSelectOrderItem"/>
-    WHERE o.id = -1 AND u.id = #{uid}
+    WHERE oi.oid = -1 AND u.id = #{uid}
   </select>
 
   <select id="saleCountSelect" resultType="_int">
@@ -106,6 +106,7 @@
       oi.id           AS 'oi_id',
       oi.number       AS 'oi_number',
       p.id            AS 'p_id',
+      p.name          AS 'p_name',
       p.promote_price AS 'p_promotePrice'
     FROM order_item AS oi
       LEFT OUTER JOIN product AS p ON oi.pid = p.id

@@ -29,25 +29,29 @@
 
   <sql id="joinSelectOrder">
     SELECT
-      o.id            AS 'o_id',
-      o.order_code    AS 'o_orderCode',
-      o.address       AS 'o_address',
-      o.post          AS 'o_post',
-      o.receiver      AS 'o_receiver',
-      o.mobile        AS 'o_mobile',
-      o.user_message  AS 'o_userMessage',
-      o.create_date   AS 'o_createDate',
-      o.pay_date      AS 'o_payDate',
-      o.delivery_date AS 'o_deliveryDate',
-      o.confirm_date  AS 'o_confirmDate',
-      o.status        AS 'o_orderStatus',
-      u.id            AS 'u_id',
-      u.name          AS 'u_name',
-      oi.id           AS 'oi_id',
-      oi.number       AS 'oi_number',
-      oi.has_review   AS 'oi_hasReview',
-      p.id            AS 'p_id',
-      p.promote_price AS 'p_promotePrice'
+      o.id             AS 'o_id',
+      o.order_code     AS 'o_orderCode',
+      o.address        AS 'o_address',
+      o.post           AS 'o_post',
+      o.receiver       AS 'o_receiver',
+      o.mobile         AS 'o_mobile',
+      o.user_message   AS 'o_userMessage',
+      o.create_date    AS 'o_createDate',
+      o.pay_date       AS 'o_payDate',
+      o.delivery_date  AS 'o_deliveryDate',
+      o.confirm_date   AS 'o_confirmDate',
+      o.status         AS 'o_orderStatus',
+      u.id             AS 'u_id',
+      u.name           AS 'u_name',
+      oi.id            AS 'oi_id',
+      oi.number        AS 'oi_number',
+      oi.has_review    AS 'oi_hasReview',
+      p.id             AS 'p_id',
+      p.name           AS 'p_name',
+      p.subtitle       AS 'p_subTitle',
+      p.original_price AS 'p_originalPrice',
+      p.promote_price  AS 'p_promotePrice',
+      p.stock          AS 'p_stock'
     FROM order_ AS o
       LEFT OUTER JOIN user AS u ON o.uid = u.id
       LEFT OUTER JOIN order_item AS oi ON o.id = oi.oid
@@ -94,7 +98,13 @@
       <result column="oi_hasReview" property="hasReview"/>
       <association property="product" javaType="product">
         <id column="p_id" property="id"/>
+        <result column="p_name" property="name"/>
+        <result column="p_subTitle" property="subTitle"/>
+        <result column="p_originalPrice" property="originalPrice"/>
         <result column="p_promotePrice" property="promotePrice"/>
+        <result column="p_stock" property="stock"/>
+        <association column="p_id" property="firstProductImage" javaType="productImage"
+          select="com.liferyan.tmall.data.entity.ProductImageMapper.firstProductImageSelect"/>
       </association>
     </collection>
   </resultMap>
