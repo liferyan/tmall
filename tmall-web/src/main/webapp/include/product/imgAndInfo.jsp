@@ -7,14 +7,23 @@
     var stock = ${product.stock};
     $(".productNumberSetting").keyup(function () {
       var num = $(".productNumberSetting").val();
-      num = parseInt(num);
-      if (isNaN(num))
-        num = 1;
-      if (num <= 0)
-        num = 1;
-      if (num > stock)
-        num = stock;
-      $(".productNumberSetting").val(num);
+      if (num != '') {
+        num = parseInt(num);
+        if (isNaN(num))
+          num = 1;
+        if (num <= 0)
+          num = 1;
+        if (num > stock)
+          num = stock;
+        $(".productNumberSetting").val(num);
+      }
+    });
+
+    $(".productNumberSetting").blur(function () {
+      var num = $(".productNumberSetting").val();
+      if (num == '') {
+        $(".productNumberSetting").val(1);
+      }
     });
 
     $(".increaseNumber").click(function () {
