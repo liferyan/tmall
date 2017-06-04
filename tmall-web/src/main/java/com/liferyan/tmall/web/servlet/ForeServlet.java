@@ -304,7 +304,7 @@ public class ForeServlet extends BaseForeServlet {
     boolean orderCompleted = true;
     boolean orderItemHasReview;
     for (OrderItem orderItem : orderItemList) {
-      orderItemHasReview = orderItem.isHasReview();
+      orderItemHasReview = orderItem.getHasReview();
       if (!orderItemHasReview) {
         orderCompleted = false;
         break;
