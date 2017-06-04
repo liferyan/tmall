@@ -47,7 +47,7 @@
                                 </tr>
                                 <tr>
                                     <td align="center">
-                                        <input type="hidden" name="type" value="TYPE_SINGLE"/>
+                                        <input type="hidden" name="type" value="type_single"/>
                                         <input type="hidden" name="pid" value="${product.id}"/>
                                         <button type="submit" class="btn btn-success">提 交</button>
                                     </td>
@@ -100,7 +100,7 @@
                                 </tr>
                                 <tr>
                                     <td align="center">
-                                        <input type="hidden" name="type" value="TYPE_DETAIL"/>
+                                        <input type="hidden" name="type" value="type_detail"/>
                                         <input type="hidden" name="pid" value="${product.id}"/>
                                         <button type="submit" class="btn btn-success">提 交</button>
                                     </td>
