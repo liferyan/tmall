@@ -49,6 +49,6 @@
   </dependencies>
 
   <build>
-    <finalName>tmall-web</finalName>
+    <finalName>tmall</finalName>
   </build>
 </project>

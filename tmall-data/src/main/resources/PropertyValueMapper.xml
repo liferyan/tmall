@@ -18,17 +18,12 @@
 
   <sql id="joinSelectPropertyValue">
     SELECT
-      pv.id            AS 'pv_id',
-      pv.value         AS 'pv_value',
-      pp.id            AS 'pp_id',
-      pp.name          AS 'pp_name',
-      p.id             AS 'p_id',
-      p.name           AS 'p_name',
-      p.subtitle       AS 'p_subTitle',
-      p.original_price AS 'p_originalPrice',
-      p.promote_price  AS 'p_promotePrice',
-      p.create_date    AS 'p_createDate',
-      p.stock          AS 'p_stock'
+      pv.id    AS 'pv_id',
+      pv.value AS 'pv_value',
+      pp.id    AS 'pp_id',
+      pp.name  AS 'pp_name',
+      p.id     AS 'p_id',
+      p.name   AS 'p_name'
     FROM property_value AS pv
       LEFT OUTER JOIN property AS pp ON pv.ppid = pp.id
       LEFT OUTER JOIN product AS p ON pv.pid = p.id
@@ -51,7 +46,9 @@
       <id column="pp_id" property="id"/>
       <result column="pp_name" property="name"/>
     </association>
-    <association property="product" javaType="product" columnPrefix="p_"
-      resultMap="com.liferyan.tmall.data.entity.ProductMapper.productMap"/>
+    <association property="product" javaType="product" columnPrefix="p_">
+      <id column="id" property="id"/>
+      <result column="name" property="name"/>
+    </association>
   </resultMap>
 </mapper>

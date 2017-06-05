@@ -63,12 +63,14 @@ public class ProductServlet extends BaseBackServlet {
   @Override
   public String list(HttpServletRequest request, Page page) {
     int cid = Integer.parseInt(request.getParameter("cid"));
-    Category category = DaoFactory.getCategoryDao().getCategoryById(cid);
     page.setParam("&cid=" + cid);
     page.setTotal(dao.getProductCountByCategory(cid));
     request.setAttribute("page", page);
     List<Product> productList = dao.listProductByPage(cid, page.getStart(), page.getCount());
-    request.setAttribute("category", category);
+    if (productList.size() == 0) {
+      return "error.jsp";
+    }
+    request.setAttribute("category", productList.get(0).getCategory());
     request.setAttribute("product_list", productList);
     return "admin/listProduct.jsp";
   }

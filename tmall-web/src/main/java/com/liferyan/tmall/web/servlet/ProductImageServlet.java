@@ -2,7 +2,6 @@ package com.liferyan.tmall.web.servlet;
 
 import com.liferyan.tmall.data.dao.DaoFactory;
 import com.liferyan.tmall.data.dao.ProductImageDao;
-import com.liferyan.tmall.data.entity.Category;
 import com.liferyan.tmall.data.entity.ImageTypeEnum;
 import com.liferyan.tmall.data.entity.Product;
 import com.liferyan.tmall.data.entity.ProductImage;
@@ -14,7 +13,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -93,13 +91,12 @@ public class ProductImageServlet extends BaseBackServlet {
   public String list(HttpServletRequest request, Page page) {
     int pid = Integer.parseInt(request.getParameter("pid"));
     Product product = DaoFactory.getProductDao().getProductById(pid);
-    Category category = product.getCategory();
-    List<ProductImage> singleProductImgList = dao.listProductImage(product, ImageTypeEnum.SINGLE);
-    List<ProductImage> detailProductImgList = dao.listProductImage(product, ImageTypeEnum.DETAIL);
-    request.setAttribute("category", category);
+    //List<ProductImage> singleProductImgList = dao.listProductImage(product, ImageTypeEnum.SINGLE);
+    //List<ProductImage> detailProductImgList = dao.listProductImage(product, ImageTypeEnum.DETAIL);
+    request.setAttribute("category", product.getCategory());
     request.setAttribute("product", product);
-    request.setAttribute("single_img_list", singleProductImgList);
-    request.setAttribute("detail_img_list", detailProductImgList);
+    request.setAttribute("single_img_list", product.getSingleProductImageList());
+    request.setAttribute("detail_img_list", product.getDetailProductImageList());
     return "admin/listProductImg.jsp";
   }
 

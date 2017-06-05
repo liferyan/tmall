@@ -88,9 +88,6 @@ public class CategoryDaoImpl implements CategoryDao {
       parameterMap.put("start", start);
       parameterMap.put("count", count);
       categoryList = session.selectList(statement, parameterMap);
-      for (Category category : categoryList) {
-        setProductsByRow(category);
-      }
     } catch (Exception e) {
       logger.error("获取分类异常：", e);
     }

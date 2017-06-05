@@ -3,9 +3,9 @@
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-  <properties resource="config.properties"/>
+  <properties resource="application.properties"/>
   <settings>
-    <setting name="cacheEnabled" value="false"/>
+    <setting name="cacheEnabled" value="true"/>
     <setting name="logImpl" value="SLF4J"/>
     <setting name="autoMappingUnknownColumnBehavior" value="FAILING"/>
   </settings>

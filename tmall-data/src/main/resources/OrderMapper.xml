@@ -112,24 +112,25 @@
   <select id="getOrderById" resultMap="orderResult">
     <include refid="joinSelectOrder"/>
     WHERE o.id = #{id}
+    ORDER BY o.id DESC
   </select>
 
   <select id="listOrderByUser" resultMap="orderResult">
     <include refid="joinSelectOrder"/>
     WHERE u.id = #{uid} AND o.status != 'DELETED'
-    ORDER BY o.id
+    ORDER BY o.id DESC
   </select>
 
   <select id="listOrderByUserAndPage" resultMap="orderMap">
     <include refid="selectOrder"/>
     WHERE uid = #{uid} AND status != 'DELETED'
-    ORDER BY id
+    ORDER BY id DESC
     LIMIT #{count} OFFSET #{start}
   </select>
 
   <select id="listOrderByPage" resultMap="orderMap">
     <include refid="selectOrder"/>
-    ORDER BY id
+    ORDER BY id DESC
     LIMIT #{count} OFFSET #{start}
   </select>
 

@@ -108,19 +108,11 @@
 
   <resultMap id="productAllMap" type="product" autoMapping="true">
     <id column="id" property="id"/>
-    <association column="c_id" property="category" javaType="category"
-      select="com.liferyan.tmall.data.entity.CategoryMapper.categoryAndPropertySelect"/>
-    <!--此处使用association是否合适!!!-->
-    <association column="id" property="saleCount" javaType="_int"
-      select="com.liferyan.tmall.data.entity.OrderItemMapper.saleCountSelect"/>
-    <association column="id" property="reviewCount" javaType="_int"
-      select="com.liferyan.tmall.data.entity.ReviewMapper.reviewCountSelect"/>
+    <association column="c_id" property="category" javaType="category">
+      <id column="c_id" property="id"/>
+    </association>
     <association column="id" property="firstProductImage" javaType="productImage"
       select="com.liferyan.tmall.data.entity.ProductImageMapper.firstProductImageSelect"/>
-    <collection column="id" property="singleProductImageList" ofType="productImage"
-      select="com.liferyan.tmall.data.entity.ProductImageMapper.singleProductImageListSelect"/>
-    <collection column="id" property="detailProductImageList" ofType="productImage"
-      select="com.liferyan.tmall.data.entity.ProductImageMapper.detailProductImageListSelect"/>
   </resultMap>
 
   <select id="productAndCategorySelect" resultMap="productAndCategoryMap">

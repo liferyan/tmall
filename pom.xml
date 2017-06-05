@@ -24,7 +24,64 @@
           <target>1.8</target>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.tomcat.maven</groupId>
+        <artifactId>tomcat7-maven-plugin</artifactId>
+        <version>2.2</version>
+        <configuration>
+          <url>${deploy.url}</url>
+          <server>tomcat</server>
+          <path>/tmall</path>
+          <update>true</update>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.20</version>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
     </plugins>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <!-- 资源根目录排除各环境的配置，使用单独的资源目录来指定 -->
+        <excludes>
+          <exclude>test/*</exclude>
+          <exclude>dev/*</exclude>
+        </excludes>
+      </resource>
+      <resource>
+        <directory>src/main/resources/${profiles.active}</directory>
+      </resource>
+    </resources>
   </build>
+
+  <profiles>
+    <profile>
+      <!-- 本地开发环境 -->
+      <id>dev</id>
+      <properties>
+        <profiles.active>dev</profiles.active>
+        <deploy.url>http://localhost:8080/manager/text</deploy.url>
+      </properties>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+    </profile>
+    <profile>
+      <!-- 远程测试环境 -->
+      <id>test</id>
+      <properties>
+        <profiles.active>test</profiles.active>
+        <deploy.url>http://139.224.186.166:9080/manager/text</deploy.url>
+      </properties>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+    </profile>
+  </profiles>
 
 </project>

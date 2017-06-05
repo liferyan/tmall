@@ -56,9 +56,11 @@ public class PropertyServlet extends BaseBackServlet {
   @Override
   public String list(HttpServletRequest request, Page page) {
     int cid = Integer.parseInt(request.getParameter("cid"));
-    Category category = DaoFactory.getCategoryDao().getCategoryById(cid);
     List<Property> propertyList = dao.listPropertyByPage(cid, page.getStart(), page.getCount());
-    request.setAttribute("category", category);
+    if (propertyList.size() == 0) {
+      return "error.jsp";
+    }
+    request.setAttribute("category", propertyList.get(0).getCategory());
     request.setAttribute("property_list", propertyList);
     page.setTotal(dao.getPropertyCount(cid));
     page.setParam("&cid=" + cid);

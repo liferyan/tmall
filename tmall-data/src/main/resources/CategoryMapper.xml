@@ -23,20 +23,13 @@
 
   <sql id="joinSelectCategory">
     SELECT
-      c.id             AS 'c_id',
-      c.name           AS 'c_name',
-      p.id             AS 'p_id',
-      p.name           AS 'p_name',
-      p.subtitle       AS 'p_subTitle',
-      p.original_price AS 'p_originalPrice',
-      p.promote_price  AS 'p_promotePrice',
-      p.create_date    AS 'p_createDate',
-      p.stock          AS 'p_stock',
-      pp.id            AS 'pp_id',
-      pp.name          AS 'pp_name'
+      c.id            AS 'c_id',
+      c.name          AS 'c_name',
+      p.id            AS 'p_id',
+      p.name          AS 'p_name',
+      p.promote_price AS 'p_promotePrice'
     FROM category AS c
       LEFT OUTER JOIN product AS p ON c.id = p.cid
-      LEFT OUTER JOIN property AS pp ON c.id = pp.cid
   </sql>
 
   <sql id="selectCategory">
@@ -50,11 +43,13 @@
     <id column="c_id" property="id"/>
     <result column="c_name" property="name"/>
     <!--集合的嵌套结果-->
-    <collection property="products" ofType="product"
-      resultMap="com.liferyan.tmall.data.entity.ProductMapper.productResult"/>
-    <!--集合的嵌套结果-->
-    <collection property="properties" ofType="property"
-      resultMap="com.liferyan.tmall.data.entity.PropertyMapper.propertyResult"/>
+    <collection property="products" ofType="product">
+      <id column="p_id" property="id"/>
+      <result column="p_name" property="name"/>
+      <result column="p_promotePrice" property="promotePrice"/>
+      <association column="p_id" property="firstProductImage" javaType="productImage"
+        select="com.liferyan.tmall.data.entity.ProductImageMapper.firstProductImageSelect"/>
+    </collection>
   </resultMap>
 
   <select id="getCategoryById" resultMap="categoryResult">
@@ -84,10 +79,6 @@
 
   <resultMap id="categoryAllMap" type="category" autoMapping="true">
     <id column="id" property="id"/>
-    <collection column="id" property="products" ofType="product"
-      select="com.liferyan.tmall.data.entity.ProductMapper.productAndCategorySelect"/>
-    <collection column="id" property="properties" ofType="property"
-      select="com.liferyan.tmall.data.entity.PropertyMapper.propertySelect"/>
   </resultMap>
 
   <select id="categorySelect" resultType="category">
