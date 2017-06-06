@@ -62,7 +62,8 @@ public class PropertyServlet extends BaseBackServlet {
     List<Property> propertyList = dao.listPropertyByPage(cid, page.getStart(), page.getCount());
     if (propertyList.size() == 0) {
       logger.error("分类下没有属性！");
-      return "error.jsp";
+      request.setAttribute("msg", "分类下没有属性！");
+      return null;
     }
     request.setAttribute("category", propertyList.get(0).getCategory());
     request.setAttribute("property_list", propertyList);

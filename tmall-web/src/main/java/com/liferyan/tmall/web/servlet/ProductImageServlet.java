@@ -37,7 +37,8 @@ public class ProductImageServlet extends BaseBackServlet {
       inputStream = parseUpload(request, params);
     } catch (Exception e) {
       logger.error("上传图片异常：" + e);
-      return "@error.jsp";
+      request.setAttribute("msg", getStackTrace(e));
+      return null;
     }
     ProductImage productImg = new ProductImage();
     ImageTypeEnum imageType = ImageTypeEnum.getEnumFromCode(params.get("type"));
@@ -51,9 +52,10 @@ public class ProductImageServlet extends BaseBackServlet {
     if (inputStream != null) {
       try {
         saveImg(inputStream, productImgId, imageType);
-      } catch (IOException e) {
+      } catch (Exception e) {
         logger.error("保存图片异常：" + e);
-        return "@error.jsp";
+        request.setAttribute("msg", getStackTrace(e));
+        return null;
       }
     }
     return "@admin_productImage_list?pid=" + pid;

@@ -67,7 +67,6 @@ public abstract class BaseBackServlet extends HttpServlet {
         redirect = (String) servletMethod.invoke(this, req);
       }
       if (redirect == null) {
-        logger.error("跳转页面为空！");
         redirect = "error.jsp";
       }
     } catch (Exception ex) {
@@ -115,7 +114,7 @@ public abstract class BaseBackServlet extends HttpServlet {
     return inputStream;
   }
 
-  private static String getStackTrace(Exception e) {
+  public static String getStackTrace(Exception e) {
     StringWriter sw = null;
     PrintWriter pw = null;
     try {

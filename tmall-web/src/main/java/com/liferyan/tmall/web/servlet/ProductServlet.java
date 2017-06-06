@@ -71,7 +71,8 @@ public class ProductServlet extends BaseBackServlet {
     List<Product> productList = dao.listProductByPage(cid, page.getStart(), page.getCount());
     if (productList.size() == 0) {
       logger.error("分类下没有产品！");
-      return "error.jsp";
+      request.setAttribute("msg", "分类下没有产品！");
+      return null;
     }
     request.setAttribute("category", productList.get(0).getCategory());
     request.setAttribute("product_list", productList);

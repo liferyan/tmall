@@ -42,7 +42,8 @@ public class CategoryServlet extends BaseBackServlet {
       inputStream = parseUpload(request, params);
     } catch (Exception e) {
       logger.error("上传图片异常：" + e);
-      return "@error.jsp";
+      request.setAttribute("msg", getStackTrace(e));
+      return null;
     }
 
     String categoryName = params.get("name");
@@ -54,9 +55,10 @@ public class CategoryServlet extends BaseBackServlet {
     if (inputStream != null) {
       try {
         saveImg(inputStream, category.getId());
-      } catch (IOException e) {
+      } catch (Exception e) {
         logger.error("保存图片异常：" + e);
-        return "@error.jsp";
+        request.setAttribute("msg", getStackTrace(e));
+        return null;
       }
     }
     return "@admin_category_list";
@@ -84,7 +86,8 @@ public class CategoryServlet extends BaseBackServlet {
       inputStream = parseUpload(request, params);
     } catch (Exception e) {
       logger.error("上传图片异常：" + e);
-      return "@error.jsp";
+      request.setAttribute("msg", getStackTrace(e));
+      return null;
     }
     int categoryId = Integer.parseInt(params.get("id"));
     Category category = dao.getCategoryById(categoryId);
@@ -97,9 +100,10 @@ public class CategoryServlet extends BaseBackServlet {
     if (inputStream != null) {
       try {
         saveImg(inputStream, categoryId);
-      } catch (IOException e) {
+      } catch (Exception e) {
         logger.error("保存图片异常：" + e);
-        return "@error.jsp";
+        request.setAttribute("msg", getStackTrace(e));
+        return null;
       }
     }
     return "@admin_category_list";
