@@ -47,6 +47,10 @@
       <result column="p_promotePrice" property="promotePrice"/>
       <association column="p_id" property="firstProductImage" javaType="productImage"
         select="com.liferyan.tmall.data.entity.ProductImageMapper.firstProductImageSelect"/>
+      <association column="p_id" property="saleCount" javaType="_int"
+        select="com.liferyan.tmall.data.entity.OrderItemMapper.saleCountSelect"/>
+      <association column="p_id" property="reviewCount" javaType="_int"
+        select="com.liferyan.tmall.data.entity.ReviewMapper.reviewCountSelect"/>
     </collection>
   </resultMap>
 
