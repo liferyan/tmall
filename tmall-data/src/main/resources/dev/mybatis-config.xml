@@ -5,9 +5,7 @@
 <configuration>
   <properties resource="application.properties"/>
   <settings>
-    <setting name="cacheEnabled" value="true"/>
     <setting name="logImpl" value="SLF4J"/>
-    <setting name="autoMappingUnknownColumnBehavior" value="FAILING"/>
   </settings>
   <typeAliases>
     <typeAlias alias="ImageTypeEnumHandler"

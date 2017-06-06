@@ -4,8 +4,6 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.liferyan.tmall.data.entity.CategoryMapper">
 
-  <cache/>
-
   <insert id="saveCategory" useGeneratedKeys="true" keyProperty="id">
     INSERT INTO category (name) VALUES (#{name})
   </insert>
