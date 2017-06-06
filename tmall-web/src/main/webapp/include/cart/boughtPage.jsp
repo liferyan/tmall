@@ -146,6 +146,13 @@
                                     value="${order_item.number * order_item.product.promotePrice}"/></div>
                             <div class="orderListItemPriceWithTransport">(含运费：￥0.00)</div>
                         </td>
+                        <c:if test="${order_item.hasReview eq true}">
+                            <td valign="top"
+                                class="orderListItemButtonTD orderItemOrderInfoPartTD"
+                                width="100px">
+                                <span>已评价</span>
+                            </td>
+                        </c:if>
                         <c:if test="${order.orderStatus.code eq 'WAIT_REVIEW' and order_item.hasReview eq false}">
                             <td valign="top"
                                 class="orderListItemButtonTD orderItemOrderInfoPartTD"
@@ -153,13 +160,6 @@
                                 <a href="forereview?oid=${order.id}&pid=${order_item.product.id}&oiid=${order_item.id}">
                                     <button class="orderListItemReview">评价</button>
                                 </a>
-                            </td>
-                        </c:if>
-                        <c:if test="${order_item.hasReview eq true}">
-                            <td valign="top"
-                                class="orderListItemButtonTD orderItemOrderInfoPartTD"
-                                width="100px">
-                                <span>已评价</span>
                             </td>
                         </c:if>
                         <c:if test="${st.count eq 1 and order.orderStatus.code ne 'WAIT_REVIEW'

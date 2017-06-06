@@ -4,8 +4,6 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.liferyan.tmall.data.entity.OrderItemMapper">
 
-  <cache/>
-
   <insert id="saveOrderItem" useGeneratedKeys="true" keyProperty="id">
     INSERT INTO order_item (pid, uid, oid, number, has_review)
     VALUES (#{product.id}, #{user.id}, #{order.id}, #{number}, #{hasReview})

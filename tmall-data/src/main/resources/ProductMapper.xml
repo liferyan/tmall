@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.liferyan.tmall.data.entity.ProductMapper">
 
-  <cache/>
+  <cache-ref namespace="com.liferyan.tmall.data.entity.CategoryMapper"/>
 
   <insert id="saveProduct" useGeneratedKeys="true" keyProperty="id">
     INSERT INTO product (cid, name, subtitle, original_price, promote_price, stock, create_date)
