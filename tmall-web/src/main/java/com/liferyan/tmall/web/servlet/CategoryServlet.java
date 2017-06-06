@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Created by Ryan on 2017/4/20.
@@ -40,20 +41,21 @@ public class CategoryServlet extends BaseBackServlet {
     try {
       inputStream = parseUpload(request, params);
     } catch (Exception e) {
-      e.printStackTrace();
+      logger.error("上传图片异常：" + e);
       return "@error.jsp";
     }
 
     String categoryName = params.get("name");
     Category category = new Category();
     category.setName(categoryName);
+    logger.info("添加分类：{}", category);
     dao.saveCategory(category);
 
     if (inputStream != null) {
       try {
         saveImg(inputStream, category.getId());
       } catch (IOException e) {
-        e.printStackTrace();
+        logger.error("保存图片异常：" + e);
         return "@error.jsp";
       }
     }
@@ -69,6 +71,7 @@ public class CategoryServlet extends BaseBackServlet {
     File imgFile = new File(getServletContext().getRealPath("img/category"), categoryId + ".jpg");
     if (imgFile.exists()) {
       imgFile.delete();
+      logger.info("删除图片：{}", imgFile);
     }
     return "@admin_category_list";
   }
@@ -80,21 +83,22 @@ public class CategoryServlet extends BaseBackServlet {
     try {
       inputStream = parseUpload(request, params);
     } catch (Exception e) {
-      e.printStackTrace();
+      logger.error("上传图片异常：" + e);
       return "@error.jsp";
     }
     int categoryId = Integer.parseInt(params.get("id"));
     Category category = dao.getCategoryById(categoryId);
     String categoryName = params.get("name");
-    if (categoryName != null && !categoryName.equals(category.getName())) {
+    if (StringUtils.isNotEmpty(categoryName) && !categoryName.equals(category.getName())) {
       category.setName(categoryName);
+      logger.info("修改分类：{}", category);
       dao.updateCategory(category);
     }
     if (inputStream != null) {
       try {
         saveImg(inputStream, categoryId);
       } catch (IOException e) {
-        e.printStackTrace();
+        logger.error("保存图片异常：" + e);
         return "@error.jsp";
       }
     }

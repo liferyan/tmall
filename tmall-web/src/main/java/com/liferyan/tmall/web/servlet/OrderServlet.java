@@ -63,6 +63,7 @@ public class OrderServlet extends BaseBackServlet {
     Order order = dao.getOrderById(oid);
     order.setDeliveryDate(new Date());
     order.setOrderStatus(OrderStatusEnum.WAIT_CONFIRM);
+    logger.info("发货订单：{}", order);
     dao.updateOrder(order);
 
     //发货后将每个订单项的产品库存减少
@@ -76,7 +77,9 @@ public class OrderServlet extends BaseBackServlet {
       stock = product.getStock();
       stock -= deliveryNumber;
       if (stock >= 0) {
+        logger.info("发货前的产品：{}", product);
         product.setStock(stock);
+        logger.info("发货后的产品：{}", product);
         DaoFactory.getProductDao().updateProduct(product);
       }
     }

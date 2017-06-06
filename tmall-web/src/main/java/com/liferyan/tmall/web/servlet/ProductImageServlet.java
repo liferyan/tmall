@@ -36,7 +36,7 @@ public class ProductImageServlet extends BaseBackServlet {
     try {
       inputStream = parseUpload(request, params);
     } catch (Exception e) {
-      e.printStackTrace();
+      logger.error("上传图片异常：" + e);
       return "@error.jsp";
     }
     ProductImage productImg = new ProductImage();
@@ -45,13 +45,14 @@ public class ProductImageServlet extends BaseBackServlet {
     Product product = DaoFactory.getProductDao().getProductById(pid);
     productImg.setImageType(imageType);
     productImg.setProduct(product);
+    logger.info("保存图片：{}", productImg);
     dao.saveProductImage(productImg);
     int productImgId = productImg.getId();
     if (inputStream != null) {
       try {
         saveImg(inputStream, productImgId, imageType);
       } catch (IOException e) {
-        e.printStackTrace();
+        logger.error("保存图片异常：" + e);
         return "@error.jsp";
       }
     }
@@ -72,11 +73,15 @@ public class ProductImageServlet extends BaseBackServlet {
       File imgFileMiddle = new File(getServletContext().getRealPath("img/productSingle_middle"),
           fileName);
       imgFile.delete();
+      logger.info("删除单张标准图片：{}", imgFile);
       imgFileSmall.delete();
+      logger.info("删除单张小图片：{}", imgFileSmall);
       imgFileMiddle.delete();
+      logger.info("删除单张中图片：{}", imgFileMiddle);
     } else {
       File imgFile = new File(getServletContext().getRealPath("img/productDetail"), fileName);
       imgFile.delete();
+      logger.info("删除详情图片：{}", imgFile);
     }
     int pid = productImg.getProduct().getId();
     return "@admin_productImage_list?pid=" + pid;

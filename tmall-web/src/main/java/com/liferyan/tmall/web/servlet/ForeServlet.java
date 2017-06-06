@@ -55,6 +55,7 @@ public class ForeServlet extends BaseForeServlet {
     User user = (User) request.getSession().getAttribute("user");
     List<OrderItem> orderItemList = DaoFactory.getOrderItemDao()
         .listOrderItemInCartByUser(user.getId());
+    logger.info("购物车订单信息：{}", orderItemList);
     request.setAttribute("order_item_list", orderItemList);
     return "cart.jsp";
   }
@@ -80,6 +81,7 @@ public class ForeServlet extends BaseForeServlet {
     User user = (User) request.getSession().getAttribute("user");
     OrderItem orderItem = dao.getOrderItemInCart(user.getId(), productId);
     orderItem.setNumber(number);
+    logger.info("修改订单项：{}", orderItem);
     dao.updateOrderItem(orderItem);
     return "%success";
   }
@@ -108,12 +110,14 @@ public class ForeServlet extends BaseForeServlet {
       orderItem.setUser(user);
       orderItem.setOrder(order);
       orderItem.setHasReview(false);
+      logger.info("添加订单项：{}", orderItem);
       DaoFactory.getOrderItemDao().saveOrderItem(orderItem);
       oiid = orderItem.getId();
     } else {
       //否则到购物车增加当前产品数量 然后将购物车进行结算
       num += orderItemInCart.getNumber();
       orderItemInCart.setNumber(num);
+      logger.info("修改购物车里的订单项：{}", orderItemInCart);
       DaoFactory.getOrderItemDao().updateOrderItem(orderItemInCart);
       oiid = orderItemInCart.getId();
     }
@@ -143,6 +147,7 @@ public class ForeServlet extends BaseForeServlet {
         orderItemList.add(orderItem);
       }
     }
+    logger.info("订单购买信息：{}", orderItemList);
     request.setAttribute("total_order_money", totalOrderMoney);
     //将订单项列表放入Session 方便生成订单时 修改这些订单项的所属订单ID
     request.getSession().setAttribute("order_item_list", orderItemList);
@@ -182,6 +187,7 @@ public class ForeServlet extends BaseForeServlet {
     order.setOrderCode(orderCode);
     order.setOrderStatus(orderStatus);
     order.setUser(user);
+    logger.info("添加订单：{}", order);
     DaoFactory.getOrderDao().saveOrder(order);
 
     //将购物车里的订单项所属订单ID(-1)修改为实际的订单ID 并计算订单总金额
@@ -191,6 +197,7 @@ public class ForeServlet extends BaseForeServlet {
       DaoFactory.getOrderItemDao().updateOrderItem(orderItem);
       total += orderItem.getNumber() * orderItem.getProduct().getPromotePrice();
     }
+    logger.info("订单总价：{}", total);
     return "@forealipay?oid=" + order.getId() + "&total=" + total;
   }
 
@@ -217,8 +224,10 @@ public class ForeServlet extends BaseForeServlet {
     Order order = dao.getOrderById(orderId);
     order.setPayDate(new Date());
     order.setOrderStatus(OrderStatusEnum.WAIT_DELIVERY);
+    logger.info("支付订单信息：{}", order);
     dao.updateOrder(order);
     request.setAttribute("order", order);
+    logger.info("支付订单总价：{}", total);
     request.setAttribute("total", total);
     return "payed.jsp";
   }
@@ -229,6 +238,7 @@ public class ForeServlet extends BaseForeServlet {
   public String bought(HttpServletRequest request) {
     User user = (User) request.getSession().getAttribute("user");
     List<Order> orderList = DaoFactory.getOrderDao().listOrderByUser(user.getId());
+    logger.info("我的订单信息：{}", orderList);
     request.setAttribute("order_list", orderList);
     return "bought.jsp";
   }
@@ -261,6 +271,7 @@ public class ForeServlet extends BaseForeServlet {
     Order order = dao.getOrderById(orderId);
     order.setConfirmDate(new Date());
     order.setOrderStatus(OrderStatusEnum.WAIT_REVIEW);
+    logger.info("确认收货订单：{}", order);
     dao.updateOrder(order);
     return "orderConfirmed.jsp";
   }
@@ -273,11 +284,8 @@ public class ForeServlet extends BaseForeServlet {
     int productId = Integer.parseInt(request.getParameter("pid"));
     int orderItemId = Integer.parseInt(request.getParameter("oiid"));
 
-    //修改订单项为已评价
     OrderItemDao orderItemDao = DaoFactory.getOrderItemDao();
     OrderItem orderItem = orderItemDao.getOrderItemById(orderItemId);
-    orderItem.setHasReview(true);
-    orderItemDao.updateOrderItem(orderItem);
 
     Order order = DaoFactory.getOrderDao().getOrderById(orderId);
     Product product = DaoFactory.getProductDao().getProductById(productId);
@@ -296,6 +304,12 @@ public class ForeServlet extends BaseForeServlet {
     User user = (User) request.getSession().getAttribute("user");
     int orderId = Integer.parseInt(request.getParameter("oid"));
     int orderItemId = Integer.parseInt(request.getParameter("oiid"));
+
+    //修改订单项为已评价
+    OrderItemDao orderItemDao = DaoFactory.getOrderItemDao();
+    OrderItem item = orderItemDao.getOrderItemById(orderItemId);
+    item.setHasReview(true);
+    orderItemDao.updateOrderItem(item);
 
     OrderDao orderDao = DaoFactory.getOrderDao();
     Order order = orderDao.getOrderById(orderId);
@@ -326,7 +340,7 @@ public class ForeServlet extends BaseForeServlet {
 
     String content = request.getParameter("content");
     review.setContent(content);
-
+    logger.info("订单评价信息：",review);
     DaoFactory.getReviewDao().saveReview(review);
 
     request.setAttribute("order", order);

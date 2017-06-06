@@ -7,6 +7,7 @@ import com.liferyan.tmall.data.entity.Property;
 import com.liferyan.tmall.web.util.Page;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Created by Ryan on 2017/5/5.
@@ -28,6 +29,7 @@ public class PropertyServlet extends BaseBackServlet {
     Property property = new Property();
     property.setName(propertyName);
     property.setCategory(category);
+    logger.info("添加属性：{}", property);
     dao.saveProperty(property);
     return "@admin_property_list?cid=" + cid;
   }
@@ -46,8 +48,9 @@ public class PropertyServlet extends BaseBackServlet {
     int cid = Integer.parseInt(request.getParameter("cid"));
     Property property = dao.getPropertyById(id);
     String propertyName = request.getParameter("name");
-    if (propertyName != null && !propertyName.equals(property.getName())) {
+    if (StringUtils.isEmpty(propertyName) && !propertyName.equals(property.getName())) {
       property.setName(propertyName);
+      logger.info("修改属性：{}", property);
       dao.updateProperty(property);
     }
     return "@admin_property_list?cid=" + cid;
@@ -58,6 +61,7 @@ public class PropertyServlet extends BaseBackServlet {
     int cid = Integer.parseInt(request.getParameter("cid"));
     List<Property> propertyList = dao.listPropertyByPage(cid, page.getStart(), page.getCount());
     if (propertyList.size() == 0) {
+      logger.error("分类下没有属性！");
       return "error.jsp";
     }
     request.setAttribute("category", propertyList.get(0).getCategory());

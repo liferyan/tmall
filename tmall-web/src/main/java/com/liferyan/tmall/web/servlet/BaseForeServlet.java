@@ -8,6 +8,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by Ryan on 2017/5/8.
@@ -18,6 +20,8 @@ import javax.servlet.http.HttpServletResponse;
  * 2.跳转
  */
 public abstract class BaseForeServlet extends HttpServlet {
+
+  protected static final Logger logger = LoggerFactory.getLogger("ForeServlet");
 
   @Override
   protected void service(HttpServletRequest req, HttpServletResponse resp)
@@ -31,9 +35,11 @@ public abstract class BaseForeServlet extends HttpServlet {
           .getMethod(methodName, HttpServletRequest.class);
       redirect = (String) servletMethod.invoke(this, req);
       if (redirect == null) {
+        logger.error("跳转页面为空！");
         redirect = "error.jsp";
       }
     } catch (Exception ex) {
+      logger.error("调用后台Servlet方法异常：{}", ex);
       req.setAttribute("uri", req.getRequestURI());
       req.setAttribute("msg", getStackTrace(ex));
       redirect = "error.jsp";

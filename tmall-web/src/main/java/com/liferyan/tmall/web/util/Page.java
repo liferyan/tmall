@@ -119,4 +119,13 @@ public class Page {
     return lastPageStart;
   }
 
+  @Override
+  public String toString() {
+    return "Page{" +
+        "start=" + start +
+        ", count=" + count +
+        ", total=" + total +
+        ", param='" + param + '\'' +
+        '}';
+  }
 }

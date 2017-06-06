@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by Ryan on 2017/4/20.
@@ -27,6 +29,8 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  * 3.跳转
  */
 public abstract class BaseBackServlet extends HttpServlet {
+
+  protected static final Logger logger = LoggerFactory.getLogger("BackServlet");
 
   @Override
   protected void service(HttpServletRequest req, HttpServletResponse resp)
@@ -46,6 +50,7 @@ public abstract class BaseBackServlet extends HttpServlet {
       pageCount = 5;
     }
     Page page = new Page(pageStart, pageCount);
+    logger.info("分页信息：{}", page);
 
     //2.通过反射调用具体方法
     String redirect;
@@ -62,9 +67,11 @@ public abstract class BaseBackServlet extends HttpServlet {
         redirect = (String) servletMethod.invoke(this, req);
       }
       if (redirect == null) {
+        logger.error("跳转页面为空！");
         redirect = "error.jsp";
       }
     } catch (Exception ex) {
+      logger.error("调用后台Servlet方法异常：{}", ex);
       req.setAttribute("uri", req.getRequestURI());
       req.setAttribute("msg", getStackTrace(ex));
       redirect = "error.jsp";

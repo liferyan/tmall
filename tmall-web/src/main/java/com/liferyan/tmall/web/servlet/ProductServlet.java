@@ -34,6 +34,7 @@ public class ProductServlet extends BaseBackServlet {
     product.setStock(Integer.parseInt(request.getParameter("stock")));
     product.setCategory(DaoFactory.getCategoryDao().getCategoryById(cid));
     product.setCreateDate(new Date());
+    logger.info("添加产品：{}", product);
     dao.saveProduct(product);
     return "@admin_product_list?cid=" + cid;
   }
@@ -56,6 +57,7 @@ public class ProductServlet extends BaseBackServlet {
     product.setOriginalPrice(Float.parseFloat(request.getParameter("original_price")));
     product.setPromotePrice(Float.parseFloat(request.getParameter("promote_price")));
     product.setStock(Integer.parseInt(request.getParameter("stock")));
+    logger.info("修改产品：{}", product);
     dao.updateProduct(product);
     return "@admin_product_list?cid=" + cid;
   }
@@ -68,6 +70,7 @@ public class ProductServlet extends BaseBackServlet {
     request.setAttribute("page", page);
     List<Product> productList = dao.listProductByPage(cid, page.getStart(), page.getCount());
     if (productList.size() == 0) {
+      logger.error("分类下没有产品！");
       return "error.jsp";
     }
     request.setAttribute("category", productList.get(0).getCategory());
@@ -111,6 +114,7 @@ public class ProductServlet extends BaseBackServlet {
     PropertyValue propertyValue = new PropertyValue();
     propertyValue.setId(propertyValueId);
     propertyValue.setValue(value);
+    logger.info("修改属性值：{}", propertyValue);
     DaoFactory.getPropertyValueDao().updatePropertyValue(propertyValue);
     return "%success";
   }
