@@ -107,6 +107,7 @@ public class ForeServlet extends BaseForeServlet {
       orderItem.setProduct(product);
       orderItem.setUser(user);
       orderItem.setOrder(order);
+      orderItem.setHasReview(false);
       DaoFactory.getOrderItemDao().saveOrderItem(orderItem);
       oiid = orderItem.getId();
     } else {

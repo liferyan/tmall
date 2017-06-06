@@ -22,7 +22,7 @@ public class OrderItem implements Serializable {
   /**
    * 是否已评价
    */
-  private boolean hasReview;
+  private Boolean hasReview;
 
   /**
    * 订单项所属商品
@@ -79,7 +79,7 @@ public class OrderItem implements Serializable {
     this.order = order;
   }
 
-  public boolean getHasReview() {
+  public Boolean getHasReview() {
     return hasReview;
   }
 
