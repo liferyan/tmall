@@ -1,8 +1,5 @@
 package com.liferyan.tmall.web.servlet;
 
-import com.liferyan.tmall.data.dao.DaoFactory;
-import com.liferyan.tmall.data.dao.OrderDao;
-import com.liferyan.tmall.data.dao.OrderItemDao;
 import com.liferyan.tmall.data.entity.Category;
 import com.liferyan.tmall.data.entity.Order;
 import com.liferyan.tmall.data.entity.OrderItem;
@@ -53,8 +50,7 @@ public class ForeServlet extends BaseForeServlet {
    */
   public String cart(HttpServletRequest request) {
     User user = (User) request.getSession().getAttribute("user");
-    List<OrderItem> orderItemList = DaoFactory.getOrderItemDao()
-        .listOrderItemInCartByUser(user.getId());
+    List<OrderItem> orderItemList = orderItemDao.listOrderItemInCartByUser(user.getId());
     logger.info("购物车订单信息：{}", orderItemList);
     request.setAttribute("order_item_list", orderItemList);
     return "cart.jsp";
@@ -66,7 +62,7 @@ public class ForeServlet extends BaseForeServlet {
    */
   public String deleteOrderItem(HttpServletRequest request) {
     int orderItemId = Integer.parseInt(request.getParameter("oiid"));
-    DaoFactory.getOrderItemDao().deleteOrderItem(orderItemId);
+    orderItemDao.deleteOrderItem(orderItemId);
     return "%success";
   }
 
@@ -77,12 +73,11 @@ public class ForeServlet extends BaseForeServlet {
   public String changeOrderItem(HttpServletRequest request) {
     int productId = Integer.parseInt(request.getParameter("pid"));
     int number = Integer.parseInt(request.getParameter("number"));
-    OrderItemDao dao = DaoFactory.getOrderItemDao();
     User user = (User) request.getSession().getAttribute("user");
-    OrderItem orderItem = dao.getOrderItemInCart(user.getId(), productId);
+    OrderItem orderItem = orderItemDao.getOrderItemInCart(user.getId(), productId);
     orderItem.setNumber(number);
     logger.info("修改订单项：{}", orderItem);
-    dao.updateOrderItem(orderItem);
+    orderItemDao.updateOrderItem(orderItem);
     return "%success";
   }
 
@@ -95,11 +90,11 @@ public class ForeServlet extends BaseForeServlet {
     int pid = Integer.parseInt(request.getParameter("pid"));
     int num = Integer.parseInt(request.getParameter("num"));
     User user = (User) request.getSession().getAttribute("user");
-    Product product = DaoFactory.getProductDao().getProductById(pid);
+    Product product = productDao.getProductById(pid);
     int oiid;
     OrderItem orderItem;
     //购物车中没有当前的产品
-    OrderItem orderItemInCart = DaoFactory.getOrderItemDao().getOrderItemInCart(user.getId(), pid);
+    OrderItem orderItemInCart = orderItemDao.getOrderItemInCart(user.getId(), pid);
     if (null == orderItemInCart) {
       //目前还没有生成订单
       Order order = new Order();
@@ -111,14 +106,14 @@ public class ForeServlet extends BaseForeServlet {
       orderItem.setOrder(order);
       orderItem.setHasReview(false);
       logger.info("添加订单项：{}", orderItem);
-      DaoFactory.getOrderItemDao().saveOrderItem(orderItem);
+      orderItemDao.saveOrderItem(orderItem);
       oiid = orderItem.getId();
     } else {
       //否则到购物车增加当前产品数量 然后将购物车进行结算
       num += orderItemInCart.getNumber();
       orderItemInCart.setNumber(num);
       logger.info("修改购物车里的订单项：{}", orderItemInCart);
-      DaoFactory.getOrderItemDao().updateOrderItem(orderItemInCart);
+      orderItemDao.updateOrderItem(orderItemInCart);
       oiid = orderItemInCart.getId();
     }
     return oiid;
@@ -138,9 +133,9 @@ public class ForeServlet extends BaseForeServlet {
     List<OrderItem> orderItemList = new ArrayList<>();
     for (String oiidStr : oiidStrs) {
       oiid = Integer.parseInt(oiidStr);
-      orderItem = DaoFactory.getOrderItemDao().getOrderItemById(oiid);
+      orderItem = orderItemDao.getOrderItemById(oiid);
       if (orderItem != null) {
-        product = DaoFactory.getProductDao().getProductById(orderItem.getProduct().getId());
+        product = productDao.getProductById(orderItem.getProduct().getId());
         orderItem.setProduct(product);
         productPrice = product.getPromotePrice();
         totalOrderMoney += orderItem.getNumber() * productPrice;
@@ -188,13 +183,13 @@ public class ForeServlet extends BaseForeServlet {
     order.setOrderStatus(orderStatus);
     order.setUser(user);
     logger.info("添加订单：{}", order);
-    DaoFactory.getOrderDao().saveOrder(order);
+    orderDao.saveOrder(order);
 
     //将购物车里的订单项所属订单ID(-1)修改为实际的订单ID 并计算订单总金额
     float total = 0;
     for (OrderItem orderItem : orderItemList) {
       orderItem.setOrder(order);
-      DaoFactory.getOrderItemDao().updateOrderItem(orderItem);
+      orderItemDao.updateOrderItem(orderItem);
       total += orderItem.getNumber() * orderItem.getProduct().getPromotePrice();
     }
     logger.info("订单总价：{}", total);
@@ -220,12 +215,11 @@ public class ForeServlet extends BaseForeServlet {
   public String payed(HttpServletRequest request) {
     int orderId = Integer.parseInt(request.getParameter("oid"));
     float total = Float.parseFloat(request.getParameter("total"));
-    OrderDao dao = DaoFactory.getOrderDao();
-    Order order = dao.getOrderById(orderId);
+    Order order = orderDao.getOrderById(orderId);
     order.setPayDate(new Date());
     order.setOrderStatus(OrderStatusEnum.WAIT_DELIVERY);
     logger.info("支付订单信息：{}", order);
-    dao.updateOrder(order);
+    orderDao.updateOrder(order);
     request.setAttribute("order", order);
     logger.info("支付订单总价：{}", total);
     request.setAttribute("total", total);
@@ -237,7 +231,7 @@ public class ForeServlet extends BaseForeServlet {
    */
   public String bought(HttpServletRequest request) {
     User user = (User) request.getSession().getAttribute("user");
-    List<Order> orderList = DaoFactory.getOrderDao().listOrderByUser(user.getId());
+    List<Order> orderList = orderDao.listOrderByUser(user.getId());
     logger.info("我的订单信息：{}", orderList);
     request.setAttribute("order_list", orderList);
     return "bought.jsp";
@@ -248,7 +242,7 @@ public class ForeServlet extends BaseForeServlet {
    */
   public String deleteOrder(HttpServletRequest request) {
     int orderId = Integer.parseInt(request.getParameter("oid"));
-    DaoFactory.getOrderDao().deleteOrder(orderId);
+    orderDao.deleteOrder(orderId);
     return "%success";
   }
 
@@ -257,7 +251,7 @@ public class ForeServlet extends BaseForeServlet {
    */
   public String confirmPay(HttpServletRequest request) {
     int orderId = Integer.parseInt(request.getParameter("oid"));
-    Order order = DaoFactory.getOrderDao().getOrderById(orderId);
+    Order order = orderDao.getOrderById(orderId);
     request.setAttribute("order", order);
     return "confirmPay.jsp";
   }
@@ -267,12 +261,11 @@ public class ForeServlet extends BaseForeServlet {
    */
   public String orderConfirmed(HttpServletRequest request) {
     int orderId = Integer.parseInt(request.getParameter("oid"));
-    OrderDao dao = DaoFactory.getOrderDao();
-    Order order = dao.getOrderById(orderId);
+    Order order = orderDao.getOrderById(orderId);
     order.setConfirmDate(new Date());
     order.setOrderStatus(OrderStatusEnum.WAIT_REVIEW);
     logger.info("确认收货订单：{}", order);
-    dao.updateOrder(order);
+    orderDao.updateOrder(order);
     return "orderConfirmed.jsp";
   }
 
@@ -284,12 +277,11 @@ public class ForeServlet extends BaseForeServlet {
     int productId = Integer.parseInt(request.getParameter("pid"));
     int orderItemId = Integer.parseInt(request.getParameter("oiid"));
 
-    OrderItemDao orderItemDao = DaoFactory.getOrderItemDao();
     OrderItem orderItem = orderItemDao.getOrderItemById(orderItemId);
 
-    Order order = DaoFactory.getOrderDao().getOrderById(orderId);
-    Product product = DaoFactory.getProductDao().getProductById(productId);
-    List<Review> reviewList = DaoFactory.getReviewDao().listProductReview(product.getId());
+    Order order = orderDao.getOrderById(orderId);
+    Product product = productDao.getProductById(productId);
+    List<Review> reviewList = reviewDao.listProductReview(product.getId());
     request.setAttribute("order_item", orderItem);
     request.setAttribute("order", order);
     request.setAttribute("product", product);
@@ -306,16 +298,14 @@ public class ForeServlet extends BaseForeServlet {
     int orderItemId = Integer.parseInt(request.getParameter("oiid"));
 
     //修改订单项为已评价
-    OrderItemDao orderItemDao = DaoFactory.getOrderItemDao();
     OrderItem item = orderItemDao.getOrderItemById(orderItemId);
     item.setHasReview(true);
     orderItemDao.updateOrderItem(item);
 
-    OrderDao orderDao = DaoFactory.getOrderDao();
     Order order = orderDao.getOrderById(orderId);
 
     //如果订单下的订单项都已评价 则将订单状态改为FINISHED
-    List<OrderItem> orderItemList = DaoFactory.getOrderItemDao().listOrderItemByOrder(orderId);
+    List<OrderItem> orderItemList = orderItemDao.listOrderItemByOrder(orderId);
     boolean orderCompleted = true;
     boolean orderItemHasReview;
     for (OrderItem orderItem : orderItemList) {
@@ -335,17 +325,17 @@ public class ForeServlet extends BaseForeServlet {
     review.setUser(user);
 
     int productId = Integer.parseInt(request.getParameter("pid"));
-    Product product = DaoFactory.getProductDao().getProductById(productId);
+    Product product = productDao.getProductById(productId);
     review.setProduct(product);
 
     String content = request.getParameter("content");
     review.setContent(content);
-    logger.info("订单评价信息：",review);
-    DaoFactory.getReviewDao().saveReview(review);
+    logger.info("订单评价信息：", review);
+    reviewDao.saveReview(review);
 
     request.setAttribute("order", order);
     request.setAttribute("product", product);
-    List<Review> reviewList = DaoFactory.getReviewDao().listProductReview(product.getId());
+    List<Review> reviewList = reviewDao.listProductReview(product.getId());
     request.setAttribute("review_list", reviewList);
     return "@forereview?oid=" + orderId + "&pid=" + productId + "&oiid=" + orderItemId
         + "&showonly=true";
@@ -356,7 +346,7 @@ public class ForeServlet extends BaseForeServlet {
    */
   public String search(HttpServletRequest request) {
     String keyword = request.getParameter("keyword");
-    List<Product> productList = DaoFactory.getProductDao().searchProduct(keyword, 0, 20);
+    List<Product> productList = productDao.searchProduct(keyword, 0, 20);
     request.setAttribute("product_list", productList);
     return "searchResult.jsp";
   }
@@ -367,7 +357,7 @@ public class ForeServlet extends BaseForeServlet {
   public String category(HttpServletRequest request) {
     String sort = request.getParameter("sort");
     int categoryId = Integer.parseInt(request.getParameter("cid"));
-    Category category = DaoFactory.getCategoryDao().getCategoryById(categoryId);
+    Category category = categoryDao.getCategoryById(categoryId);
     Comparator<Product> comparator = null;
     if (sort != null) {
       switch (sort) {
@@ -404,7 +394,7 @@ public class ForeServlet extends BaseForeServlet {
    * 跳转到主页
    */
   public String home(HttpServletRequest request) {
-    List<Category> categoryList = DaoFactory.getCategoryDao().listCategory();
+    List<Category> categoryList = categoryDao.listCategory();
     request.setAttribute("category_list", categoryList);
     return "home.jsp";
   }
@@ -414,10 +404,9 @@ public class ForeServlet extends BaseForeServlet {
    */
   public String product(HttpServletRequest request) {
     int productId = Integer.parseInt(request.getParameter("pid"));
-    Product product = DaoFactory.getProductDao().getProductById(productId);
-    List<PropertyValue> propertyValueList = DaoFactory.getPropertyValueDao()
-        .listPropertyValue(productId);
-    List<Review> reviewList = DaoFactory.getReviewDao().listProductReview(productId);
+    Product product = productDao.getProductById(productId);
+    List<PropertyValue> propertyValueList = propertyValueDao.listPropertyValue(productId);
+    List<Review> reviewList = reviewDao.listProductReview(productId);
     request.setAttribute("pv_list", propertyValueList);
     request.setAttribute("review_list", reviewList);
     request.setAttribute("product", product);
@@ -430,14 +419,14 @@ public class ForeServlet extends BaseForeServlet {
    */
   public String register(HttpServletRequest request) {
     String name = request.getParameter("name");
-    if (DaoFactory.getUserDao().getUserByName(name) == null) {
+    if (userDao.getUserByName(name) == null) {
       return "error.jsp";
     }
     String password = request.getParameter("password");
     User user = new User();
     user.setName(name);
     user.setPassword(password);
-    DaoFactory.getUserDao().saveUser(user);
+    userDao.saveUser(user);
     return "registerSuccess.jsp";
   }
 
@@ -499,6 +488,6 @@ public class ForeServlet extends BaseForeServlet {
   private User getUser(HttpServletRequest request) {
     String name = request.getParameter("name");
     String password = request.getParameter("password");
-    return DaoFactory.getUserDao().getUserByNameAndPassword(name, password);
+    return userDao.getUserByNameAndPassword(name, password);
   }
 }

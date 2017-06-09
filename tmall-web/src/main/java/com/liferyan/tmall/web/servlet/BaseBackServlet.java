@@ -1,5 +1,12 @@
 package com.liferyan.tmall.web.servlet;
 
+import com.liferyan.tmall.data.dao.CategoryDao;
+import com.liferyan.tmall.data.dao.OrderDao;
+import com.liferyan.tmall.data.dao.ProductDao;
+import com.liferyan.tmall.data.dao.ProductImageDao;
+import com.liferyan.tmall.data.dao.PropertyDao;
+import com.liferyan.tmall.data.dao.PropertyValueDao;
+import com.liferyan.tmall.data.dao.UserDao;
 import com.liferyan.tmall.web.util.Page;
 import java.io.File;
 import java.io.IOException;
@@ -18,6 +25,8 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /**
  * Created by Ryan on 2017/4/20.
@@ -32,9 +41,29 @@ public abstract class BaseBackServlet extends HttpServlet {
 
   protected static final Logger logger = LoggerFactory.getLogger("BackServlet");
 
+  protected UserDao userDao;
+  protected CategoryDao categoryDao;
+  protected PropertyDao propertyDao;
+  protected ProductDao productDao;
+  protected PropertyValueDao propertyValueDao;
+  protected ProductImageDao productImageDao;
+  //protected ReviewDao reviewDao = (ReviewDao) ctx.getBean("reviewDao");
+  protected OrderDao orderDao;
+  //protected OrderItemDao orderItemDao = (OrderItemDao) ctx.getBean("orderItemDao");
+
   @Override
   protected void service(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
+
+    WebApplicationContext ctx = WebApplicationContextUtils
+        .getRequiredWebApplicationContext(getServletContext());
+    userDao = (UserDao) ctx.getBean("userDao");
+    categoryDao = (CategoryDao) ctx.getBean("categoryDao");
+    propertyDao = (PropertyDao) ctx.getBean("propertyDao");
+    productDao = (ProductDao) ctx.getBean("productDao");
+    propertyValueDao = (PropertyValueDao) ctx.getBean("propertyValueDao");
+    productImageDao = (ProductImageDao) ctx.getBean("productImageDao");
+    orderDao = (OrderDao) ctx.getBean("orderDao");
 
     //1.获取分页信息
     int pageStart;

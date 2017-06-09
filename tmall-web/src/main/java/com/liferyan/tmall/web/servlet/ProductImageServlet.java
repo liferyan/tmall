@@ -1,7 +1,5 @@
 package com.liferyan.tmall.web.servlet;
 
-import com.liferyan.tmall.data.dao.DaoFactory;
-import com.liferyan.tmall.data.dao.ProductImageDao;
 import com.liferyan.tmall.data.entity.ImageTypeEnum;
 import com.liferyan.tmall.data.entity.Product;
 import com.liferyan.tmall.data.entity.ProductImage;
@@ -23,12 +21,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class ProductImageServlet extends BaseBackServlet {
 
-  private ProductImageDao dao;
-
-  public ProductImageServlet() {
-    dao = DaoFactory.getProductImageDao();
-  }
-
   @Override
   public String add(HttpServletRequest request) {
     InputStream inputStream;
@@ -43,11 +35,11 @@ public class ProductImageServlet extends BaseBackServlet {
     ProductImage productImg = new ProductImage();
     ImageTypeEnum imageType = ImageTypeEnum.getEnumFromCode(params.get("type"));
     int pid = Integer.parseInt(params.get("pid"));
-    Product product = DaoFactory.getProductDao().getProductById(pid);
+    Product product = productDao.getProductById(pid);
     productImg.setImageType(imageType);
     productImg.setProduct(product);
     logger.info("保存图片：{}", productImg);
-    dao.saveProductImage(productImg);
+    productImageDao.saveProductImage(productImg);
     int productImgId = productImg.getId();
     if (inputStream != null) {
       try {
@@ -64,8 +56,8 @@ public class ProductImageServlet extends BaseBackServlet {
   @Override
   public String delete(HttpServletRequest request) {
     int id = Integer.parseInt(request.getParameter("id"));
-    ProductImage productImg = dao.getProductImageById(id);
-    dao.deleteProductImage(id);
+    ProductImage productImg = productImageDao.getProductImageById(id);
+    productImageDao.deleteProductImage(id);
     //删除指定目录下的图片
     String fileName = id + ".jpg";
     if (productImg.getImageType() == ImageTypeEnum.SINGLE) {
@@ -97,9 +89,9 @@ public class ProductImageServlet extends BaseBackServlet {
   @Override
   public String list(HttpServletRequest request, Page page) {
     int pid = Integer.parseInt(request.getParameter("pid"));
-    Product product = DaoFactory.getProductDao().getProductById(pid);
-    //List<ProductImage> singleProductImgList = dao.listProductImage(product, ImageTypeEnum.SINGLE);
-    //List<ProductImage> detailProductImgList = dao.listProductImage(product, ImageTypeEnum.DETAIL);
+    Product product = productDao.getProductById(pid);
+    //List<ProductImage> singleProductImgList = productImageDao.listProductImage(product, ImageTypeEnum.SINGLE);
+    //List<ProductImage> detailProductImgList = productImageDao.listProductImage(product, ImageTypeEnum.DETAIL);
     request.setAttribute("category", product.getCategory());
     request.setAttribute("product", product);
     request.setAttribute("single_img_list", product.getSingleProductImageList());

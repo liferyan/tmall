@@ -1,7 +1,5 @@
 package com.liferyan.tmall.web.servlet;
 
-import com.liferyan.tmall.data.dao.DaoFactory;
-import com.liferyan.tmall.data.dao.OrderDao;
 import com.liferyan.tmall.data.entity.Order;
 import com.liferyan.tmall.data.entity.OrderItem;
 import com.liferyan.tmall.data.entity.OrderStatusEnum;
@@ -16,12 +14,6 @@ import javax.servlet.http.HttpServletRequest;
  * 订单Servlet
  */
 public class OrderServlet extends BaseBackServlet {
-
-  private OrderDao dao;
-
-  public OrderServlet() {
-    dao = DaoFactory.getOrderDao();
-  }
 
   @Override
   public String add(HttpServletRequest request) {
@@ -43,8 +35,8 @@ public class OrderServlet extends BaseBackServlet {
     if (page.getCount() == 5) {
       page.setCount(15);
     }
-    List<Order> orderList = dao.listOrderByPage(page.getStart(), page.getCount());
-    page.setTotal(dao.getOrderCount());
+    List<Order> orderList = orderDao.listOrderByPage(page.getStart(), page.getCount());
+    page.setTotal(orderDao.getOrderCount());
     request.setAttribute("order_list", orderList);
     request.setAttribute("page", page);
     return "admin/listOrder.jsp";
@@ -60,11 +52,11 @@ public class OrderServlet extends BaseBackServlet {
    */
   public String delivery(HttpServletRequest request) {
     int oid = Integer.parseInt(request.getParameter("oid"));
-    Order order = dao.getOrderById(oid);
+    Order order = orderDao.getOrderById(oid);
     order.setDeliveryDate(new Date());
     order.setOrderStatus(OrderStatusEnum.WAIT_CONFIRM);
     logger.info("发货订单：{}", order);
-    dao.updateOrder(order);
+    orderDao.updateOrder(order);
 
     //发货后将每个订单项的产品库存减少
     List<OrderItem> orderItemList = order.getOrderItems();
@@ -80,7 +72,7 @@ public class OrderServlet extends BaseBackServlet {
         logger.info("发货前的产品：{}", product);
         product.setStock(stock);
         logger.info("发货后的产品：{}", product);
-        DaoFactory.getProductDao().updateProduct(product);
+        productDao.updateProduct(product);
       }
     }
     return "@admin_order_list";

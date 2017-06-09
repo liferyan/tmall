@@ -1,7 +1,5 @@
 package com.liferyan.tmall.web.servlet;
 
-import com.liferyan.tmall.data.dao.DaoFactory;
-import com.liferyan.tmall.data.dao.UserDao;
 import com.liferyan.tmall.data.entity.User;
 import com.liferyan.tmall.web.util.Page;
 import java.util.List;
@@ -12,12 +10,6 @@ import javax.servlet.http.HttpServletRequest;
  * 用户管理Servlet
  */
 public class UserServlet extends BaseBackServlet {
-
-  private UserDao dao;
-
-  public UserServlet() {
-    dao = DaoFactory.getUserDao();
-  }
 
   @Override
   public String add(HttpServletRequest request) {
@@ -39,8 +31,8 @@ public class UserServlet extends BaseBackServlet {
     if (page.getCount() == 5) {
       page.setCount(15);
     }
-    List<User> userList = dao.listUserByPage(page.getStart(), page.getCount());
-    page.setTotal(dao.getUserCount());
+    List<User> userList = userDao.listUserByPage(page.getStart(), page.getCount());
+    page.setTotal(userDao.getUserCount());
     request.setAttribute("user_list", userList);
     request.setAttribute("page", page);
     return "admin/listUser.jsp";

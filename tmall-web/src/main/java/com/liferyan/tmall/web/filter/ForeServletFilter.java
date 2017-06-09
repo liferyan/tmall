@@ -1,6 +1,6 @@
 package com.liferyan.tmall.web.filter;
 
-import com.liferyan.tmall.data.dao.DaoFactory;
+import com.liferyan.tmall.data.dao.OrderItemDao;
 import com.liferyan.tmall.data.entity.OrderItem;
 import com.liferyan.tmall.data.entity.User;
 import java.io.IOException;
@@ -13,6 +13,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /**
  * Created by Ryan on 2017/5/8.
@@ -22,7 +24,8 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class ForeServletFilter implements Filter {
 
-  public void destroy() {
+
+  public void init(FilterConfig config) throws ServletException {
   }
 
   public void doFilter(ServletRequest req, ServletResponse resp,
@@ -33,8 +36,10 @@ public class ForeServletFilter implements Filter {
     int cartItemCount = 0;
     User user = (User) request.getSession().getAttribute("user");
     if (null != user) {
-      List<OrderItem> orderItemList = DaoFactory.getOrderItemDao()
-          .listOrderItemInCartByUser(user.getId());
+      WebApplicationContext ctx = WebApplicationContextUtils
+          .getRequiredWebApplicationContext(req.getServletContext());
+      OrderItemDao orderItemDao = (OrderItemDao) ctx.getBean("orderItemDao");
+      List<OrderItem> orderItemList = orderItemDao.listOrderItemInCartByUser(user.getId());
       cartItemCount = orderItemList.size();
     }
     request.setAttribute("cartItemCount", cartItemCount);
@@ -52,8 +57,7 @@ public class ForeServletFilter implements Filter {
     chain.doFilter(req, resp);
   }
 
-  public void init(FilterConfig config) throws ServletException {
-
+  public void destroy() {
   }
 
 }

@@ -1,8 +1,5 @@
 package com.liferyan.tmall.web.servlet;
 
-import com.liferyan.tmall.data.dao.DaoFactory;
-import com.liferyan.tmall.data.dao.ProductDao;
-import com.liferyan.tmall.data.dao.PropertyValueDao;
 import com.liferyan.tmall.data.entity.Category;
 import com.liferyan.tmall.data.entity.Product;
 import com.liferyan.tmall.data.entity.PropertyValue;
@@ -17,12 +14,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class ProductServlet extends BaseBackServlet {
 
-  private ProductDao dao;
-
-  public ProductServlet() {
-    dao = DaoFactory.getProductDao();
-  }
-
   @Override
   public String add(HttpServletRequest request) {
     int cid = Integer.parseInt(request.getParameter("cid"));
@@ -32,18 +23,18 @@ public class ProductServlet extends BaseBackServlet {
     product.setOriginalPrice(Float.parseFloat(request.getParameter("original_price")));
     product.setPromotePrice(Float.parseFloat(request.getParameter("promote_price")));
     product.setStock(Integer.parseInt(request.getParameter("stock")));
-    product.setCategory(DaoFactory.getCategoryDao().getCategoryById(cid));
+    product.setCategory(categoryDao.getCategoryById(cid));
     product.setCreateDate(new Date());
     logger.info("添加产品：{}", product);
-    dao.saveProduct(product);
+    productDao.saveProduct(product);
     return "@admin_product_list?cid=" + cid;
   }
 
   @Override
   public String delete(HttpServletRequest request) {
     int id = Integer.parseInt(request.getParameter("id"));
-    int cid = dao.getProductById(id).getCategory().getId();
-    dao.deleteProduct(id);
+    int cid = productDao.getProductById(id).getCategory().getId();
+    productDao.deleteProduct(id);
     return "@admin_product_list?cid=" + cid;
   }
 
@@ -51,14 +42,14 @@ public class ProductServlet extends BaseBackServlet {
   public String update(HttpServletRequest request) {
     int id = Integer.parseInt(request.getParameter("id"));
     int cid = Integer.parseInt(request.getParameter("cid"));
-    Product product = dao.getProductById(id);
+    Product product = productDao.getProductById(id);
     product.setName(request.getParameter("name"));
     product.setSubTitle(request.getParameter("subtitle"));
     product.setOriginalPrice(Float.parseFloat(request.getParameter("original_price")));
     product.setPromotePrice(Float.parseFloat(request.getParameter("promote_price")));
     product.setStock(Integer.parseInt(request.getParameter("stock")));
     logger.info("修改产品：{}", product);
-    dao.updateProduct(product);
+    productDao.updateProduct(product);
     return "@admin_product_list?cid=" + cid;
   }
 
@@ -66,9 +57,9 @@ public class ProductServlet extends BaseBackServlet {
   public String list(HttpServletRequest request, Page page) {
     int cid = Integer.parseInt(request.getParameter("cid"));
     page.setParam("&cid=" + cid);
-    page.setTotal(dao.getProductCountByCategory(cid));
+    page.setTotal(productDao.getProductCountByCategory(cid));
     request.setAttribute("page", page);
-    List<Product> productList = dao.listProductByPage(cid, page.getStart(), page.getCount());
+    List<Product> productList = productDao.listProductByPage(cid, page.getStart(), page.getCount());
     if (productList.size() == 0) {
       logger.error("分类下没有产品！");
       request.setAttribute("msg", "分类下没有产品！");
@@ -82,7 +73,7 @@ public class ProductServlet extends BaseBackServlet {
   @Override
   public String edit(HttpServletRequest request) {
     int id = Integer.parseInt(request.getParameter("id"));
-    Product product = dao.getProductById(id);
+    Product product = productDao.getProductById(id);
     request.setAttribute("product", product);
     return "admin/editProduct.jsp";
   }
@@ -93,10 +84,8 @@ public class ProductServlet extends BaseBackServlet {
   public String editPropertyValue(HttpServletRequest request) {
     //产品ID
     int pid = Integer.parseInt(request.getParameter("pid"));
-    Product product = DaoFactory.getProductDao().getProductById(pid);
+    Product product = productDao.getProductById(pid);
     Category category = product.getCategory();
-    //属性值列表
-    PropertyValueDao propertyValueDao = DaoFactory.getPropertyValueDao();
     //初始化属性值
     propertyValueDao.initPropertyValueWithProduct(product);
     List<PropertyValue> propertyValueList = propertyValueDao.listPropertyValue(pid);
@@ -116,7 +105,7 @@ public class ProductServlet extends BaseBackServlet {
     propertyValue.setId(propertyValueId);
     propertyValue.setValue(value);
     logger.info("修改属性值：{}", propertyValue);
-    DaoFactory.getPropertyValueDao().updatePropertyValue(propertyValue);
+    propertyValueDao.updatePropertyValue(propertyValue);
     return "%success";
   }
 }

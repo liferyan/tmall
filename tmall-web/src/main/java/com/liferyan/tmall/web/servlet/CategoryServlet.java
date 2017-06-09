@@ -1,7 +1,5 @@
 package com.liferyan.tmall.web.servlet;
 
-import com.liferyan.tmall.data.dao.CategoryDao;
-import com.liferyan.tmall.data.dao.DaoFactory;
 import com.liferyan.tmall.data.entity.Category;
 import com.liferyan.tmall.web.util.ImageUtil;
 import com.liferyan.tmall.web.util.Page;
@@ -22,12 +20,6 @@ import org.apache.commons.lang3.StringUtils;
  * 产品类别Servlet
  */
 public class CategoryServlet extends BaseBackServlet {
-
-  private CategoryDao dao;
-
-  public CategoryServlet() {
-    dao = DaoFactory.getCategoryDao();
-  }
 
   /**
    * 1.解析上传的图片数据
@@ -50,7 +42,7 @@ public class CategoryServlet extends BaseBackServlet {
     Category category = new Category();
     category.setName(categoryName);
     logger.info("添加分类：{}", category);
-    dao.saveCategory(category);
+    categoryDao.saveCategory(category);
 
     if (inputStream != null) {
       try {
@@ -67,7 +59,7 @@ public class CategoryServlet extends BaseBackServlet {
   @Override
   public String delete(HttpServletRequest request) {
     int categoryId = Integer.parseInt(request.getParameter("id"));
-    dao.deleteCategory(categoryId);
+    categoryDao.deleteCategory(categoryId);
 
     //删除对应的分类图片
     File imgFile = new File(getServletContext().getRealPath("img/category"), categoryId + ".jpg");
@@ -90,12 +82,12 @@ public class CategoryServlet extends BaseBackServlet {
       return null;
     }
     int categoryId = Integer.parseInt(params.get("id"));
-    Category category = dao.getCategoryById(categoryId);
+    Category category = categoryDao.getCategoryById(categoryId);
     String categoryName = params.get("name");
     if (StringUtils.isNotEmpty(categoryName) && !categoryName.equals(category.getName())) {
       category.setName(categoryName);
       logger.info("修改分类：{}", category);
-      dao.updateCategory(category);
+      categoryDao.updateCategory(category);
     }
     if (inputStream != null) {
       try {
@@ -111,8 +103,8 @@ public class CategoryServlet extends BaseBackServlet {
 
   @Override
   public String list(HttpServletRequest request, Page page) {
-    List<Category> categoryList = dao.listCategoryByPage(page.getStart(), page.getCount());
-    page.setTotal(dao.getCategoryCount());
+    List<Category> categoryList = categoryDao.listCategoryByPage(page.getStart(), page.getCount());
+    page.setTotal(categoryDao.getCategoryCount());
     request.setAttribute("category_list", categoryList);
     request.setAttribute("page", page);
     return "admin/listCategory.jsp";
@@ -121,7 +113,7 @@ public class CategoryServlet extends BaseBackServlet {
   @Override
   public String edit(HttpServletRequest request) {
     int categoryId = Integer.parseInt(request.getParameter("id"));
-    Category category = dao.getCategoryById(categoryId);
+    Category category = categoryDao.getCategoryById(categoryId);
     request.setAttribute("category", category);
     return "admin/editCategory.jsp";
   }
