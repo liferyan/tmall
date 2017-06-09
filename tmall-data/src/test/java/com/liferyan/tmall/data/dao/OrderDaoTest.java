@@ -18,20 +18,31 @@ import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * Created by Ryan on 2017/6/1.
  */
 public class OrderDaoTest {
 
+  private static OrderDao orderDao;
+  private static UserDao userDao;
   private Order order = new Order();
-  private OrderDao orderDao = DaoFactory.getOrderDao();
   private User user;
+
+  @BeforeClass
+  public static void init() {
+    ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+    userDao = (UserDao) ctx.getBean("userDao");
+    orderDao = (OrderDao) ctx.getBean("orderDao");
+  }
 
   @Before
   public void setUp() throws Exception {
-    user = DaoFactory.getUserDao().getUserByName("test");
+    user = userDao.getUserByName("test");
     Date createDate = new Date();
     String now = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(createDate);
     String orderCode = now + RandomStringUtils.randomNumeric(4);

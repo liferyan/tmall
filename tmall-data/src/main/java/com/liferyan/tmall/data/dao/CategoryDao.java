@@ -13,7 +13,7 @@ import org.apache.ibatis.session.SqlSession;
  */
 public class CategoryDao extends BaseDao {
 
-  private static final int PRODUCT_NUMBER_EACH_ROW = 2;
+  public static final int PRODUCT_NUMBER_EACH_ROW = 2;
 
   public void saveCategory(Category category) {
     try (SqlSession session = sqlSessionFactory.openSession(true)) {

@@ -2,7 +2,6 @@ package com.liferyan.tmall.data.dao;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.hamcrest.Matchers.notNullValue;
@@ -10,24 +9,31 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNot.not;
 
-import com.liferyan.tmall.data.dao.impl.CategoryDaoImpl;
 import com.liferyan.tmall.data.entity.Category;
 import com.liferyan.tmall.data.entity.Product;
-import com.liferyan.tmall.data.entity.Property;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * Created by Ryan on 2017/5/23.
  */
 public class CategoryDaoTest {
 
+  private static CategoryDao categoryDao;
   private int count;
   private Category category = new Category();
-  private CategoryDao categoryDao = DaoFactory.getCategoryDao();
+
+  @BeforeClass
+  public static void init() {
+    ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+    categoryDao = (CategoryDao) ctx.getBean("categoryDao");
+  }
 
   @Before
   public void setUp() throws Exception {
@@ -74,28 +80,21 @@ public class CategoryDaoTest {
     for (List<Category> categoryCollection : categoriesList) {
       for (Category category : categoryCollection) {
         assertThat(category.getName(), notNullValue());
-        assertThat(category.getProducts(), notNullValue());
-        assertThat(category.getProducts().size(), greaterThan(0));
-        List<List<Product>> listProductsByRow = category.getProductsByRow();
-        assertThat(listProductsByRow, notNullValue());
-        assertThat(category.getProductsByRow().size(), greaterThan(0));
-        for (List<Product> products : listProductsByRow) {
-          int rowSize = products.size();
-          assertThat(rowSize, lessThanOrEqualTo(CategoryDaoImpl.PRODUCT_NUMBER_EACH_ROW));
-        }
-        List<Product> productList = category.getProducts();
-        for (Product product : productList) {
-          assertThat(product.getOriginalPrice(), not(0));
-          assertThat(product.getPromotePrice(), not(0));
-          assertThat(product.getCreateDate(), notNullValue());
-          assertThat(product.getStock(), not(0));
-        }
-        List<Property> propertyList = category.getProperties();
-        assertThat(propertyList, notNullValue());
-        assertThat(propertyList.size(), greaterThanOrEqualTo(0));
-        for (Property property : propertyList) {
-          assertThat(property, notNullValue());
-          assertThat(property.getName(), notNullValue());
+        List<Product> categoryProducts = category.getProducts();
+        if (categoryProducts != null) {
+          assertThat(category.getProducts().size(), greaterThan(0));
+          List<List<Product>> listProductsByRow = category.getProductsByRow();
+          assertThat(listProductsByRow, notNullValue());
+          assertThat(category.getProductsByRow().size(), greaterThan(0));
+          for (List<Product> products : listProductsByRow) {
+            int rowSize = products.size();
+            assertThat(rowSize, lessThanOrEqualTo(CategoryDao.PRODUCT_NUMBER_EACH_ROW));
+          }
+          List<Product> productList = category.getProducts();
+          for (Product product : productList) {
+            assertThat(product.getOriginalPrice(), not(0));
+            assertThat(product.getPromotePrice(), not(0));
+          }
         }
       }
     }

@@ -14,23 +14,36 @@ import com.liferyan.tmall.data.entity.User;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * Created by Ryan on 2017/6/1.
  */
 public class OrderItemDaoTest {
 
+  private static OrderItemDao orderItemDao;
+  private static ProductDao productDao;
+  private static UserDao userDao;
   private OrderItem orderItem = new OrderItem();
-  private OrderItemDao orderItemDao = DaoFactory.getOrderItemDao();
   private Product product;
   private User user;
   private Order order = new Order();
 
+  @BeforeClass
+  public static void init() {
+    ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+    orderItemDao = (OrderItemDao) ctx.getBean("orderItemDao");
+    productDao = (ProductDao) ctx.getBean("productDao");
+    userDao = (UserDao) ctx.getBean("userDao");
+  }
+
   @Before
   public void setUp() throws Exception {
-    product = DaoFactory.getProductDao().getProductById(958);
-    user = DaoFactory.getUserDao().getUserByName("test");
+    product = productDao.getProductById(958);
+    user = userDao.getUserByName("test");
     order.setId(-1);
   }
 

@@ -12,16 +12,25 @@ import com.liferyan.tmall.data.entity.User;
 import java.util.List;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * Created by Ryan on 2017/5/21.
  */
 public class UserDaoTest {
 
+  private static UserDao userDao;
   private int count;
   private User user = new User();
-  private UserDao userDao = DaoFactory.getUserDao();
+
+  @BeforeClass
+  public static void init() {
+    ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+    userDao = (UserDao) ctx.getBean("userDao");
+  }
 
   @Before
   public void setUp() throws Exception {

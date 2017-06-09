@@ -15,23 +15,36 @@ import java.util.List;
 import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * Created by Ryan on 2017/5/27.
  */
 public class PropertyValueDaoTest {
 
+  private static PropertyValueDao propertyValueDao;
+  private static ProductDao productDao;
+  private static CategoryDao categoryDao;
   private int count;
-  private PropertyValueDao propertyValueDao = DaoFactory.getPropertyValueDao();
   private Product product;
+
+  @BeforeClass
+  public static void init() {
+    ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+    productDao = (ProductDao) ctx.getBean("productDao");
+    categoryDao = (CategoryDao) ctx.getBean("categoryDao");
+    propertyValueDao = (PropertyValueDao) ctx.getBean("propertyValueDao");
+  }
 
   @Before
   public void setUp() throws Exception {
-    List<Category> categoryList = DaoFactory.getCategoryDao().listCategory();
+    List<Category> categoryList = categoryDao.listCategory();
     assertThat("分类数为0", categoryList.size(), greaterThan(0));
     int categoryId = categoryList.iterator().next().getId();
-    List<Product> productList = DaoFactory.getProductDao().listProductByCategory(categoryId);
+    List<Product> productList = productDao.listProductByCategory(categoryId);
     assertThat("产品数为0", productList.size(), greaterThan(0));
     product = productList.iterator().next();
     count = propertyValueDao.listPropertyValue(product.getId()).size();

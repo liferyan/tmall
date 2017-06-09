@@ -14,21 +14,32 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * Created by Ryan on 2017/5/23.
  */
 public class PropertyDaoTest {
 
+  private static PropertyDao propertyDao;
+  private static CategoryDao categoryDao;
   private int count;
   private Property property = new Property();
-  private PropertyDao propertyDao = DaoFactory.getPropertyDao();
   private int categoryId;
+
+  @BeforeClass
+  public static void init() {
+    ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+    propertyDao = (PropertyDao) ctx.getBean("propertyDao");
+    categoryDao = (CategoryDao) ctx.getBean("categoryDao");
+  }
 
   @Before
   public void before() throws Exception {
-    List<Category> categoryList = DaoFactory.getCategoryDao().listCategory();
+    List<Category> categoryList = categoryDao.listCategory();
     assertThat("分类数为0", categoryList.size(), greaterThan(0));
     categoryId = categoryList.iterator().next().getId();
     count = propertyDao.getPropertyCount(categoryId);

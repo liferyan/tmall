@@ -12,22 +12,35 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * Created by Ryan on 2017/6/1.
  */
 public class ReviewDaoTest {
 
+  private static ReviewDao reviewDao;
+  private static ProductDao productDao;
+  private static UserDao userDao;
   private Review review = new Review();
-  private ReviewDao reviewDao = DaoFactory.getReviewDao();
   private User user;
   private Product product;
 
+  @BeforeClass
+  public static void init() {
+    ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+    productDao = (ProductDao) ctx.getBean("productDao");
+    reviewDao = (ReviewDao) ctx.getBean("reviewDao");
+    userDao = (UserDao) ctx.getBean("userDao");
+  }
+
   @Before
   public void setUp() throws Exception {
-    user = DaoFactory.getUserDao().getUserByName("test");
-    product = DaoFactory.getProductDao().getProductById(958);
+    user = userDao.getUserByName("test");
+    product = productDao.getProductById(958);
   }
 
   @Test

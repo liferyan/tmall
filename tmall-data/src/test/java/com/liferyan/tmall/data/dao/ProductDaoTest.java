@@ -17,21 +17,32 @@ import java.util.Date;
 import java.util.List;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * Created by Ryan on 2017/5/26.
  */
 public class ProductDaoTest {
 
+  private static ProductDao productDao;
+  private static CategoryDao categoryDao;
   private int count;
   private Product product = new Product();
-  private ProductDao productDao = DaoFactory.getProductDao();
   private int categoryId;
+
+  @BeforeClass
+  public static void init() {
+    ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+    productDao = (ProductDao) ctx.getBean("productDao");
+    categoryDao = (CategoryDao) ctx.getBean("categoryDao");
+  }
 
   @Before
   public void before() throws Exception {
-    List<Category> categoryList = DaoFactory.getCategoryDao().listCategory();
+    List<Category> categoryList = categoryDao.listCategory();
     assertThat("分类数为0", categoryList.size(), greaterThan(0));
     categoryId = categoryList.iterator().next().getId();
     count = productDao.getProductCountByCategory(categoryId);
@@ -81,7 +92,7 @@ public class ProductDaoTest {
     assertThat(searchedProducts.size(), greaterThan(3));
     List<List<Product>> productsList = new ArrayList<>();
     productsList.add(productList);
-    productsList.add(products);
+    //productsList.add(products);
     for (List<Product> productsCollection : productsList) {
       for (Product product : productsCollection) {
         assertThat(product.getFirstProductImage(), notNullValue());

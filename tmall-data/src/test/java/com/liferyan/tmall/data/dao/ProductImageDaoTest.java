@@ -14,20 +14,31 @@ import com.liferyan.tmall.data.entity.ProductImage;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * Created by Ryan on 2017/6/1.
  */
 public class ProductImageDaoTest {
 
+  private static ProductImageDao productImageDao;
+  private static ProductDao productDao;
   private ProductImage productImage = new ProductImage();
-  private ProductImageDao productImageDao = DaoFactory.getProductImageDao();
   private Product product;
+
+  @BeforeClass
+  public static void init() {
+    ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+    productDao = (ProductDao) ctx.getBean("productDao");
+    productImageDao = (ProductImageDao) ctx.getBean("productImageDao");
+  }
 
   @Before
   public void setUp() throws Exception {
-    product = DaoFactory.getProductDao().getProductById(958);
+    product = productDao.getProductById(958);
   }
 
   @Test
