@@ -1,27 +1,104 @@
 package com.liferyan.tmall.data.dao;
 
 import com.liferyan.tmall.data.entity.Product;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import org.apache.ibatis.session.SqlSession;
 
 /**
  * Created by Ryan on 2017/4/18.
  */
-public interface ProductDao {
+public class ProductDao extends BaseDao {
 
-  void saveProduct(Product product);
+  public void saveProduct(Product product) {
+    try (SqlSession session = sqlSessionFactory.openSession(true)) {
+      String statement = "saveProduct";
+      session.insert(statement, product);
+    } catch (Exception e) {
+      logger.error("保存产品异常：{}", e);
+    }
+  }
 
-  void deleteProduct(int id);
+  public void deleteProduct(int id) {
+    try (SqlSession session = sqlSessionFactory.openSession(true)) {
+      String statement = "deleteProduct";
+      session.insert(statement, id);
+    } catch (Exception e) {
+      logger.error("删除产品异常：{}", e);
+    }
+  }
 
-  void updateProduct(Product product);
+  public void updateProduct(Product product) {
+    try (SqlSession session = sqlSessionFactory.openSession(true)) {
+      String statement = "updateProduct";
+      session.update(statement, product);
+    } catch (Exception e) {
+      logger.error("更新产品异常：{}", e);
+    }
+  }
 
-  Product getProductById(int id);
+  public Product getProductById(int id) {
+    Product product = null;
+    try (SqlSession session = sqlSessionFactory.openSession()) {
+      String statement = "getProductById";
+      product = session.selectOne(statement, id);
+    } catch (Exception e) {
+      logger.error("获取产品异常：{}", e);
+    }
+    return product;
+  }
 
-  List<Product> listProductByPage(int cid, int start, int count);
+  public List<Product> listProductByPage(int cid, int start, int count) {
+    List<Product> productList = null;
+    try (SqlSession session = sqlSessionFactory.openSession()) {
+      String statement = "listProductByPage";
+      Map<String, Object> parameterMap = new HashMap<>();
+      parameterMap.put("cid", cid);
+      parameterMap.put("start", start);
+      parameterMap.put("count", count);
+      productList = session.selectList(statement, parameterMap);
+    } catch (Exception e) {
+      logger.error("获取产品异常：{}", e);
+    }
+    return productList;
+  }
 
-  List<Product> listProductByCategory(int cid);
+  public List<Product> listProductByCategory(int cid) {
+    List<Product> productList = null;
+    try (SqlSession session = sqlSessionFactory.openSession()) {
+      String statement = "listProductByCategory";
+      productList = session.selectList(statement, cid);
+    } catch (Exception e) {
+      logger.error("获取产品异常：{}", e);
+    }
+    return productList;
+  }
 
-  int getProductCountByCategory(int cid);
+  public int getProductCountByCategory(int cid) {
+    int count = 0;
+    try (SqlSession session = sqlSessionFactory.openSession()) {
+      String statement = "getProductCountByCategory";
+      count = session.selectOne(statement, cid);
+    } catch (Exception e) {
+      logger.error("获取产品数异常：{}", e);
+    }
+    return count;
+  }
 
-  List<Product> searchProduct(String keyword, int start, int count);
+  public List<Product> searchProduct(String keyword, int start, int count) {
+    List<Product> productList = null;
+    try (SqlSession session = sqlSessionFactory.openSession()) {
+      String statement = "searchProduct";
+      Map<String, Object> parameterMap = new HashMap<>();
+      parameterMap.put("keyword", keyword);
+      parameterMap.put("start", start);
+      parameterMap.put("count", count);
+      productList = session.selectList(statement, parameterMap);
+    } catch (Exception e) {
+      logger.error("搜索产品异常：{}", e);
+    }
+    return productList;
+  }
 
 }
