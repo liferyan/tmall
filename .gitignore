@@ -1,0 +1,14 @@
+# Created by .ignore support plugin (hsz.mobi)
+.idea/
+*.iml
+.DS_Store
+tmall-data/.DS_Store
+tmall-data/src/.DS_Store
+tmall-data/src/main/.DS_Store
+tmall-data/src/main/java/com/liferyan/.DS_Store
+tmall-data/src/test/.DS_Store
+tmall-data/src/test/java/.DS_Store
+tmall-web/.DS_Store
+tmall-web/src/.DS_Store
+tmall-web/src/main/.DS_Store
+tmall-web/src/main/webapp/.DS_Store
