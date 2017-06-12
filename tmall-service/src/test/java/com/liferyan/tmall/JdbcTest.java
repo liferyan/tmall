@@ -14,9 +14,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 /**
  * Created by Ryan on 2017/6/12.
  */
-public class JdbcTemplateTest {
+public class JdbcTest {
 
-  private static final Logger logger = LoggerFactory.getLogger("JdbcTemplateTest");
+  private static final Logger logger = LoggerFactory.getLogger("JdbcTest");
 
   private UserDao userDao;
 

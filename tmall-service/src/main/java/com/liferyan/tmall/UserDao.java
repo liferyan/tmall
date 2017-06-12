@@ -26,7 +26,7 @@ public class UserDao extends JdbcDaoSupport {
     try {
       Class.forName("com.mysql.jdbc.Driver");
     } catch (ClassNotFoundException e) {
-      logger.error("JDBC驱动异常：{}", e);
+      logger.error("JDBC驱动异常：{}", e.getMessage());
     }
     List<User> userList = new ArrayList<>();
     String listSQL = "SELECT * FROM user ORDER BY id LIMIT ? OFFSET ?";
