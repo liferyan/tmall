@@ -1,4 +1,4 @@
-package com.liferyan.tmall.pojo;
+package com.liferyan.tmall;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;

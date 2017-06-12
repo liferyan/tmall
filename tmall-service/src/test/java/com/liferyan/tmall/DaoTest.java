@@ -1,4 +1,4 @@
-package com.liferyan.tmall.pojo;
+package com.liferyan.tmall;
 
 import com.liferyan.tmall.service.UserService;
 import org.junit.Before;
