@@ -18,6 +18,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.dao.DataIntegrityViolationException;
 
 /**
  * Created by Ryan on 2017/6/1.
@@ -41,7 +42,7 @@ public class ProductImageDaoTest {
     product = productDao.getProductById(958);
   }
 
-  @Test
+  @Test(expected = DataIntegrityViolationException.class)
   public void crudProductImage() throws Exception {
     productImage.setProduct(null);
     productImage.setImageType(ImageTypeEnum.SINGLE);

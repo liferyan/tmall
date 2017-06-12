@@ -19,6 +19,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.dao.DataIntegrityViolationException;
 
 /**
  * Created by Ryan on 2017/5/23.
@@ -45,7 +46,7 @@ public class CategoryDaoTest {
     assertThat(categoryDao.getCategoryCount(), is(count));
   }
 
-  @Test
+  @Test(expected = DataIntegrityViolationException.class)
   public void crudCategory() throws Exception {
     category.setId(0);
     category.setName(null);

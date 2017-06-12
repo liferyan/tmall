@@ -18,6 +18,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.dao.DataIntegrityViolationException;
 
 /**
  * Created by Ryan on 2017/5/23.
@@ -57,7 +58,7 @@ public class PropertyDaoTest {
     4.no name
     5.success
      */
-  @Test
+  @Test(expected = DataIntegrityViolationException.class)
   public void crudProperty() throws Exception {
     property.setName("123");
     property.setCategory(null);

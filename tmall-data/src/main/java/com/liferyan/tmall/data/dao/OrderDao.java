@@ -5,103 +5,56 @@ import com.liferyan.tmall.data.entity.OrderItem;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.ibatis.session.SqlSession;
+import org.mybatis.spring.support.SqlSessionDaoSupport;
 
 /**
  * Created by Ryan on 2017/4/18.
  */
-public class OrderDao extends BaseDao {
+public class OrderDao extends SqlSessionDaoSupport {
 
   public void saveOrder(Order order) {
-    try (SqlSession session = sqlSessionFactory.openSession(true)) {
-      String statement = "saveOrder";
-      session.insert(statement, order);
-    } catch (Exception e) {
-      logger.error("保存订单异常：", e);
-    }
+    this.getSqlSession().insert("saveOrder", order);
   }
 
   public void deleteOrder(int id) {
-    try (SqlSession session = sqlSessionFactory.openSession(true)) {
-      String statement = "deleteOrder";
-      session.delete(statement, id);
-    } catch (Exception e) {
-      logger.error("删除订单异常：", e);
-    }
+    this.getSqlSession().delete("deleteOrder", id);
   }
 
   public void updateOrder(Order order) {
-    try (SqlSession session = sqlSessionFactory.openSession(true)) {
-      String statement = "updateOrder";
-      session.update(statement, order);
-    } catch (Exception e) {
-      logger.error("更新订单异常：", e);
-    }
+    this.getSqlSession().update("updateOrder", order);
   }
 
   public Order getOrderById(int id) {
-    Order order = null;
-    try (SqlSession session = sqlSessionFactory.openSession()) {
-      String statement = "getOrderById";
-      order = session.selectOne(statement, id);
-    } catch (Exception e) {
-      logger.error("获取订单异常：", e);
-    }
-    return order;
+    return this.getSqlSession().selectOne("getOrderById", id);
   }
 
   public List<Order> listOrderByPage(int start, int count) {
-    List<Order> orderList = null;
-    try (SqlSession session = sqlSessionFactory.openSession()) {
-      String statement = "listOrderByPage";
-      Map<String, Object> parameterMap = new HashMap<>();
-      parameterMap.put("start", start);
-      parameterMap.put("count", count);
-      orderList = session.selectList(statement, parameterMap);
-      fillOrderItemsToOrderList(orderList);
-    } catch (Exception e) {
-      logger.error("获取订单异常：", e);
-    }
+    Map<String, Object> parameterMap = new HashMap<>();
+    parameterMap.put("start", start);
+    parameterMap.put("count", count);
+    List<Order> orderList = this.getSqlSession().selectList("listOrderByPage", parameterMap);
+    fillOrderItemsToOrderList(orderList);
     return orderList;
   }
 
   public List<Order> listOrderByUserAndPage(int uid, int start, int count) {
-    List<Order> orderList = null;
-    try (SqlSession session = sqlSessionFactory.openSession()) {
-      String statement = "listOrderByUser";
-      Map<String, Object> parameterMap = new HashMap<>();
-      parameterMap.put("uid", uid);
-      parameterMap.put("start", start);
-      parameterMap.put("count", count);
-      orderList = session.selectList(statement, parameterMap);
-      fillOrderItemsToOrderList(orderList);
-    } catch (Exception e) {
-      logger.error("获取订单异常：", e);
-    }
+    Map<String, Object> parameterMap = new HashMap<>();
+    parameterMap.put("uid", uid);
+    parameterMap.put("start", start);
+    parameterMap.put("count", count);
+    List<Order> orderList = this.getSqlSession().selectList("listOrderByUser", parameterMap);
+    fillOrderItemsToOrderList(orderList);
     return orderList;
   }
 
   public List<Order> listOrderByUser(int uid) {
-    List<Order> orderList = null;
-    try (SqlSession session = sqlSessionFactory.openSession()) {
-      String statement = "listOrderByUser";
-      orderList = session.selectList(statement, uid);
-      fillOrderItemsToOrderList(orderList);
-    } catch (Exception e) {
-      logger.error("获取订单异常：", e);
-    }
+    List<Order> orderList = this.getSqlSession().selectList("listOrderByUser", uid);
+    fillOrderItemsToOrderList(orderList);
     return orderList;
   }
 
   public int getOrderCount() {
-    int count = 0;
-    try (SqlSession session = sqlSessionFactory.openSession()) {
-      String statement = "getOrderCount";
-      count = session.selectOne(statement);
-    } catch (Exception e) {
-      logger.error("获取订单总数异常：", e);
-    }
-    return count;
+    return this.getSqlSession().selectOne("getOrderCount");
   }
 
   private void fillOrderItemsToOrderList(List<Order> orderList) {

@@ -6,54 +6,30 @@ import com.liferyan.tmall.data.entity.ProductImage;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.ibatis.session.SqlSession;
+import org.mybatis.spring.support.SqlSessionDaoSupport;
 
 /**
  * Created by Ryan on 2017/4/18.
  */
-public class ProductImageDao extends BaseDao {
+public class ProductImageDao extends SqlSessionDaoSupport {
 
   public void saveProductImage(ProductImage productImage) {
-    try (SqlSession session = sqlSessionFactory.openSession(true)) {
-      String statement = "saveProductImage";
-      session.insert(statement, productImage);
-    } catch (Exception e) {
-      logger.error("保存产品图片异常：", e);
-    }
+    this.getSqlSession().insert("saveProductImage", productImage);
   }
 
   public void deleteProductImage(int id) {
-    try (SqlSession session = sqlSessionFactory.openSession(true)) {
-      String statement = "deleteProductImage";
-      session.delete(statement, id);
-    } catch (Exception e) {
-      logger.error("删除产品图片异常：", e);
-    }
+    this.getSqlSession().delete("deleteProductImage", id);
   }
 
   public ProductImage getProductImageById(int id) {
-    ProductImage productImg = null;
-    try (SqlSession session = sqlSessionFactory.openSession()) {
-      String statement = "getProductImageById";
-      productImg = session.selectOne(statement, id);
-    } catch (Exception e) {
-      logger.error("获取产品图片异常：", e);
-    }
-    return productImg;
+    return this.getSqlSession().selectOne("getProductImageById", id);
   }
 
   public List<ProductImage> listProductImage(Product product, ImageTypeEnum imageType) {
-    List<ProductImage> productImgList = null;
-    try (SqlSession session = sqlSessionFactory.openSession()) {
-      String statement = "listProductImage";
-      Map<String, Object> parameterMap = new HashMap<>();
-      parameterMap.put("product", product);
-      parameterMap.put("imageType", imageType);
-      productImgList = session.selectList(statement, parameterMap);
-    } catch (Exception e) {
-      logger.error("获取产品图片异常：", e);
-    }
-    return productImgList;
+    Map<String, Object> parameterMap = new HashMap<>();
+    parameterMap.put("product", product);
+    parameterMap.put("imageType", imageType);
+    return this.getSqlSession().selectList("listProductImage", parameterMap);
   }
 
 }

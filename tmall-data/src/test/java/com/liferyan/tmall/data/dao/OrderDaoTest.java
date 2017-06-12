@@ -22,6 +22,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.dao.DataIntegrityViolationException;
 
 /**
  * Created by Ryan on 2017/6/1.
@@ -57,7 +58,7 @@ public class OrderDaoTest {
     order.setUser(user);
   }
 
-  @Test
+  @Test(expected = DataIntegrityViolationException.class)
   public void crudOrder() throws Exception {
     order.setCreateDate(null);
     orderDao.saveOrder(order);

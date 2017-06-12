@@ -6,91 +6,51 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.ibatis.session.SqlSession;
+import org.mybatis.spring.support.SqlSessionDaoSupport;
 
 /**
  * Created by Ryan on 2017/4/18.
  */
-public class CategoryDao extends BaseDao {
+public class CategoryDao extends SqlSessionDaoSupport {
 
   public static final int PRODUCT_NUMBER_EACH_ROW = 2;
 
   public void saveCategory(Category category) {
-    try (SqlSession session = sqlSessionFactory.openSession(true)) {
-      String statement = "saveCategory";
-      session.insert(statement, category);
-    } catch (Exception e) {
-      logger.error("保存分类异常：", e);
-    }
+    this.getSqlSession().insert("saveCategory", category);
   }
 
   public void deleteCategory(int id) {
-    try (SqlSession session = sqlSessionFactory.openSession(true)) {
-      String statement = "deleteCategory";
-      session.delete(statement, id);
-    } catch (Exception e) {
-      logger.error("删除分类异常：", e);
-    }
+    this.getSqlSession().delete("deleteCategory", id);
   }
 
   public void updateCategory(Category category) {
-    try (SqlSession session = sqlSessionFactory.openSession(true)) {
-      String statement = "updateCategory";
-      session.update(statement, category);
-    } catch (Exception e) {
-      logger.error("更新分类异常：", e);
-    }
+    this.getSqlSession().update("updateCategory", category);
   }
 
   public Category getCategoryById(int id) {
-    Category category = null;
-    try (SqlSession session = sqlSessionFactory.openSession()) {
-      String statement = "getCategoryById";
-      category = session.selectOne(statement, id);
-      setProductsByRow(category);
-    } catch (Exception e) {
-      logger.error("获取分类异常：", e);
-    }
+    Category category = this.getSqlSession().selectOne("getCategoryById", id);
+    setProductsByRow(category);
     return category;
   }
 
   public List<Category> listCategoryByPage(int start, int count) {
-    List<Category> categoryList = null;
-    try (SqlSession session = sqlSessionFactory.openSession()) {
-      String statement = "listCategoryByPage";
-      Map<String, Object> parameterMap = new HashMap<>();
-      parameterMap.put("start", start);
-      parameterMap.put("count", count);
-      categoryList = session.selectList(statement, parameterMap);
-    } catch (Exception e) {
-      logger.error("获取分类异常：", e);
-    }
-    return categoryList;
+    Map<String, Object> parameterMap = new HashMap<>();
+    parameterMap.put("start", start);
+    parameterMap.put("count", count);
+    return this.getSqlSession().selectList("listCategoryByPage", parameterMap);
   }
 
   public List<Category> listCategory() {
-    List<Category> categoryList = null;
-    try (SqlSession session = sqlSessionFactory.openSession()) {
-      String statement = "listCategory";
-      categoryList = session.selectList(statement);
-      for (Category category : categoryList) {
-        setProductsByRow(category);
-      }
-    } catch (Exception e) {
-      logger.error("获取分类异常：", e);
+    String statement = "listCategory";
+    List<Category> categoryList = this.getSqlSession().selectList(statement);
+    for (Category category : categoryList) {
+      setProductsByRow(category);
     }
     return categoryList;
   }
 
   public int getCategoryCount() {
-    int count = 0;
-    try (SqlSession session = sqlSessionFactory.openSession()) {
-      String statement = "getCategoryCount";
-      count = session.selectOne(statement);
-    } catch (Exception e) {
-      logger.error("获取分类总数异常：", e);
-    }
-    return count;
+    return this.getSqlSession().selectOne("getCategoryCount");
   }
 
   private void setProductsByRow(Category category) {
@@ -100,6 +60,7 @@ public class CategoryDao extends BaseDao {
     for (fromIndex = 0; fromIndex < productList.size(); fromIndex += PRODUCT_NUMBER_EACH_ROW) {
       toIndex = fromIndex + PRODUCT_NUMBER_EACH_ROW;
       toIndex = toIndex > productList.size() ? productList.size() : toIndex;
+      //SubList()不能序列化
       //java.io.NotSerializableException: java.util.ArrayList$SubList
       //List<Product> productsOfEachRow = productList.subList(fromIndex, toIndex);
       ArrayList<Product> productsOfEachRow = new ArrayList<>(
