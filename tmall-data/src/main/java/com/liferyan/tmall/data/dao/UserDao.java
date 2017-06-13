@@ -4,12 +4,13 @@ import com.liferyan.tmall.data.entity.User;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.mybatis.spring.support.SqlSessionDaoSupport;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by Ryan on 2017/5/18.
  */
-public class UserDao extends SqlSessionDaoSupport {
+@Component
+public class UserDao extends BaseDao {
 
   public void saveUser(User user) {
     this.getSqlSession().insert("saveUser", user);

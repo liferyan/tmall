@@ -4,12 +4,13 @@ import com.liferyan.tmall.data.entity.Review;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.mybatis.spring.support.SqlSessionDaoSupport;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by Ryan on 2017/4/18.
  */
-public class ReviewDao extends SqlSessionDaoSupport {
+@Component
+public class ReviewDao extends BaseDao {
 
   public void saveReview(Review review) {
     this.getSqlSession().insert("saveReview", review);

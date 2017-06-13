@@ -20,14 +20,14 @@
       javaType="com.liferyan.tmall.data.entity.OrderStatusEnum"/>
   </typeHandlers>
   <mappers>
-    <mapper resource="UserMapper.xml"/>
-    <mapper resource="CategoryMapper.xml"/>
-    <mapper resource="PropertyMapper.xml"/>
-    <mapper resource="ProductMapper.xml"/>
-    <mapper resource="PropertyValueMapper.xml"/>
-    <mapper resource="ProductImageMapper.xml"/>
-    <mapper resource="ReviewMapper.xml"/>
-    <mapper resource="OrderMapper.xml"/>
-    <mapper resource="OrderItemMapper.xml"/>
+    <mapper resource="mappers/UserMapper.xml"/>
+    <mapper resource="mappers/CategoryMapper.xml"/>
+    <mapper resource="mappers/PropertyMapper.xml"/>
+    <mapper resource="mappers/ProductMapper.xml"/>
+    <mapper resource="mappers/PropertyValueMapper.xml"/>
+    <mapper resource="mappers/ProductImageMapper.xml"/>
+    <mapper resource="mappers/ReviewMapper.xml"/>
+    <mapper resource="mappers/OrderMapper.xml"/>
+    <mapper resource="mappers/OrderItemMapper.xml"/>
   </mappers>
 </configuration>

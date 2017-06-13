@@ -6,12 +6,13 @@ import com.liferyan.tmall.data.entity.ProductImage;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.mybatis.spring.support.SqlSessionDaoSupport;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by Ryan on 2017/4/18.
  */
-public class ProductImageDao extends SqlSessionDaoSupport {
+@Component
+public class ProductImageDao extends BaseDao {
 
   public void saveProductImage(ProductImage productImage) {
     this.getSqlSession().insert("saveProductImage", productImage);

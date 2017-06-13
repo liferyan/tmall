@@ -4,12 +4,13 @@ import com.liferyan.tmall.data.entity.Property;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.mybatis.spring.support.SqlSessionDaoSupport;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by Ryan on 2017/4/18.
  */
-public class PropertyDao extends SqlSessionDaoSupport {
+@Component
+public class PropertyDao extends BaseDao {
 
   public void saveProperty(Property property) {
     this.getSqlSession().insert("saveProperty", property);

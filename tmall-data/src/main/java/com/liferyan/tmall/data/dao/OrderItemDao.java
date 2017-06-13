@@ -4,12 +4,13 @@ import com.liferyan.tmall.data.entity.OrderItem;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.mybatis.spring.support.SqlSessionDaoSupport;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by Ryan on 2017/4/18.
  */
-public class OrderItemDao extends SqlSessionDaoSupport {
+@Component
+public class OrderItemDao extends BaseDao {
 
   public void saveOrderItem(OrderItem orderItem) {
     this.getSqlSession().insert("saveOrderItem", orderItem);

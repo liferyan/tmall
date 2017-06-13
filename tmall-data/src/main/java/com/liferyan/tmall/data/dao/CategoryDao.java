@@ -6,12 +6,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.mybatis.spring.support.SqlSessionDaoSupport;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by Ryan on 2017/4/18.
  */
-public class CategoryDao extends SqlSessionDaoSupport {
+@Component
+public class CategoryDao extends BaseDao {
 
   public static final int PRODUCT_NUMBER_EACH_ROW = 2;
 

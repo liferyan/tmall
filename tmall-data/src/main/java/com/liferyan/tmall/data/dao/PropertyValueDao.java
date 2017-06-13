@@ -6,12 +6,13 @@ import com.liferyan.tmall.data.entity.PropertyValue;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.mybatis.spring.support.SqlSessionDaoSupport;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by Ryan on 2017/4/18.
  */
-public class PropertyValueDao extends SqlSessionDaoSupport {
+@Component
+public class PropertyValueDao extends BaseDao {
 
   public void initPropertyValueWithProduct(Product product) {
     List<Property> properties = product.getCategory().getProperties();
