@@ -13,8 +13,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 /**
  * Created by Ryan on 2017/5/8.
@@ -24,8 +24,11 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
  */
 public class ForeServletFilter implements Filter {
 
+  @Autowired
+  private OrderItemDao orderItemDao;
 
   public void init(FilterConfig config) throws ServletException {
+    SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
   }
 
   public void doFilter(ServletRequest req, ServletResponse resp,
@@ -36,9 +39,6 @@ public class ForeServletFilter implements Filter {
     int cartItemCount = 0;
     User user = (User) request.getSession().getAttribute("user");
     if (null != user) {
-      WebApplicationContext ctx = WebApplicationContextUtils
-          .getRequiredWebApplicationContext(req.getServletContext());
-      OrderItemDao orderItemDao = (OrderItemDao) ctx.getBean("orderItemDao");
       List<OrderItem> orderItemList = orderItemDao.listOrderItemInCartByUser(user.getId());
       cartItemCount = orderItemList.size();
     }

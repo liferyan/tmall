@@ -25,8 +25,8 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 /**
  * Created by Ryan on 2017/4/20.
@@ -41,29 +41,35 @@ public abstract class BaseBackServlet extends HttpServlet {
 
   protected static final Logger logger = LoggerFactory.getLogger("BackServlet");
 
+  @Autowired
   protected UserDao userDao;
+
+  @Autowired
   protected CategoryDao categoryDao;
+
+  @Autowired
   protected PropertyDao propertyDao;
+
+  @Autowired
   protected ProductDao productDao;
+
+  @Autowired
   protected PropertyValueDao propertyValueDao;
+
+  @Autowired
   protected ProductImageDao productImageDao;
-  //protected ReviewDao reviewDao = (ReviewDao) ctx.getBean("reviewDao");
+
+  @Autowired
   protected OrderDao orderDao;
-  //protected OrderItemDao orderItemDao = (OrderItemDao) ctx.getBean("orderItemDao");
+
+  @Override
+  public void init() throws ServletException {
+    SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+  }
 
   @Override
   protected void service(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
-
-    WebApplicationContext ctx = WebApplicationContextUtils
-        .getRequiredWebApplicationContext(getServletContext());
-    userDao = (UserDao) ctx.getBean("userDao");
-    categoryDao = (CategoryDao) ctx.getBean("categoryDao");
-    propertyDao = (PropertyDao) ctx.getBean("propertyDao");
-    productDao = (ProductDao) ctx.getBean("productDao");
-    propertyValueDao = (PropertyValueDao) ctx.getBean("propertyValueDao");
-    productImageDao = (ProductImageDao) ctx.getBean("productImageDao");
-    orderDao = (OrderDao) ctx.getBean("orderDao");
 
     //1.获取分页信息
     int pageStart;
@@ -79,7 +85,6 @@ public abstract class BaseBackServlet extends HttpServlet {
       pageCount = 5;
     }
     Page page = new Page(pageStart, pageCount);
-    logger.info("分页信息：{}", page);
 
     //2.通过反射调用具体方法
     String redirect;
