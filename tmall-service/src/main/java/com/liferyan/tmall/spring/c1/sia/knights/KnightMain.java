@@ -1,8 +1,8 @@
-package sia.knights;
+package com.liferyan.tmall.spring.c1.sia.knights;
 
+import com.liferyan.tmall.spring.c1.sia.knights.config.KnightConfig;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import sia.knights.config.KnightConfig;
 
 public class KnightMain {
 

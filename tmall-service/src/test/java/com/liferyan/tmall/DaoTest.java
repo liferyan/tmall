@@ -1,30 +1,25 @@
 package com.liferyan.tmall;
 
 import com.liferyan.tmall.service.UserService;
-import org.junit.Before;
+import com.liferyan.tmall.service.config.ServiceConfig;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Created by Ryan on 2017/6/7.
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = ServiceConfig.class)
 public class DaoTest {
 
-  public static final Logger logger = LoggerFactory.getLogger("DaoTest");
-
-  ApplicationContext context;
-
-  @Before
-  public void setUp() throws Exception {
-    context = new ClassPathXmlApplicationContext("services.xml");
-  }
+  @Autowired
+  private UserService userService;
 
   @Test
   public void testMybatisWithSpring() throws Exception {
-    UserService userService = (UserService) context.getBean("userService");
     System.out.println(userService.listUser());
   }
 

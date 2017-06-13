@@ -1,11 +1,11 @@
-package sia.knights.config;
+package com.liferyan.tmall.spring.c1.sia.knights.config;
 
+import com.liferyan.tmall.spring.c1.sia.knights.BraveKnight;
+import com.liferyan.tmall.spring.c1.sia.knights.Knight;
+import com.liferyan.tmall.spring.c1.sia.knights.Quest;
+import com.liferyan.tmall.spring.c1.sia.knights.SlayDragonQuest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import sia.knights.BraveKnight;
-import sia.knights.Knight;
-import sia.knights.Quest;
-import sia.knights.SlayDragonQuest;
 
 /**
  * 使用Java-based configuration配置Spring

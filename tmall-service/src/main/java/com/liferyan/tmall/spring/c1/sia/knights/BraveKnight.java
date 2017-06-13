@@ -1,4 +1,4 @@
-package sia.knights;
+package com.liferyan.tmall.spring.c1.sia.knights;
 
 /**
  * 勇敢的骑士
