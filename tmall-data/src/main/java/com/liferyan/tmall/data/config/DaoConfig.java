@@ -41,9 +41,9 @@ public class DaoConfig {
   }
 
   @Bean
-  public SqlSessionFactory sqlSessionFactory() throws Exception {
+  public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
     SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
-    sqlSessionFactory.setDataSource(dataSource());
+    sqlSessionFactory.setDataSource(dataSource);
     sqlSessionFactory.setConfigLocation(new ClassPathResource("mybatis-config.xml"));
     return sqlSessionFactory.getObject();
   }
