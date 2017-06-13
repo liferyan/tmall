@@ -19,7 +19,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
  */
 @Configuration
 @ComponentScan(basePackageClasses = BaseDao.class)
-@PropertySource({"classpath:jdbc.properties"})
+@PropertySource(value = {"classpath:jdbc.properties"}, ignoreResourceNotFound = true)
 public class DaoConfig {
 
   @Autowired
