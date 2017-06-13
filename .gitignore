@@ -12,3 +12,6 @@ tmall-web/.DS_Store
 tmall-web/src/.DS_Store
 tmall-web/src/main/.DS_Store
 tmall-web/src/main/webapp/.DS_Store
+tmall-data/target/
+tmall-service/target/
+tmall-web/target/
