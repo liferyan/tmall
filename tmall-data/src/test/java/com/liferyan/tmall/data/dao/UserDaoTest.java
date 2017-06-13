@@ -8,29 +8,29 @@ import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.hamcrest.core.IsNull.nullValue;
 
+import com.liferyan.tmall.data.config.DaoConfig;
 import com.liferyan.tmall.data.entity.User;
 import java.util.List;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Created by Ryan on 2017/5/21.
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = DaoConfig.class)
 public class UserDaoTest {
 
-  private static UserDao userDao;
+  @Autowired
+  private  UserDao userDao;
+
   private int count;
   private User user = new User();
-
-  @BeforeClass
-  public static void init() {
-    ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
-    userDao = (UserDao) ctx.getBean("userDao");
-  }
 
   @Before
   public void setUp() throws Exception {

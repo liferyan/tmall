@@ -1,28 +1,27 @@
 package com.liferyan.tmall.data;
 
+import com.liferyan.tmall.data.config.DaoConfig;
 import com.liferyan.tmall.data.dao.CategoryDao;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Created by Ryan on 2017/6/2.
  * MyBatis缓存测试类
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = DaoConfig.class)
 public class MyBatisCacheTest {
 
   private static final Logger logger = LoggerFactory.getLogger("MyBatisCacheTest");
 
+  @Autowired
   private CategoryDao categoryDao;
-
-  @Before
-  public void setUp() throws Exception {
-    ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
-    categoryDao = (CategoryDao) ctx.getBean("categoryDao");
-  }
 
   @Test
   /**

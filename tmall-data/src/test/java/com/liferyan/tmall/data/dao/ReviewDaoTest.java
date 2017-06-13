@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 
+import com.liferyan.tmall.data.config.DaoConfig;
 import com.liferyan.tmall.data.entity.Product;
 import com.liferyan.tmall.data.entity.Review;
 import com.liferyan.tmall.data.entity.User;
@@ -12,31 +13,32 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Created by Ryan on 2017/6/1.
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = DaoConfig.class)
 public class ReviewDaoTest {
 
-  private static ReviewDao reviewDao;
-  private static ProductDao productDao;
-  private static UserDao userDao;
+  @Autowired
+  private ReviewDao reviewDao;
+
+  @Autowired
+  private ProductDao productDao;
+
+  @Autowired
+  private UserDao userDao;
+
   private Review review = new Review();
   private User user;
   private Product product;
-
-  @BeforeClass
-  public static void init() {
-    ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
-    productDao = (ProductDao) ctx.getBean("productDao");
-    reviewDao = (ReviewDao) ctx.getBean("reviewDao");
-    userDao = (UserDao) ctx.getBean("userDao");
-  }
 
   @Before
   public void setUp() throws Exception {

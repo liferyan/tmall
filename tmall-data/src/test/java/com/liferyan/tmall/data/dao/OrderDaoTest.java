@@ -8,6 +8,7 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 
+import com.liferyan.tmall.data.config.DaoConfig;
 import com.liferyan.tmall.data.entity.Order;
 import com.liferyan.tmall.data.entity.OrderItem;
 import com.liferyan.tmall.data.entity.OrderStatusEnum;
@@ -18,28 +19,28 @@ import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Created by Ryan on 2017/6/1.
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = DaoConfig.class)
 public class OrderDaoTest {
 
-  private static OrderDao orderDao;
-  private static UserDao userDao;
+  @Autowired
+  private  OrderDao orderDao;
+
+  @Autowired
+  private  UserDao userDao;
+
   private Order order = new Order();
   private User user;
-
-  @BeforeClass
-  public static void init() {
-    ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
-    userDao = (UserDao) ctx.getBean("userDao");
-    orderDao = (OrderDao) ctx.getBean("orderDao");
-  }
 
   @Before
   public void setUp() throws Exception {

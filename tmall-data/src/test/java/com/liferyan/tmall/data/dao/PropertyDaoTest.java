@@ -8,35 +8,36 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertThat;
 
+import com.liferyan.tmall.data.config.DaoConfig;
 import com.liferyan.tmall.data.entity.Category;
 import com.liferyan.tmall.data.entity.Property;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Created by Ryan on 2017/5/23.
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = DaoConfig.class)
 public class PropertyDaoTest {
 
-  private static PropertyDao propertyDao;
-  private static CategoryDao categoryDao;
+  @Autowired
+  private PropertyDao propertyDao;
+
+  @Autowired
+  private CategoryDao categoryDao;
+
   private int count;
   private Property property = new Property();
   private int categoryId;
-
-  @BeforeClass
-  public static void init() {
-    ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
-    propertyDao = (PropertyDao) ctx.getBean("propertyDao");
-    categoryDao = (CategoryDao) ctx.getBean("categoryDao");
-  }
 
   @Before
   public void before() throws Exception {

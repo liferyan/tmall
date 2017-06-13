@@ -9,32 +9,32 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNot.not;
 
+import com.liferyan.tmall.data.config.DaoConfig;
 import com.liferyan.tmall.data.entity.Category;
 import com.liferyan.tmall.data.entity.Product;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Created by Ryan on 2017/5/23.
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = DaoConfig.class)
 public class CategoryDaoTest {
 
-  private static CategoryDao categoryDao;
+  @Autowired
+  private CategoryDao categoryDao;
+
   private int count;
   private Category category = new Category();
-
-  @BeforeClass
-  public static void init() {
-    ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
-    categoryDao = (CategoryDao) ctx.getBean("categoryDao");
-  }
 
   @Before
   public void setUp() throws Exception {

@@ -8,34 +8,35 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
+import com.liferyan.tmall.data.config.DaoConfig;
 import com.liferyan.tmall.data.entity.ImageTypeEnum;
 import com.liferyan.tmall.data.entity.Product;
 import com.liferyan.tmall.data.entity.ProductImage;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Created by Ryan on 2017/6/1.
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = DaoConfig.class)
 public class ProductImageDaoTest {
 
-  private static ProductImageDao productImageDao;
-  private static ProductDao productDao;
+  @Autowired
+  private ProductImageDao productImageDao;
+
+  @Autowired
+  private ProductDao productDao;
+
   private ProductImage productImage = new ProductImage();
   private Product product;
-
-  @BeforeClass
-  public static void init() {
-    ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
-    productDao = (ProductDao) ctx.getBean("productDao");
-    productImageDao = (ProductImageDao) ctx.getBean("productImageDao");
-  }
 
   @Before
   public void setUp() throws Exception {

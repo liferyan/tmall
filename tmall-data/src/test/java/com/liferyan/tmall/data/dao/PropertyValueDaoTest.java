@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+import com.liferyan.tmall.data.config.DaoConfig;
 import com.liferyan.tmall.data.entity.Category;
 import com.liferyan.tmall.data.entity.Product;
 import com.liferyan.tmall.data.entity.PropertyValue;
@@ -15,29 +16,30 @@ import java.util.List;
 import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Created by Ryan on 2017/5/27.
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = DaoConfig.class)
 public class PropertyValueDaoTest {
 
-  private static PropertyValueDao propertyValueDao;
-  private static ProductDao productDao;
-  private static CategoryDao categoryDao;
+  @Autowired
+  private PropertyValueDao propertyValueDao;
+
+  @Autowired
+  private ProductDao productDao;
+
+  @Autowired
+  private CategoryDao categoryDao;
+
   private int count;
   private Product product;
-
-  @BeforeClass
-  public static void init() {
-    ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
-    productDao = (ProductDao) ctx.getBean("productDao");
-    categoryDao = (CategoryDao) ctx.getBean("categoryDao");
-    propertyValueDao = (PropertyValueDao) ctx.getBean("propertyValueDao");
-  }
 
   @Before
   public void setUp() throws Exception {
