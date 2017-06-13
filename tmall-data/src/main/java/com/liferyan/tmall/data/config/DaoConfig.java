@@ -22,8 +22,12 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 @PropertySource(value = {"classpath:jdbc.properties"}, ignoreResourceNotFound = true)
 public class DaoConfig {
 
+  private final Environment environment;
+
   @Autowired
-  private Environment environment;
+  public DaoConfig(Environment environment) {
+    this.environment = environment;
+  }
 
   @Bean
   public DataSource dataSource() {
