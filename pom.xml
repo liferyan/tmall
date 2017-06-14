@@ -10,7 +10,7 @@
 
   <modules>
     <module>tmall-web</module>
-    <module>tmall-service</module>
+    <!--<module>tmall-service</module>-->
     <module>tmall-data</module>
   </modules>
 
