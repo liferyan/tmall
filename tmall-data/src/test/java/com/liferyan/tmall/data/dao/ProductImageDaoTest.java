@@ -1,14 +1,13 @@
 package com.liferyan.tmall.data.dao;
 
 import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isOneOf;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
-import com.liferyan.tmall.data.config.DaoConfig;
+import com.liferyan.tmall.data.DaoTestSuite;
 import com.liferyan.tmall.data.entity.ImageTypeEnum;
 import com.liferyan.tmall.data.entity.Product;
 import com.liferyan.tmall.data.entity.ProductImage;
@@ -16,18 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Created by Ryan on 2017/6/1.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = DaoConfig.class)
-public class ProductImageDaoTest {
+public class ProductImageDaoTest extends DaoTestSuite{
 
   @Autowired
   private ProductImageDao productImageDao;
@@ -43,18 +36,9 @@ public class ProductImageDaoTest {
     product = productDao.getProductById(958);
   }
 
-  @Test(expected = DataIntegrityViolationException.class)
+  @Test
   public void crudProductImage() throws Exception {
-    productImage.setProduct(null);
-    productImage.setImageType(ImageTypeEnum.SINGLE);
-    productImageDao.saveProductImage(productImage);
-    assertThat(productImage.getId(), is(0));
-
     productImage.setProduct(product);
-    productImage.setImageType(null);
-    productImageDao.saveProductImage(productImage);
-    assertThat(productImage.getId(), is(0));
-
     productImage.setImageType(ImageTypeEnum.SINGLE);
     productImageDao.saveProductImage(productImage);
     int id = productImage.getId();

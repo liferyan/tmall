@@ -21,11 +21,11 @@
 
   <sql id="joinSelectCategory">
     SELECT
-      c.id            AS 'c_id',
-      c.name          AS 'c_name',
-      p.id            AS 'p_id',
-      p.name          AS 'p_name',
-      p.promote_price AS 'p_promotePrice'
+      c.id            AS "c_id",
+      c.name          AS "c_name",
+      p.id            AS "p_id",
+      p.name          AS "p_name",
+      p.promote_price AS "p_promotePrice"
     FROM category AS c
       LEFT OUTER JOIN product AS p ON c.id = p.cid
   </sql>

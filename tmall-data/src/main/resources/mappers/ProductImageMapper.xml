@@ -17,15 +17,15 @@
 
   <sql id="joinSelectProductImage">
     SELECT
-      pi.id            AS 'pi_id',
-      pi.type          AS 'pi_type',
-      p.id             AS 'p_id',
-      p.name           AS 'p_name',
-      p.subtitle       AS 'p_subTitle',
-      p.original_price AS 'p_originalPrice',
-      p.promote_price  AS 'p_promotePrice',
-      p.create_date    AS 'p_createDate',
-      p.stock          AS 'p_stock'
+      pi.id            AS "pi_id",
+      pi.type          AS "pi_type",
+      p.id             AS "p_id",
+      p.name           AS "p_name",
+      p.subtitle       AS "p_subTitle",
+      p.original_price AS "p_originalPrice",
+      p.promote_price  AS "p_promotePrice",
+      p.create_date    AS "p_createDate",
+      p.stock          AS "p_stock"
     FROM product_image AS pi
       LEFT OUTER JOIN product AS p ON pi.pid = p.id
   </sql>

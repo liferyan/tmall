@@ -16,12 +16,12 @@
 
   <sql id="joinSelectPropertyValue">
     SELECT
-      pv.id    AS 'pv_id',
-      pv.value AS 'pv_value',
-      pp.id    AS 'pp_id',
-      pp.name  AS 'pp_name',
-      p.id     AS 'p_id',
-      p.name   AS 'p_name'
+      pv.id    AS "pv_id",
+      pv.value AS "pv_value",
+      pp.id    AS "pp_id",
+      pp.name  AS "pp_name",
+      p.id     AS "p_id",
+      p.name   AS "p_name"
     FROM property_value AS pv
       LEFT OUTER JOIN property AS pp ON pv.ppid = pp.id
       LEFT OUTER JOIN product AS p ON pv.pid = p.id

@@ -7,7 +7,7 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 
-import com.liferyan.tmall.data.config.DaoConfig;
+import com.liferyan.tmall.data.DaoTestSuite;
 import com.liferyan.tmall.data.entity.Order;
 import com.liferyan.tmall.data.entity.OrderItem;
 import com.liferyan.tmall.data.entity.Product;
@@ -16,18 +16,12 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Created by Ryan on 2017/6/1.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = DaoConfig.class)
-public class OrderItemDaoTest {
+public class OrderItemDaoTest extends DaoTestSuite {
 
   @Autowired
   private OrderItemDao orderItemDao;
@@ -46,20 +40,16 @@ public class OrderItemDaoTest {
   @Before
   public void setUp() throws Exception {
     product = productDao.getProductById(958);
-    user = userDao.getUserByName("test");
+    user = userDao.getUserByName("admin");
     order.setId(-1);
   }
 
-  @Test(expected = DataIntegrityViolationException.class)
+  @Test
   public void crudOrderItem() throws Exception {
-    orderItem.setOrder(null);
     orderItem.setProduct(product);
     orderItem.setUser(user);
     orderItem.setHasReview(true);
     orderItem.setNumber(3);
-    orderItemDao.saveOrderItem(orderItem);
-    assertThat(orderItem.getId(), is(0));
-
     orderItem.setOrder(order);
     orderItemDao.saveOrderItem(orderItem);
     assertThat(orderItem.getId(), not(0));
@@ -81,7 +71,9 @@ public class OrderItemDaoTest {
     orderItem.setOrder(order);
     orderItemDao.updateOrderItem(orderItem);
     orderItem = orderItemDao.getOrderItemById(id);
-    assertThat(orderItem.getOrder().getId(), is(30));
+    if (orderItem.getOrder() != null) {
+      assertThat(orderItem.getOrder().getId(), is(30));
+    }
 
     orderItemDao.deleteOrderItem(id);
     orderItem = orderItemDao.getOrderItemById(id);

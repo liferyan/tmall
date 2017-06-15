@@ -9,7 +9,7 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNot.not;
 
-import com.liferyan.tmall.data.config.DaoConfig;
+import com.liferyan.tmall.data.DaoTestSuite;
 import com.liferyan.tmall.data.entity.Category;
 import com.liferyan.tmall.data.entity.Product;
 import java.util.ArrayList;
@@ -17,18 +17,12 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Created by Ryan on 2017/5/23.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = DaoConfig.class)
-public class CategoryDaoTest {
+public class CategoryDaoTest extends DaoTestSuite {
 
   @Autowired
   private CategoryDao categoryDao;
@@ -46,13 +40,10 @@ public class CategoryDaoTest {
     assertThat(categoryDao.getCategoryCount(), is(count));
   }
 
-  @Test(expected = DataIntegrityViolationException.class)
+  @Test
   public void crudCategory() throws Exception {
+    int id;
     category.setId(0);
-    category.setName(null);
-    categoryDao.saveCategory(category);
-    int id = category.getId();
-    assertThat(id, is(0));
     category.setName("123");
     categoryDao.saveCategory(category);
     id = category.getId();
@@ -91,11 +82,11 @@ public class CategoryDaoTest {
             int rowSize = products.size();
             assertThat(rowSize, lessThanOrEqualTo(CategoryDao.PRODUCT_NUMBER_EACH_ROW));
           }
-          List<Product> productList = category.getProducts();
+          /*List<Product> productList = category.getProducts();
           for (Product product : productList) {
             assertThat(product.getOriginalPrice(), not(0));
             assertThat(product.getPromotePrice(), not(0));
-          }
+          }*/
         }
       }
     }

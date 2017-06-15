@@ -8,7 +8,7 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 
-import com.liferyan.tmall.data.config.DaoConfig;
+import com.liferyan.tmall.data.DaoTestSuite;
 import com.liferyan.tmall.data.entity.Order;
 import com.liferyan.tmall.data.entity.OrderItem;
 import com.liferyan.tmall.data.entity.OrderStatusEnum;
@@ -20,18 +20,12 @@ import java.util.List;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Created by Ryan on 2017/6/1.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = DaoConfig.class)
-public class OrderDaoTest {
+public class OrderDaoTest extends DaoTestSuite {
 
   @Autowired
   private  OrderDao orderDao;
@@ -44,7 +38,7 @@ public class OrderDaoTest {
 
   @Before
   public void setUp() throws Exception {
-    user = userDao.getUserByName("test");
+    user = userDao.getUserByName("admin");
     Date createDate = new Date();
     String now = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(createDate);
     String orderCode = now + RandomStringUtils.randomNumeric(4);
@@ -59,17 +53,9 @@ public class OrderDaoTest {
     order.setUser(user);
   }
 
-  @Test(expected = DataIntegrityViolationException.class)
+  @Test
   public void crudOrder() throws Exception {
-    order.setCreateDate(null);
-    orderDao.saveOrder(order);
-    assertThat(order.getId(), is(0));
-
     order.setCreateDate(new Date());
-    order.setOrderStatus(null);
-    orderDao.saveOrder(order);
-    assertThat(order.getId(), is(0));
-
     order.setOrderStatus(OrderStatusEnum.WAIT_PAY);
     orderDao.saveOrder(order);
     int id = order.getId();

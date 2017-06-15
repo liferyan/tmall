@@ -25,15 +25,15 @@
 
   <sql id="joinSelectProduct">
     SELECT
-      p.id             AS 'p_id',
-      p.name           AS 'p_name',
-      p.subtitle       AS 'p_subTitle',
-      p.original_price AS 'p_originalPrice',
-      p.promote_price  AS 'p_promotePrice',
-      p.create_date    AS 'p_createDate',
-      p.stock          AS 'p_stock',
-      c.id             AS 'c_id',
-      c.name           AS 'c_name'
+      p.id             AS "p_id",
+      p.name           AS "p_name",
+      p.subtitle       AS "p_subTitle",
+      p.original_price AS "p_originalPrice",
+      p.promote_price  AS "p_promotePrice",
+      p.create_date    AS "p_createDate",
+      p.stock          AS "p_stock",
+      c.id             AS "c_id",
+      c.name           AS "c_name"
     FROM product AS p LEFT OUTER JOIN category AS c ON p.cid = c.id
   </sql>
 
@@ -42,11 +42,11 @@
       id,
       name,
       stock,
-      subtitle       AS 'subTitle',
-      original_price AS 'originalPrice',
-      promote_price  AS 'promotePrice',
-      create_date    AS 'createDate',
-      cid            AS 'c_id'
+      subtitle       AS "subTitle",
+      original_price AS "originalPrice",
+      promote_price  AS "promotePrice",
+      create_date    AS "createDate",
+      cid            AS "c_id"
     FROM product
   </sql>
 
@@ -130,10 +130,10 @@
       id,
       name,
       stock,
-      subtitle       AS 'subTitle',
-      original_price AS 'originalPrice',
-      promote_price  AS 'promotePrice',
-      create_date    AS 'createDate'
+      subtitle       AS "subTitle",
+      original_price AS "originalPrice",
+      promote_price  AS "promotePrice",
+      create_date    AS "createDate"
     FROM product
     WHERE id = #{id}
   </select>

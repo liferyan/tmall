@@ -22,31 +22,31 @@
 
   <sql id="joinSelectOrderItem">
     SELECT
-      oi.id            AS 'oi_id',
-      oi.oid           AS 'oi_oid',
-      oi.number        AS 'oi_number',
-      oi.has_review    AS 'oi_hasReview',
-      u.id             AS 'u_id',
-      u.name           AS 'u_name',
-      p.id             AS 'p_id',
-      p.name           AS 'p_name',
-      p.subtitle       AS 'p_subTitle',
-      p.original_price AS 'p_originalPrice',
-      p.promote_price  AS 'p_promotePrice',
-      p.create_date    AS 'p_createDate',
-      p.stock          AS 'p_stock',
-      o.id             AS 'o_id',
-      o.order_code     AS 'o_orderCode',
-      o.address        AS 'o_address',
-      o.post           AS 'o_post',
-      o.receiver       AS 'o_receiver',
-      o.mobile         AS 'o_mobile',
-      o.user_message   AS 'o_userMessage',
-      o.create_date    AS 'o_createDate',
-      o.pay_date       AS 'o_payDate',
-      o.delivery_date  AS 'o_deliveryDate',
-      o.confirm_date   AS 'o_confirmDate',
-      o.status         AS 'o_orderStatus'
+      oi.id            AS "oi_id",
+      oi.oid           AS "oi_oid",
+      oi.number        AS "oi_number",
+      oi.has_review    AS "oi_hasReview",
+      u.id             AS "u_id",
+      u.name           AS "u_name",
+      p.id             AS "p_id",
+      p.name           AS "p_name",
+      p.subtitle       AS "p_subTitle",
+      p.original_price AS "p_originalPrice",
+      p.promote_price  AS "p_promotePrice",
+      p.create_date    AS "p_createDate",
+      p.stock          AS "p_stock",
+      o.id             AS "o_id",
+      o.order_code     AS "o_orderCode",
+      o.address        AS "o_address",
+      o.post           AS "o_post",
+      o.receiver       AS "o_receiver",
+      o.mobile         AS "o_mobile",
+      o.user_message   AS "o_userMessage",
+      o.create_date    AS "o_createDate",
+      o.pay_date       AS "o_payDate",
+      o.delivery_date  AS "o_deliveryDate",
+      o.confirm_date   AS "o_confirmDate",
+      o.status         AS "o_orderStatus"
     FROM order_item AS oi
       LEFT OUTER JOIN user AS u ON oi.uid = u.id
       LEFT OUTER JOIN product AS p ON oi.pid = p.id
@@ -101,14 +101,15 @@
 
   <select id="orderItemSelect" resultMap="orderItemAndProductMap">
     SELECT
-      oi.id           AS 'oi_id',
-      oi.number       AS 'oi_number',
-      p.id            AS 'p_id',
-      p.name          AS 'p_name',
-      p.promote_price AS 'p_promotePrice'
+      oi.id           AS "oi_id",
+      oi.number       AS "oi_number",
+      p.id            AS "p_id",
+      p.name          AS "p_name",
+      p.promote_price AS "p_promotePrice"
     FROM order_item AS oi
       LEFT OUTER JOIN product AS p ON oi.pid = p.id
     WHERE oi.oid = #{oid}
     ORDER BY oi.id
   </select>
+
 </mapper>

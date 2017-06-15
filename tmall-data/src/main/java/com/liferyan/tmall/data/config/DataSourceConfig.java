@@ -4,9 +4,12 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 /**
  * Created by Ryan on 2017/6/13.
@@ -23,14 +26,24 @@ public class DataSourceConfig {
   }
 
   @Bean
+
+  @Profile({"test", "prod"})
   public DataSource dataSource() {
     DriverManagerDataSource dataSource = new DriverManagerDataSource();
-    dataSource.setDriverClassName(environment.getProperty("db_driver", "com.mysql.jdbc.Driver"));
-    dataSource.setUrl(environment.getProperty("db_url",
-        "jdbc:mysql://127.0.0.1:3306/mall?characterEncoding=UTF-8&useSSL=false"));
-    dataSource.setUsername(environment.getProperty("db_username", "root"));
-    dataSource.setPassword(environment.getProperty("db_password", "admin"));
+    dataSource.setDriverClassName(environment.getRequiredProperty("db_driver"));
+    dataSource.setUrl(environment.getRequiredProperty("db_url"));
+    dataSource.setUsername(environment.getRequiredProperty("db_username"));
+    dataSource.setPassword(environment.getRequiredProperty("db_password"));
     return dataSource;
+  }
+
+  @Bean
+  @Profile("dev")
+  public DataSource embeddedDataSource() {
+    return new EmbeddedDatabaseBuilder()
+        .setType(EmbeddedDatabaseType.H2)
+        .addScript("classpath:tmall.sql")
+        .build();
   }
 
 }

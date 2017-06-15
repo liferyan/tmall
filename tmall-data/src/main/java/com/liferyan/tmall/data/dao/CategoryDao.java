@@ -30,7 +30,9 @@ public class CategoryDao extends BaseDao {
 
   public Category getCategoryById(int id) {
     Category category = this.getSqlSession().selectOne("getCategoryById", id);
-    setProductsByRow(category);
+    if (category != null) {
+      setProductsByRow(category);
+    }
     return category;
   }
 

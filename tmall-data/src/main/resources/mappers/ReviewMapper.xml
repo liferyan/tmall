@@ -21,13 +21,13 @@
 
   <select id="listProductReview" resultMap="reviewResult">
     SELECT
-      r.id          AS 'r_id',
-      r.content     AS 'r_content',
-      r.create_date AS 'r_createDate',
-      p.id          AS 'p_id',
-      p.name        AS 'p_name',
-      u.id          AS 'u_id',
-      u.name        AS 'u_name'
+      r.id          AS "r_id",
+      r.content     AS "r_content",
+      r.create_date AS "r_createDate",
+      p.id          AS "p_id",
+      p.name        AS "p_name",
+      u.id          AS "u_id",
+      u.name        AS "u_name"
     FROM review AS r
       LEFT OUTER JOIN user AS u ON r.uid = u.id
       LEFT OUTER JOIN product AS p ON r.pid = p.id
@@ -47,7 +47,7 @@
       uid,
       pid,
       content,
-      create_date AS 'createDate'
+      create_date AS "createDate"
     FROM review
     WHERE pid = #{pid}
     ORDER BY create_date DESC

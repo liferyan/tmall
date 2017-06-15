@@ -21,10 +21,10 @@
 
   <sql id="joinSelectProperty">
     SELECT
-      pp.id   AS 'pp_id',
-      pp.name AS 'pp_name',
-      c.id    AS 'c_id',
-      c.name  AS 'c_name'
+      pp.id   AS "pp_id",
+      pp.name AS "pp_name",
+      c.id    AS "c_id",
+      c.name  AS "c_name"
     FROM property AS pp
       LEFT OUTER JOIN category AS c ON pp.cid = c.id
   </sql>

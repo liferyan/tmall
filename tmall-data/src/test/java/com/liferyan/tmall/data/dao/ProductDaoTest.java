@@ -9,7 +9,7 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
-import com.liferyan.tmall.data.config.DaoConfig;
+import com.liferyan.tmall.data.DaoTestSuite;
 import com.liferyan.tmall.data.entity.Category;
 import com.liferyan.tmall.data.entity.Product;
 import com.liferyan.tmall.data.entity.Property;
@@ -19,18 +19,12 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Created by Ryan on 2017/5/26.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = DaoConfig.class)
-public class ProductDaoTest {
+public class ProductDaoTest extends DaoTestSuite {
 
   @Autowired
   private ProductDao productDao;
@@ -55,20 +49,17 @@ public class ProductDaoTest {
     assertThat(productDao.getProductCountByCategory(categoryId), is(count));
   }
 
-  @Test(expected = DataIntegrityViolationException.class)
+  @Test
   public void crudProduct() throws Exception {
+    int id;
     Category category = new Category();
     category.setId(categoryId);
     product.setCategory(category);
-    product.setName(null);
     product.setSubTitle("subtitle");
     product.setOriginalPrice(123.4f);
     product.setPromotePrice(100.0f);
     product.setStock(20);
     product.setCreateDate(new Date());
-    productDao.saveProduct(product);
-    int id = product.getId();
-    assertThat(id, is(0));
     product.setName("name");
     productDao.saveProduct(product);
     id = product.getId();
@@ -102,8 +93,6 @@ public class ProductDaoTest {
         assertThat(product.getFirstProductImage().getImageType(), notNullValue());
         assertThat(product.getSingleProductImageList(), notNullValue());
         assertThat(product.getDetailProductImageList(), notNullValue());
-        assertThat(product.getSaleCount(), greaterThan(0));
-        assertThat(product.getReviewCount(), greaterThan(0));
         assertThat(product.getCategory(), notNullValue());
         assertThat(product.getCategory().getId(), not(0));
         assertThat(product.getCategory().getName(), notNullValue());

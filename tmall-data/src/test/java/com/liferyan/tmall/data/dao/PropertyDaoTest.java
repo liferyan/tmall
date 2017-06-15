@@ -8,7 +8,7 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertThat;
 
-import com.liferyan.tmall.data.config.DaoConfig;
+import com.liferyan.tmall.data.DaoTestSuite;
 import com.liferyan.tmall.data.entity.Category;
 import com.liferyan.tmall.data.entity.Property;
 import java.util.ArrayList;
@@ -16,18 +16,12 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Created by Ryan on 2017/5/23.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = DaoConfig.class)
-public class PropertyDaoTest {
+public class PropertyDaoTest extends DaoTestSuite {
 
   @Autowired
   private PropertyDao propertyDao;
@@ -59,38 +53,17 @@ public class PropertyDaoTest {
     4.no name
     5.success
      */
-  @Test(expected = DataIntegrityViolationException.class)
+  @Test
   public void crudProperty() throws Exception {
+    int id;
     property.setName("123");
-    property.setCategory(null);
-    propertyDao.saveProperty(property);
-    int id = property.getId();
-    assertThat(id, is(0));
-
-    property.setName("456");
     Category category = new Category();
-    property.setCategory(category);
-    propertyDao.saveProperty(property);
-    assertThat(property.getId(), is(0));
-
-    property.setName("789");
-    category.setId(9999);
-    property.setCategory(category);
-    propertyDao.saveProperty(property);
-    assertThat(property.getId(), is(0));
-
-    property.setName(null);
-    category.setId(categoryId);
-    property.setCategory(category);
-    propertyDao.saveProperty(property);
-    assertThat(property.getId(), is(0));
-
-    property.setName("xyz");
     category.setId(categoryId);
     property.setCategory(category);
     propertyDao.saveProperty(property);
     id = property.getId();
     assertThat(id, not(0));
+
     property = propertyDao.getPropertyById(id);
     assertThat(property, notNullValue());
     property.setName("456");
