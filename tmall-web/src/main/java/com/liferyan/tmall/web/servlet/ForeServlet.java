@@ -15,6 +15,7 @@ import com.liferyan.tmall.web.comparator.ProductReviewComparator;
 import com.liferyan.tmall.web.comparator.ProductSaleCountComparator;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -385,7 +386,7 @@ public class ForeServlet extends BaseForeServlet {
     } else {
       comparator = new ProductAllComparator();
     }
-    category.getProducts().sort(comparator);
+    Collections.sort(category.getProducts(), comparator);
     request.setAttribute("category", category);
     return "category.jsp";
   }
