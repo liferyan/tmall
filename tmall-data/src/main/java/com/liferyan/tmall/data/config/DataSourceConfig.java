@@ -42,6 +42,7 @@ public class DataSourceConfig {
     return new EmbeddedDatabaseBuilder()
         .setType(EmbeddedDatabaseType.H2)
         .addScript("classpath:tmall.sql")
+        .setScriptEncoding("utf-8")
         .build();
   }
 
