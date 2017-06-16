@@ -28,7 +28,8 @@ public class ForeServletFilter implements Filter {
   private OrderItemDao orderItemDao;
 
   public void init(FilterConfig config) throws ServletException {
-    SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+    SpringBeanAutowiringSupport
+        .processInjectionBasedOnServletContext(this, config.getServletContext());
   }
 
   public void doFilter(ServletRequest req, ServletResponse resp,

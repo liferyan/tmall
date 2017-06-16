@@ -55,7 +55,7 @@ public abstract class BaseForeServlet extends HttpServlet {
 
   @Override
   public void init() throws ServletException {
-    SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+    SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, getServletContext());
   }
 
   protected void service(HttpServletRequest req, HttpServletResponse resp)
