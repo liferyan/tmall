@@ -27,7 +27,7 @@ public class DataSourceConfig {
 
   @Bean
   @Profile({"test", "prod"})
-  public DataSource dataSource() {
+  public DataSource simpleDataSource() {
     DriverManagerDataSource dataSource = new DriverManagerDataSource();
     dataSource.setDriverClassName(environment.getRequiredProperty("db_driver"));
     dataSource.setUrl(environment.getRequiredProperty("db_url"));
