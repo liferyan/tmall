@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xsi:schemaLocation="http://www.springframework.org/schema/aop
+      http://www.springframework.org/schema/aop/spring-aop.xsd
+  http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <!--<bean id="movie" class="com.liferyan.tmall.spring.c4.Movie"/>
+
+  <bean id="log" clacom.liferyan.tmall.spring.c4.Workerker.Log">
+    <constructor-arg value="#{T(System).out}"/>
+  </bean>-->
+
+  <aop:config>
+    <aop:aspect ref="log">
+      <aop:pointcut id="perform"
+        expression="execution(* *.perform(..))"/>
+      <aop:before pointcut-ref="perform" method="logBeforePerform"/>
+      <aop:after pointcut-ref="perform" method="logAfterPerform"/>
+    </aop:aspect>
+  </aop:config>
+
+</beans>
