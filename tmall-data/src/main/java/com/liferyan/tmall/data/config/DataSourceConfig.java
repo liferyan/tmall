@@ -26,7 +26,6 @@ public class DataSourceConfig {
   }
 
   @Bean
-
   @Profile({"test", "prod"})
   public DataSource dataSource() {
     DriverManagerDataSource dataSource = new DriverManagerDataSource();
