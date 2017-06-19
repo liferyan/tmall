@@ -26,7 +26,7 @@ public class DataSourceConfig {
   }
 
   @Bean
-  @Profile({"test", "prod"})
+  @Profile({"prod"})
   public DataSource simpleDataSource() {
     DriverManagerDataSource dataSource = new DriverManagerDataSource();
     dataSource.setDriverClassName(environment.getRequiredProperty("db_driver"));
@@ -37,7 +37,7 @@ public class DataSourceConfig {
   }
 
   @Bean
-  @Profile("dev")
+  @Profile({"dev", "test"})
   public DataSource embeddedDataSource() {
     return new EmbeddedDatabaseBuilder()
         .setType(EmbeddedDatabaseType.H2)
