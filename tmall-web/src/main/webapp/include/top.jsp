@@ -14,8 +14,8 @@
     </c:if>
 
     <c:if test="${empty sessionScope.user}">
-        <a href="login.jsp">请登录</a>
-        <a href="register.jsp">免费注册</a>
+        <a href="../WEB-INF/views/login.jsp">请登录</a>
+        <a href="../WEB-INF/views/register.jsp">免费注册</a>
     </c:if>
 
 

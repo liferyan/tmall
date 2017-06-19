@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=utf-8" language="java" isELIgnored="false"
          pageEncoding="utf-8" isErrorPage="true" %>
-<%@ include file="include/header.jsp" %>
+<%@ include file="/include/header.jsp" %>
 
 <!DOCTYPE html>
 <html>
