@@ -1,4 +1,4 @@
-package com.liferyan.spittr.data;
+package com.liferyan.spittr;
 
 import java.util.Date;
 import org.apache.commons.lang3.builder.EqualsBuilder;

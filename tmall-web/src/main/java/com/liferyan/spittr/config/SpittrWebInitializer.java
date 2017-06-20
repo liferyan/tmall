@@ -1,5 +1,6 @@
 package com.liferyan.spittr.config;
 
+import com.liferyan.spittr.web.WebConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**

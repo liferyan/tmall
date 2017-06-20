@@ -1,5 +1,6 @@
 package com.liferyan.spittr.data;
 
+import com.liferyan.spittr.Spittle;
 import java.util.List;
 
 /**
@@ -8,5 +9,7 @@ import java.util.List;
 public interface SpittleRepository {
 
   List<Spittle> findSpittles(long max, int count);
+
+  Spittle findOne(long id);
 
 }

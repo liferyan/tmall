@@ -1,13 +1,15 @@
 package com.liferyan.spittr;
 
-import static org.hamcrest.Matchers.iterableWithSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 import com.liferyan.spittr.config.RootConfig;
-import com.liferyan.spittr.config.WebConfig;
+import com.liferyan.spittr.web.WebConfig;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,9 +44,17 @@ public class SpittrTest {
     mockMvc.perform(get("/"))
         .andExpect(view().name("home"));
     mockMvc.perform(get("/spittles"))
-        .andExpect(view().name("spittles"))
-        .andExpect(model().attributeExists("spittleList"))
-        .andExpect(model().attribute("spittleList", iterableWithSize(20)));
+        .andExpect(view().name("spittles"));
+    mockMvc.perform(post("/spitter/register")
+        .param("lastName", "Bauer")
+        .param("username", "jbauer")
+        .param("password", "24hours")
+        .param("email", "email"))
+        .andExpect(status().isOk())
+        .andExpect(view().name("registerForm"))
+        .andExpect(model().errorCount(2))
+        .andExpect(model().attributeHasFieldErrors("spitter", "firstName", "email"))
+        .andDo(print());
   }
 
 }

@@ -1,6 +1,5 @@
-package com.liferyan.spittr.config;
+package com.liferyan.spittr.web;
 
-import com.liferyan.spittr.web.HomeController;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -32,4 +31,5 @@ public class WebConfig extends WebMvcConfigurerAdapter {
   public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
     configurer.enable();
   }
+
 }
