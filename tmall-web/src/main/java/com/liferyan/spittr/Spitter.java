@@ -1,10 +1,10 @@
 package com.liferyan.spittr;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * Created by Ryan on 2017/6/20.
@@ -13,23 +13,23 @@ public class Spitter {
 
   private Long id;
 
-  @NotEmpty
-  @Length(min = 5, max = 16)
+  @NotNull
+  @Size(min = 5, max = 16)
   private String username;
 
-  @NotEmpty
-  @Length(min = 5, max = 25)
+  @NotNull
+  @Size(min = 5, max = 25)
   private String password;
 
-  @NotEmpty
-  @Length(min = 2, max = 30)
+  @NotNull
+  @Size(min = 2, max = 30)
   private String firstName;
 
-  @NotEmpty
-  @Length(min = 2, max = 30)
+  @NotNull
+  @Size(min = 2, max = 30)
   private String lastName;
 
-  @NotEmpty
+  @NotNull
   @Email
   private String email;
 

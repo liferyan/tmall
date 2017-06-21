@@ -1,6 +1,5 @@
 package com.liferyan.spittr.web;
 
-import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -14,64 +13,74 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 
 import com.liferyan.spittr.Spitter;
 import com.liferyan.spittr.data.SpitterRepository;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
 /**
  * Created by Ryan on 2017/6/20.
  */
 public class SpitterControllerTest {
 
-  @Test
-  public void shouldshowRegistration() throws Exception {
-    SpitterRepository mockRepository = mock(SpitterRepository.class);
-    SpitterController spitterController = new SpitterController(mockRepository);
-    MockMvc mockMvc = standaloneSetup(spitterController)
-        .build();
+  private SpitterRepository mockRepository;
 
-    mockMvc.perform(get("/spitter/register"))
-        .andExpect(view().name("registerForm"));
+  private MockMvc mockMvc;
+
+  @Before
+  public void setupMock() throws Exception {
+    mockRepository = mock(SpitterRepository.class);
+    SpitterController spitterController = new SpitterController(mockRepository);
+    mockMvc = standaloneSetup(spitterController)
+        .build();
   }
 
   @Test
-  public void processingRegistration() throws Exception {
-    SpitterRepository mockRepository = mock(SpitterRepository.class);
+  public void shouldshowRegistration() throws Exception {
+    ResultActions resultActions = mockMvc.perform(get("/spitter/register"));
+
+    resultActions
+        .andExpect(view().name("registerForm"))
+        .andExpect(model().attributeExists("spitter"));
+  }
+
+  @Test
+  public void shouldProcessingRegistration() throws Exception {
     Spitter unsaved = new Spitter("jbauer", "24hours", "Jack", "Bauer", "jbauer@ctu.gov");
     Spitter saved = new Spitter(24L, "jbauer", "24hours", "Jack", "Bauer", "jbauer@ctu.gov");
-    //stubbing
     when(mockRepository.save(unsaved)).thenReturn(saved);
     when(mockRepository.findByUsername("jbauer")).thenReturn(saved);
 
-    SpitterController spitterController = new SpitterController(mockRepository);
-    MockMvc mockMvc = standaloneSetup(spitterController)
-        .build();
+    ResultActions resultActions = mockMvc.perform(
+        post("/spitter/register")
+            .param("firstName", "Jack")
+            .param("lastName", "Bauer")
+            .param("username", "jbauer")
+            .param("password", "24hours")
+            .param("email", "liferyan@126.com"));
 
-    mockMvc.perform(post("/spitter/register")
-        .param("firstName", "Jack")
-        .param("lastName", "Bauer")
-        .param("username", "jbauer")
-        .param("password", "24hours")
-        .param("email", "liferyan@126.com"))
+    verify(mockRepository).save(unsaved);
+    resultActions
+        .andExpect(view().name("redirect:/spitter/jbauer"))
         .andExpect(status().isFound())
         .andExpect(redirectedUrl("/spitter/jbauer"));
-    verify(mockRepository, atLeastOnce()).save(unsaved);
 
-    mockMvc.perform(get("/spitter/jbauer"))
+    ResultActions redirectResultActions = mockMvc.perform(get("/spitter/jbauer"));
+
+    verify(mockRepository).findByUsername("jbauer");
+    redirectResultActions
         .andExpect(view().name("profile"))
         .andExpect(model().attributeExists("spitter"))
         .andExpect(model().attribute("spitter", saved));
-    verify(mockRepository, atLeastOnce()).findByUsername("jbauer");
   }
 
   @Test
   public void shouldFailValidationWithNoData() throws Exception {
-    SpitterRepository mockRepository = mock(SpitterRepository.class);
-    SpitterController controller = new SpitterController(mockRepository);
-    MockMvc mockMvc = standaloneSetup(controller).build();
+    ResultActions resultActions = mockMvc.perform(post("/spitter/register"));
 
-    mockMvc.perform(post("/spitter/register"))
-        .andExpect(status().isOk())
+    resultActions
         .andExpect(view().name("registerForm"))
+        .andExpect(status().isOk())
         .andExpect(model().errorCount(5))
         .andExpect(model().attributeHasFieldErrors(
             "spitter", "firstName", "lastName", "username", "password", "email"));
