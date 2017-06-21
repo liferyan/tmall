@@ -7,7 +7,6 @@ import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-import com.liferyan.tmall.data.DaoTestSuite;
 import com.liferyan.tmall.data.entity.Category;
 import com.liferyan.tmall.data.entity.Product;
 import com.liferyan.tmall.data.entity.PropertyValue;
@@ -22,7 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Created by Ryan on 2017/5/27.
  */
-public class PropertyValueDaoTest extends DaoTestSuite{
+public class PropertyValueBaseDaoTest extends BaseDaoTest {
 
   @Autowired
   private PropertyValueDao propertyValueDao;

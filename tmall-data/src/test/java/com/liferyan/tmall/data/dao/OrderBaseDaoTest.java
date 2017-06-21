@@ -8,7 +8,6 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 
-import com.liferyan.tmall.data.DaoTestSuite;
 import com.liferyan.tmall.data.entity.Order;
 import com.liferyan.tmall.data.entity.OrderItem;
 import com.liferyan.tmall.data.entity.OrderStatusEnum;
@@ -25,7 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Created by Ryan on 2017/6/1.
  */
-public class OrderDaoTest extends DaoTestSuite {
+public class OrderBaseDaoTest extends BaseDaoTest {
 
   @Autowired
   private  OrderDao orderDao;

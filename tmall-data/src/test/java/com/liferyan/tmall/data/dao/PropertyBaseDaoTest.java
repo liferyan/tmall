@@ -8,7 +8,6 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertThat;
 
-import com.liferyan.tmall.data.DaoTestSuite;
 import com.liferyan.tmall.data.entity.Category;
 import com.liferyan.tmall.data.entity.Property;
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Created by Ryan on 2017/5/23.
  */
-public class PropertyDaoTest extends DaoTestSuite {
+public class PropertyBaseDaoTest extends BaseDaoTest {
 
   @Autowired
   private PropertyDao propertyDao;

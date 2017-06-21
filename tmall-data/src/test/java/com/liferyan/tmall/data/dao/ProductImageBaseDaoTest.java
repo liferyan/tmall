@@ -7,7 +7,6 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
-import com.liferyan.tmall.data.DaoTestSuite;
 import com.liferyan.tmall.data.entity.ImageTypeEnum;
 import com.liferyan.tmall.data.entity.Product;
 import com.liferyan.tmall.data.entity.ProductImage;
@@ -20,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Created by Ryan on 2017/6/1.
  */
-public class ProductImageDaoTest extends DaoTestSuite{
+public class ProductImageBaseDaoTest extends BaseDaoTest {
 
   @Autowired
   private ProductImageDao productImageDao;

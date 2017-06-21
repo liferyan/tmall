@@ -1,6 +1,5 @@
 package com.liferyan.tmall.data.dao;
 
-import com.liferyan.tmall.data.DaoTestSuite;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
  * Created by Ryan on 2017/6/2.
  * MyBatis缓存测试类
  */
-public class MyBatisCacheTest extends DaoTestSuite {
+public class MyBatisCacheTestBase extends BaseDaoTest {
 
-  private static final Logger logger = LoggerFactory.getLogger("MyBatisCacheTest");
+  private static final Logger logger = LoggerFactory.getLogger("MyBatisCacheTestBase");
 
   @Autowired
   private CategoryDao categoryDao;

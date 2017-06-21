@@ -8,7 +8,6 @@ import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.hamcrest.core.IsNull.nullValue;
 
-import com.liferyan.tmall.data.DaoTestSuite;
 import com.liferyan.tmall.data.entity.User;
 import java.util.List;
 import org.junit.After;
@@ -19,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Created by Ryan on 2017/5/21.
  */
-public class UserDaoTest extends DaoTestSuite {
+public class UserBaseDaoTest extends BaseDaoTest {
 
   @Autowired
   private UserDao userDao;

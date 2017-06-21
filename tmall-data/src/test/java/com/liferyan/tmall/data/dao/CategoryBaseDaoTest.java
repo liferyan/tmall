@@ -9,7 +9,6 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNot.not;
 
-import com.liferyan.tmall.data.DaoTestSuite;
 import com.liferyan.tmall.data.entity.Category;
 import com.liferyan.tmall.data.entity.Product;
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Created by Ryan on 2017/5/23.
  */
-public class CategoryDaoTest extends DaoTestSuite {
+public class CategoryBaseDaoTest extends BaseDaoTest {
 
   @Autowired
   private CategoryDao categoryDao;

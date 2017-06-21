@@ -4,7 +4,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 
-import com.liferyan.tmall.data.DaoTestSuite;
 import com.liferyan.tmall.data.entity.Product;
 import com.liferyan.tmall.data.entity.Review;
 import com.liferyan.tmall.data.entity.User;
@@ -19,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Created by Ryan on 2017/6/1.
  */
-public class ReviewDaoTest extends DaoTestSuite {
+public class ReviewBaseDaoTest extends BaseDaoTest {
 
   @Autowired
   private ReviewDao reviewDao;

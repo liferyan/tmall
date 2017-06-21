@@ -1,6 +1,7 @@
-package com.liferyan.tmall.data;
+package com.liferyan.tmall.data.dao;
 
 import com.liferyan.tmall.data.config.DaoConfig;
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -12,6 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = DaoConfig.class)
 @ActiveProfiles("dev")
-public class DaoTestSuite {
+@Ignore
+public class BaseDaoTest {
 
 }
