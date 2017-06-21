@@ -22,6 +22,7 @@ public class JdbcSpittleRepository implements SpittleRepository {
     this.jdbc = jdbc;
   }
 
+  @Override
   public List<Spittle> findRecentSpittles() {
     return jdbc.query(
         "select id, message, created_at, latitude, longitude" +
@@ -30,6 +31,7 @@ public class JdbcSpittleRepository implements SpittleRepository {
         new SpittleRowMapper());
   }
 
+  @Override
   public List<Spittle> findSpittles(long max, int count) {
     return jdbc.query(
         "select id, message, created_at, latitude, longitude" +
@@ -39,6 +41,7 @@ public class JdbcSpittleRepository implements SpittleRepository {
         new SpittleRowMapper(), max);
   }
 
+  @Override
   public Spittle findOne(long id) {
     return jdbc.queryForObject(
         "select id, message, created_at, latitude, longitude" +
@@ -47,6 +50,7 @@ public class JdbcSpittleRepository implements SpittleRepository {
         new SpittleRowMapper(), id);
   }
 
+  @Override
   public void save(Spittle spittle) {
     jdbc.update(
         "insert into Spittle (message, created_at, latitude, longitude)" +

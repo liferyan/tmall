@@ -2,9 +2,11 @@ package com.liferyan.spittr.web;
 
 import static org.hamcrest.Matchers.hasItems;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
@@ -82,6 +84,29 @@ public class SpittleControllerTest {
         .andExpect(view().name("spittle"))
         .andExpect(model().attributeExists("spittle"))
         .andExpect(model().attribute("spittle", spittle));
+  }
+
+  @Test
+  public void saveSpittle() throws Exception {
+    Spittle mockSpittle = mock(Spittle.class);
+    ResultActions errorResultActions = mockMvc.perform(post("/spittles")
+        .param("longitude", "-81.5811668")
+        .param("latitude", "28.4159649"));
+
+    verify(mockRepository, never()).save(mockSpittle);
+    errorResultActions
+        .andExpect(view().name("spittles"))
+        .andExpect(model().errorCount(1))
+        .andExpect(model().attributeHasFieldErrors("spittleForm", "message"));
+
+    ResultActions resultActions = mockMvc.perform(post("/spittles")
+        .param("message", "Hello World!")
+        .param("longitude", "-81.5811668")
+        .param("latitude", "28.4159649"));
+
+    //verify(mockRepository).save(mockSpittle);
+    resultActions
+        .andExpect(view().name("redirect:/spittles"));
   }
 
   /**

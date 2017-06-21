@@ -21,6 +21,7 @@ public class JdbcSpitterRepository implements SpitterRepository {
     this.jdbc = jdbc;
   }
 
+  @Override
   public Spitter save(Spitter spitter) {
     jdbc.update(
         "insert into Spitter (username, password, first_name, last_name, email)" +
@@ -33,6 +34,7 @@ public class JdbcSpitterRepository implements SpitterRepository {
     return spitter;
   }
 
+  @Override
   public Spitter findByUsername(String username) {
     return jdbc.queryForObject(
         "select id, username, null, first_name, last_name, email from Spitter where username=?",
