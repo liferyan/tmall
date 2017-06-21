@@ -47,8 +47,9 @@ public class SpittleController {
   public String showSpittles(
       @RequestParam(name = "max", defaultValue = MAX_LONG_AS_STRING) long max,
       @RequestParam(name = "count", defaultValue = "20") int count,
-      @ModelAttribute SpittleForm spittleForm,
+      SpittleForm spittleForm,
       Model model) {
+    model.addAttribute(spittleForm);
     model.addAttribute(spittleRepository.findSpittles(max, count));
     return "spittles";
   }

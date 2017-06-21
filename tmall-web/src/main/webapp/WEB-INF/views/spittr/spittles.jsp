@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 
 <html>
 <head>
@@ -12,13 +12,13 @@
 <body>
 <div class="spittleForm">
     <h1>Spit it out...</h1>
-    <form:form modelAttribute="spittleForm" method="POST" name="spittleForm">
+    <sf:form modelAttribute="spittleForm" method="POST" name="spittleForm">
         <input type="hidden" name="latitude">
         <input type="hidden" name="longitude">
-        <form:textarea path="message" name="message" cols="80" rows="5"/>
-        <form:errors path="message" cssStyle="color:red"/><br/>
+        <sf:textarea path="message" name="message" cols="80" rows="5"/>
+        <sf:errors path="message" cssStyle="color:red"/><br/>
         <input type="submit" value="Add"/>
-    </form:form>
+    </sf:form>
 </div>
 <div class="listTitle">
     <h1>Recent Spittles</h1>
