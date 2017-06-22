@@ -16,16 +16,18 @@ public class HomeControllerTest {
   private MockMvc mockMvc;
 
   @Before
-  public void setupMock() throws Exception {
+  public void setUp() throws Exception {
     HomeController homeController = new HomeController();
     mockMvc = standaloneSetup(homeController).build();
   }
 
   @Test
-  public void testHomePage() throws Exception {
-    mockMvc.perform(get("/"))
+  public void home() throws Exception {
+    mockMvc.perform(
+        get("/"))
         .andExpect(view().name("home"));
-    mockMvc.perform(get("/homepage"))
+    mockMvc.perform(
+        get("/homepage"))
         .andExpect(view().name("home"));
   }
 

@@ -2,12 +2,12 @@ package com.liferyan.spittr.web;
 
 import static org.hamcrest.Matchers.hasItems;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
@@ -27,28 +27,28 @@ import org.springframework.web.servlet.view.InternalResourceView;
  */
 public class SpittleControllerTest {
 
-  private SpittleRepository mockRepository;
+  private SpittleRepository mockSpittleRepository;
 
   private MockMvc mockMvc;
 
   @Before
-  public void setupMock() throws Exception {
+  public void setUp() throws Exception {
     //准备测试环境
-    mockRepository = mock(SpittleRepository.class);
-    SpittleController spittleController = new SpittleController(mockRepository);
-    mockMvc = standaloneSetup(spittleController)
+    mockSpittleRepository = mock(SpittleRepository.class);
+    mockMvc = standaloneSetup(new SpittleController(mockSpittleRepository))
         .setSingleView(new InternalResourceView("/WEB-INF/views/spittr/spittles.jsp"))
         .build();
   }
 
   @Test
-  public void shouldShowRecentSpittles() throws Exception {
+  public void showSpittleListWithNoParam() throws Exception {
     List<Spittle> expectedSpittles = createSpittles(20);
-    when(mockRepository.findSpittles(Long.MAX_VALUE, 20)).thenReturn(expectedSpittles);
+    when(mockSpittleRepository.findSpittles(Long.MAX_VALUE, 20)).thenReturn(expectedSpittles);
 
-    ResultActions resultActions = mockMvc.perform(get("/spittles"));
+    ResultActions resultActions = mockMvc.perform(
+        get("/spittles"));
 
-    verify(mockRepository).findSpittles(Long.MAX_VALUE, 20);
+    verify(mockSpittleRepository).findSpittles(Long.MAX_VALUE, 20);
     resultActions
         .andExpect(view().name("spittles"))
         .andExpect(model().attributeExists("spittleList"))
@@ -56,13 +56,14 @@ public class SpittleControllerTest {
   }
 
   @Test
-  public void shouldShowPageSpittles() throws Exception {
+  public void showSpittleList() throws Exception {
     List<Spittle> expectedSpittles = createSpittles(50);
-    when(mockRepository.findSpittles(23890, 50)).thenReturn(expectedSpittles);
+    when(mockSpittleRepository.findSpittles(23890, 50)).thenReturn(expectedSpittles);
 
-    ResultActions resultActions = mockMvc.perform(get("/spittles?max=23890&count=50"));
+    ResultActions resultActions = mockMvc.perform(
+        get("/spittles?max=23890&count=50"));
 
-    verify(mockRepository).findSpittles(23890, 50);
+    verify(mockSpittleRepository).findSpittles(23890, 50);
     resultActions
         .andExpect(view().name("spittles"))
         .andExpect(model().attributeExists("spittleList"))
@@ -70,16 +71,17 @@ public class SpittleControllerTest {
   }
 
   @Test
-  public void shouldShowSingleSpittle() throws Exception {
+  public void showSpittle() throws Exception {
     //准备测试数据
     Spittle spittle = new Spittle("spittle", new Date());
-    when(mockRepository.findOne(12345)).thenReturn(spittle);
+    when(mockSpittleRepository.findOne(12345)).thenReturn(spittle);
 
     //调用被测系统
-    ResultActions resultActions = mockMvc.perform(get("/spittles/12345"));
+    ResultActions resultActions = mockMvc.perform(
+        get("/spittles/12345"));
 
     //验证
-    verify(mockRepository).findOne(12345);
+    verify(mockSpittleRepository).findOne(12345);
     resultActions
         .andExpect(view().name("spittle"))
         .andExpect(model().attributeExists("spittle"))
@@ -88,25 +90,37 @@ public class SpittleControllerTest {
 
   @Test
   public void saveSpittle() throws Exception {
-    Spittle mockSpittle = mock(Spittle.class);
-    ResultActions errorResultActions = mockMvc.perform(post("/spittles")
-        .param("longitude", "-81.5811668")
-        .param("latitude", "28.4159649"));
+    Spittle spittle = new Spittle(1L, "Hello World!", new Date(), -81.5811668, 28.4159649);
 
-    verify(mockRepository, never()).save(mockSpittle);
+    ResultActions saveSpittleResult = mockMvc.perform(
+        post("/spittles")
+            .param("message", spittle.getMessage())
+            .param("longitude", spittle.getLongitude().toString())
+            .param("latitude", spittle.getLatitude().toString()));
+
+    verify(mockSpittleRepository).save(spittle);
+    saveSpittleResult
+        .andExpect(view().name("redirect:/spittles"));
+  }
+
+  @Test
+  public void saveSpittleFailValidationWithNoData() throws Exception {
+    Spittle spittle = new Spittle(1L, "Hello Spring MVC!", new Date(), -81.5811668, 28.4159649);
+    List<Spittle> expectedSpittles = new ArrayList<>();
+    expectedSpittles.add(spittle);
+    when(mockSpittleRepository.findSpittles(Long.MAX_VALUE, 20)).thenReturn(expectedSpittles);
+
+    ResultActions errorResultActions = mockMvc.perform(
+        post("/spittles")
+            .param("longitude", spittle.getLongitude().toString())
+            .param("latitude", spittle.getLatitude().toString()));
+
     errorResultActions
+        .andExpect(status().isOk())
         .andExpect(view().name("spittles"))
         .andExpect(model().errorCount(1))
-        .andExpect(model().attributeHasFieldErrors("spittleForm", "message"));
-
-    ResultActions resultActions = mockMvc.perform(post("/spittles")
-        .param("message", "Hello World!")
-        .param("longitude", "-81.5811668")
-        .param("latitude", "28.4159649"));
-
-    //verify(mockRepository).save(mockSpittle);
-    resultActions
-        .andExpect(view().name("redirect:/spittles"));
+        .andExpect(model().attributeHasFieldErrors("spittleForm", "message"))
+        .andExpect(model().attributeExists("spittleList"));
   }
 
   /**

@@ -23,21 +23,21 @@ import org.springframework.test.web.servlet.ResultActions;
  */
 public class SpitterControllerTest {
 
-  private SpitterRepository mockRepository;
+  private SpitterRepository mockSpitterRepository;
 
   private MockMvc mockMvc;
 
   @Before
-  public void setupMock() throws Exception {
-    mockRepository = mock(SpitterRepository.class);
-    SpitterController spitterController = new SpitterController(mockRepository);
-    mockMvc = standaloneSetup(spitterController)
+  public void setUp() throws Exception {
+    mockSpitterRepository = mock(SpitterRepository.class);
+    mockMvc = standaloneSetup(new SpitterController(mockSpitterRepository))
         .build();
   }
 
   @Test
-  public void shouldshowRegistration() throws Exception {
-    ResultActions resultActions = mockMvc.perform(get("/spitter/register"));
+  public void showRegistrationForm() throws Exception {
+    ResultActions resultActions = mockMvc.perform(
+        get("/spitter/register"));
 
     resultActions
         .andExpect(view().name("registerForm"))
@@ -45,11 +45,11 @@ public class SpitterControllerTest {
   }
 
   @Test
-  public void shouldProcessingRegistration() throws Exception {
+  public void registerSpitterAndShowProfile() throws Exception {
     Spitter unsaved = new Spitter("jbauer", "24hours", "Jack", "Bauer", "jbauer@ctu.gov");
     Spitter saved = new Spitter(24L, "jbauer", "24hours", "Jack", "Bauer", "jbauer@ctu.gov");
-    when(mockRepository.save(unsaved)).thenReturn(saved);
-    when(mockRepository.findByUsername("jbauer")).thenReturn(saved);
+    when(mockSpitterRepository.save(unsaved)).thenReturn(saved);
+    when(mockSpitterRepository.findByUsername("jbauer")).thenReturn(saved);
 
     ResultActions resultActions = mockMvc.perform(
         post("/spitter/register")
@@ -59,15 +59,16 @@ public class SpitterControllerTest {
             .param("password", "24hours")
             .param("email", "liferyan@126.com"));
 
-    verify(mockRepository).save(unsaved);
+    verify(mockSpitterRepository).save(unsaved);
     resultActions
         .andExpect(view().name("redirect:/spitter/jbauer"))
         .andExpect(status().isFound())
         .andExpect(redirectedUrl("/spitter/jbauer"));
 
-    ResultActions redirectResultActions = mockMvc.perform(get("/spitter/jbauer"));
+    ResultActions redirectResultActions = mockMvc.perform(
+        get("/spitter/jbauer"));
 
-    verify(mockRepository).findByUsername("jbauer");
+    verify(mockSpitterRepository).findByUsername("jbauer");
     redirectResultActions
         .andExpect(view().name("profile"))
         .andExpect(model().attributeExists("spitter"))
@@ -75,8 +76,9 @@ public class SpitterControllerTest {
   }
 
   @Test
-  public void shouldFailValidationWithNoData() throws Exception {
-    ResultActions resultActions = mockMvc.perform(post("/spitter/register"));
+  public void registerSpitterFailValidationWithNoData() throws Exception {
+    ResultActions resultActions = mockMvc.perform(
+        post("/spitter/register"));
 
     resultActions
         .andExpect(view().name("registerForm"))

@@ -12,7 +12,7 @@
 <body>
 <div class="spittleForm">
     <h1>Spit it out...</h1>
-    <sf:form modelAttribute="spittleForm" method="POST" name="spittleForm">
+    <sf:form commandName="spittleForm" method="POST" name="spittleForm">
         <input type="hidden" name="latitude">
         <input type="hidden" name="longitude">
         <sf:textarea path="message" name="message" cols="80" rows="5"/>

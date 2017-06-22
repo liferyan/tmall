@@ -19,7 +19,16 @@ public class SpittleForm {
   @Min(-90)
   @Max(90)
   private Double latitude;
-  
+
+  public SpittleForm() {
+  }
+
+  public SpittleForm(String message, Double longitude, Double latitude) {
+    this.message = message;
+    this.longitude = longitude;
+    this.latitude = latitude;
+  }
+
   public String getMessage() {
     return message;
   }
