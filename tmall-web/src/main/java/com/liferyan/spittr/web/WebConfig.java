@@ -1,10 +1,13 @@
 package com.liferyan.spittr.web;
 
+import java.io.IOException;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -27,6 +30,14 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     resolver.setSuffix(".jsp");
     resolver.setExposeContextBeansAsAttributes(true);
     return resolver;
+  }
+
+  @Bean
+  public MultipartResolver multipartResolver() throws IOException {
+    CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+    multipartResolver.setMaxUploadSizePerFile(2097152);
+    multipartResolver.setMaxInMemorySize(0);
+    return multipartResolver;
   }
 
   @Bean
