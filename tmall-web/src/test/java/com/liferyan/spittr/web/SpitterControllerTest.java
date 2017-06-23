@@ -3,8 +3,8 @@ package com.liferyan.spittr.web;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -13,8 +13,11 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 
 import com.liferyan.spittr.Spitter;
 import com.liferyan.spittr.data.SpitterRepository;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -51,8 +54,14 @@ public class SpitterControllerTest {
     when(mockSpitterRepository.save(unsaved)).thenReturn(saved);
     when(mockSpitterRepository.findByUsername("jbauer")).thenReturn(saved);
 
+    //for upload
+    InputStream contentStream = new FileInputStream("/Users/Ryan/Downloads/head2016.jpg");
+    //profilePicture to RequestPart name
+    MockMultipartFile imgFile = new MockMultipartFile("profilePicture", contentStream);
+
     ResultActions resultActions = mockMvc.perform(
-        post("/spitter/register")
+        fileUpload("/spitter/register")
+            .file(imgFile)
             .param("firstName", "Jack")
             .param("lastName", "Bauer")
             .param("username", "jbauer")
@@ -78,7 +87,7 @@ public class SpitterControllerTest {
   @Test
   public void registerSpitterFailValidationWithNoData() throws Exception {
     ResultActions resultActions = mockMvc.perform(
-        post("/spitter/register"));
+        fileUpload("/spitter/register"));
 
     resultActions
         .andExpect(view().name("registerForm"))

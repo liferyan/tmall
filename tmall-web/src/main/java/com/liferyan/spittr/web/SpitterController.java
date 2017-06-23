@@ -49,7 +49,7 @@ public class SpitterController {
     }
     spitterRepository.save(spitter);
     model.addFlashAttribute("spitter", spitter);
-    if (profilePicture != null && !profilePicture.isEmpty()) {
+    if (!profilePicture.isEmpty()) {
       profilePicture.transferTo(
           new File("/Users/Ryan/Developer/Java/spittr/uploads/" + spitter.getUsername() + ".jpg"));
     }

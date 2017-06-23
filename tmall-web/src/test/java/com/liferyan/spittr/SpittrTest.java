@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -14,12 +15,15 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 import com.liferyan.spittr.config.RootConfig;
 import com.liferyan.spittr.web.SpittleForm;
 import com.liferyan.spittr.web.WebConfig;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.ContextHierarchy;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -65,10 +69,16 @@ public class SpittrTest {
         .andExpect(status().isOk())
         .andExpect(model().attributeExists("spitter"));
 
+    //for upload
+    InputStream contentStream = new FileInputStream("/Users/Ryan/Downloads/head2016.jpg");
+    //profilePicture to RequestPart name
+    MockMultipartFile imgFile = new MockMultipartFile("profilePicture", contentStream);
+
     //调用被测系统
     for (Spitter spitter : spitterList) {
       mockMvc.perform(
-          post("/spitter/register")
+          fileUpload("/spitter/register")
+              .file(imgFile)
               .param("firstName", spitter.getFirstName())
               .param("lastName", spitter.getLastName())
               .param("username", spitter.getUsername())
