@@ -1,8 +1,8 @@
 package com.liferyan.spittr.web;
 
-import org.springframework.dao.DataAccessException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Created by Ryan on 2017/6/22.
@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class AppWideExceptionHandler {
 
-  @ExceptionHandler(DataAccessException.class)
-  public String handlerDuplicateSpitter() {
-    return "error/data_access_error";
+  @ExceptionHandler(Exception.class)
+  public ModelAndView handlerDataAccessException(Exception ex) {
+    ModelAndView mv = new ModelAndView("error");
+    mv.addObject("message", ex.getMessage());
+    return mv;
   }
 
 }
