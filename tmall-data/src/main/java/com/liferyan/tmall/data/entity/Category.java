@@ -2,6 +2,8 @@ package com.liferyan.tmall.data.entity;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -21,6 +23,8 @@ public class Category implements Serializable {
   /**
    * 分类名
    */
+  @NotNull
+  @Size(min = 1, max = 8, message = "{category.name.size}")
   private String name;
 
   /**

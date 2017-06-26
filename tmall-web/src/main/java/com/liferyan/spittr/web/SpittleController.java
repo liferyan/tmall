@@ -36,7 +36,9 @@ public class SpittleController {
       @RequestParam(name = "max", defaultValue = MAX_LONG_AS_STRING) long max,
       @RequestParam(name = "count", defaultValue = "20") int count,
       Model model) {
-    model.addAttribute(new SpittleForm());
+    if (!model.containsAttribute("spittleForm")) {
+      model.addAttribute(new SpittleForm());
+    }
     model.addAttribute(spittleRepository.findSpittles(max, count));
     return "spittles";
   }
@@ -52,8 +54,7 @@ public class SpittleController {
   @RequestMapping(method = POST)
   public String saveSpittle(@Valid SpittleForm spittleForm, Errors errors, Model model) {
     if (errors.hasErrors()) {
-      model.addAttribute(spittleRepository.findSpittles(Long.MAX_VALUE, 20));
-      return "spittles";
+      return showSpittleList(Long.MAX_VALUE, 20, model);
     }
     spittleRepository.save(
         new Spittle(null, spittleForm.getMessage(), new Date(), spittleForm.getLongitude(),

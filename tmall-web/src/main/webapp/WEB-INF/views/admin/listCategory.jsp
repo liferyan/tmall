@@ -3,6 +3,7 @@
 <%@ include file="../include/admin/adminHeader.jsp" %>
 <%@ include file="../include/admin/adminNavigator.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 
 <script>
   $(function () {
@@ -64,17 +65,21 @@
 <div class="addDiv">
     <div class="panel panel-warning">
         <div class="panel-heading">新增分类</div>
+
         <div class="panel-body">
-            <form method="post" id="addForm" action="admin_category_add"
-                  enctype="multipart/form-data">
+            <sf:form commandName="category" method="post" id="addForm" action="admin_category_add"
+                     enctype="multipart/form-data">
                 <table class="addTable">
                     <tr>
+                        <td colspan="2" align="center"><sf:errors path="*" cssClass="text-danger"/></td>
+                    </tr>
+                    <tr>
                         <td><label for="name">分类名称</label></td>
-                        <td><input id="name" type="text" name="name" class="form-control"></td>
+                        <td><sf:input path="name" class="form-control"/></td>
                     </tr>
                     <tr>
                         <td><label for="category_img">分类图片</label></td>
-                        <td><input id="category_img" type="file" name="category_file"
+                        <td><input id="category_img" type="file" name="categoryImage"
                                    accept="image/*">
                         </td>
                     </tr>
@@ -85,7 +90,7 @@
                         </td>
                     </tr>
                 </table>
-            </form>
+            </sf:form>
         </div>
     </div>
 </div>
