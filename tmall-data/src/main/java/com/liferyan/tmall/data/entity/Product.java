@@ -3,6 +3,10 @@ package com.liferyan.tmall.data.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -22,27 +26,35 @@ public class Product implements Serializable {
   /**
    * 商品名
    */
+  @Size(min = 1, max = 8, message = "{product.name.size}")
   private String name;
 
   /**
    * 商品小标题
    */
+  @Size(min = 1, max = 8, message = "{product.subtitle.size}")
   private String subTitle;
 
   /**
    * 商品原始价格
    */
-  private float originalPrice;
+  @NotNull(message = "{product.original_price.empty}")
+  @DecimalMin(value = "0", inclusive = false, message = "{product.original_price.min}")
+  private Float originalPrice;
 
   /**
    * 商品优惠价格
    */
-  private float promotePrice;
+  @NotNull(message = "{product.promote_price.empty}")
+  @DecimalMin(value = "0", inclusive = false, message = "{product.promote_price.min}")
+  private Float promotePrice;
 
   /**
    * 商品库存
    */
-  private int stock;
+  @NotNull(message = "{product.stock.empty}")
+  @Min(value = 1, message = "{product.stock.min}")
+  private Integer stock;
 
   /**
    * 商品创建时间
@@ -103,27 +115,27 @@ public class Product implements Serializable {
     this.subTitle = subTitle;
   }
 
-  public float getOriginalPrice() {
+  public Float getOriginalPrice() {
     return originalPrice;
   }
 
-  public void setOriginalPrice(float originalPrice) {
+  public void setOriginalPrice(Float originalPrice) {
     this.originalPrice = originalPrice;
   }
 
-  public float getPromotePrice() {
+  public Float getPromotePrice() {
     return promotePrice;
   }
 
-  public void setPromotePrice(float promotePrice) {
+  public void setPromotePrice(Float promotePrice) {
     this.promotePrice = promotePrice;
   }
 
-  public int getStock() {
+  public Integer getStock() {
     return stock;
   }
 
-  public void setStock(int stock) {
+  public void setStock(Integer stock) {
     this.stock = stock;
   }
 

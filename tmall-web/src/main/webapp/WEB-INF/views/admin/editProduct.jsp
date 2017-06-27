@@ -3,6 +3,7 @@
 <%@ include file="../include/admin/adminHeader.jsp" %>
 <%@ include file="../include/admin/adminNavigator.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 
 <script>
   $(function () {
@@ -32,50 +33,54 @@
 
 <div class="workingArea">
     <ol class="breadcrumb">
-        <li><a href="admin_category_list">所有产品</a></li>
+        <li><a href="${ctx}/admin/products/${category.id}">所有产品</a></li>
         <li class="active">编辑产品</li>
     </ol>
     <div class="panel panel-warning editDiv">
         <div class="panel-heading">编辑产品</div>
         <div class="panel-body">
-            <form method="post" id="editForm" action="admin_product_update">
+            <sf:form commandName="product" method="post" id="editForm">
                 <table class="editTable">
                     <tr>
+                        <td colspan="2" align="center"><sf:errors path="*"
+                                                                  cssClass="text-danger"/></td>
+                    </tr>
+                    <tr>
                         <td><label for="name">产品名称</label></td>
-                        <td><input id="name" type="text" name="name"
-                                   class="form-control" value="${product.name}"></td>
+                        <td><sf:input path="name" id="name" class="form-control"
+                                      value="${product.name}"/></td>
                     </tr>
                     <tr>
                         <td><label for="subtitle">产品小标题</label></td>
-                        <td><input id="subtitle" type="text" name="subtitle" class="form-control"
-                                   value="${product.subTitle}">
+                        <td><sf:input path="subTitle" id="subtitle" class="form-control"
+                                      value="${product.subTitle}"/>
                         </td>
                     </tr>
                     <tr>
                         <td><label for="original_price">原价格</label></td>
-                        <td><input id="original_price" type="text" name="original_price"
-                                   class="form-control" value="${product.originalPrice}"></td>
+                        <td><sf:input path="originalPrice" id="original_price"
+                                      class="form-control" value="${product.originalPrice}"/></td>
                     </tr>
                     <tr>
                         <td><label for="promote_price">优惠价格</label></td>
-                        <td><input id="promote_price" type="text" name="promote_price"
-                                   class="form-control" value="${product.promotePrice}"></td>
+                        <td><sf:input path="promotePrice" id="promote_price" class="form-control"
+                                      value="${product.promotePrice}"/></td>
                     </tr>
                     <tr>
                         <td><label for="stock">库存</label></td>
-                        <td><input id="stock" type="text" name="stock"
-                                   class="form-control" value="${product.stock}"></td>
+                        <td><sf:input path="stock" id="stock" class="form-control"
+                                      value="${product.stock}"/></td>
                     </tr>
                     <tr>
                         <td colspan="2" align="center">
-                            <%--隐藏域--%>
-                            <input type="hidden" name="id" value="${product.id}">
-                            <input type="hidden" name="cid" value="${product.category.id}">
+                                <%--隐藏域--%>
+                            <sf:hidden path="id" value="${product.id}"/>
+                            <sf:hidden path="category.id" value="${product.category.id}"/>
                             <button type="submit" class="btn btn-success">提 交</button>
                         </td>
                     </tr>
                 </table>
-            </form>
+            </sf:form>
         </div>
     </div>
 </div>

@@ -3,6 +3,7 @@
 <%@ include file="../include/admin/adminHeader.jsp" %>
 <%@ include file="../include/admin/adminNavigator.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 
 <script>
   $(function () {
@@ -16,8 +17,8 @@
 
 <div class="workingArea">
     <ol class="breadcrumb">
-        <li><a href="admin_category_list">所有分类</a></li>
-        <li><a href="admin_property_list?cid=${category.id}">${category.name}</a></li>
+        <li><a href="${ctx}/admin/categories">所有分类</a></li>
+        <li><a href="${category.id}">${category.name}</a></li>
         <li>属性管理</li>
     </ol>
     <div class="listDataTableDiv">
@@ -31,13 +32,14 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${property_list}" var="property">
+            <c:forEach items="${propertyList}" var="property">
                 <tr>
                     <td>${property.id}</td>
                     <td>${property.name}</td>
-                    <td><a href="admin_property_edit?id=${property.id}"><span
+                    <td><a href="${ctx}/admin/property/${property.id}"><span
                             class="glyphicon glyphicon-edit"></span></a></td>
-                    <td><a deleteLink="true" href="admin_property_delete?id=${property.id}"><span
+                    <td><a deleteLink="true"
+                           href="${ctx}/admin/property/${property.id}/delete"><span
                             class="glyphicon glyphicon-trash"></span></a></td>
                 </tr>
             </c:forEach>
@@ -55,21 +57,25 @@
     <div class="panel panel-warning">
         <div class="panel-heading">新增属性</div>
         <div class="panel-body">
-            <form method="post" id="addForm" action="admin_property_add">
+            <sf:form commandName="property" method="post" id="addForm">
                 <table class="addTable">
                     <tr>
+                        <td colspan="2" align="center"><sf:errors path="*"
+                                                                  cssClass="text-danger"/></td>
+                    </tr>
+                    <tr>
                         <td><label for="name">属性名称</label></td>
-                        <td><input id="name" type="text" name="name" class="form-control"></td>
+                        <td><sf:input path="name" id="name" class="form-control"/></td>
                     </tr>
                     <tr>
                         <td colspan="2" align="center">
-                            <input type="hidden" name="cid" value="${category.id}">
+                            <sf:hidden path="category.id" value="${category.id}"/>
                             <button type="submit" class="btn btn-success">提 交
                             </button>
                         </td>
                     </tr>
                 </table>
-            </form>
+            </sf:form>
         </div>
     </div>
 </div>

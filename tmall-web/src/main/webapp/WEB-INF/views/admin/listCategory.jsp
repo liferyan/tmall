@@ -43,9 +43,9 @@
                     <td>${category.id}</td>
                     <td><img src="${ctx}/img/category/${category.id}.jpg" height="40px"/></td>
                     <td>${category.name}</td>
-                    <td><a href="admin_property_list?cid=${category.id}"><span
+                    <td><a href="properties/${category.id}"><span
                             class="glyphicon glyphicon-th-list"></span></a></td>
-                    <td><a href="admin_product_list?cid=${category.id}"><span
+                    <td><a href="products/${category.id}"><span
                             class="glyphicon glyphicon-shopping-cart"></span></a></td>
                     <td><a href="category/${category.id}"><span
                             class="glyphicon glyphicon-edit"></span></a></td>

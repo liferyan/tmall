@@ -1,6 +1,8 @@
 package com.liferyan.tmall.data.entity;
 
 import java.io.Serializable;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -20,6 +22,8 @@ public class Property implements Serializable {
   /**
    * 属性名
    */
+  @NotNull
+  @Size(min = 1, max = 8, message = "{property.name.size}")
   private String name;
 
   /**

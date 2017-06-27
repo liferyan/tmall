@@ -49,11 +49,11 @@ public class CategoryController {
   public String showCategoryList(
       @RequestParam(name = "page.start", defaultValue = "0") int pageStart,
       @RequestParam(name = "page.count", defaultValue = "5") int pageCount, Model model) {
-    Page page = new Page(pageStart, pageCount);
-    page.setTotal(categoryDao.getCategoryCount());
     if (!model.containsAttribute("category")) {
       model.addAttribute(new Category());
     }
+    Page page = new Page(pageStart, pageCount);
+    page.setTotal(categoryDao.getCategoryCount());
     model.addAttribute(categoryDao.listCategoryByPage(pageStart, pageCount));
     model.addAttribute(page);
     return "admin/listCategory";
