@@ -49,22 +49,15 @@ public class CategoryControllerTest {
     when(mockCategoryDao.listCategoryByPage(0, 5)).thenReturn(categoryList);
 
     ModelAndView modelAndView = mockMvc.perform(
-        MockMvcRequestBuilders.get("/admin"))
+        MockMvcRequestBuilders.get("/admin/categories"))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.view().name("admin/listCategory"))
-        .andExpect(MockMvcResultMatchers.model().attributeExists("category_list"))
-        .andExpect(MockMvcResultMatchers.model().attribute("category_list", categoryList))
+        .andExpect(MockMvcResultMatchers.model().attributeExists("categoryList"))
+        .andExpect(MockMvcResultMatchers.model().attribute("categoryList", categoryList))
         .andReturn()
         .getModelAndView();
 
-    mockMvc.perform(
-        MockMvcRequestBuilders.get("/admin_category_list"))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.view().name("admin/listCategory"))
-        .andExpect(MockMvcResultMatchers.model().attributeExists("category_list"))
-        .andExpect(MockMvcResultMatchers.model().attribute("category_list", categoryList));
-
-    List<Category> categories = (List<Category>) modelAndView.getModel().get("category_list");
+    List<Category> categories = (List<Category>) modelAndView.getModel().get("categoryList");
     MatcherAssert.assertThat(categories.size(), CoreMatchers.is(categoryList.size()));
 
     Page page = (Page) modelAndView.getModel().get("page");
@@ -81,17 +74,17 @@ public class CategoryControllerTest {
 
     ModelAndView modelAndView = mockMvc.perform(
         MockMvcRequestBuilders
-            .get("/admin_category_list")
+            .get("/admin/categories")
             .param("page.start", "7")
             .param("page.count", "5"))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.view().name("admin/listCategory"))
-        .andExpect(MockMvcResultMatchers.model().attributeExists("category_list"))
-        .andExpect(MockMvcResultMatchers.model().attribute("category_list", categoryList))
+        .andExpect(MockMvcResultMatchers.model().attributeExists("categoryList"))
+        .andExpect(MockMvcResultMatchers.model().attribute("categoryList", categoryList))
         .andReturn()
         .getModelAndView();
 
-    List<Category> categories = (List<Category>) modelAndView.getModel().get("category_list");
+    List<Category> categories = (List<Category>) modelAndView.getModel().get("categoryList");
     MatcherAssert.assertThat(categories.size(), CoreMatchers.is(categoryList.size()));
 
     Page page = (Page) modelAndView.getModel().get("page");
@@ -110,16 +103,16 @@ public class CategoryControllerTest {
     category.setName("奶粉");
     FileInputStream contentStream = new FileInputStream(
         "/Users/Ryan/Developer/Tmall/tmall_milk.jpg");
-    MockMultipartFile uploadFile = new MockMultipartFile("category_file", contentStream);
+    MockMultipartFile uploadFile = new MockMultipartFile("category_image", contentStream);
 
     Mockito.doNothing().when(mockCategoryDao).saveCategory(category);
 
     mockMvc.perform(MockMvcRequestBuilders
-        .fileUpload("/admin_category_add")
+        .fileUpload("/admin/categories")
         .file(uploadFile)
         .param("name", category.getName()))
         .andExpect(MockMvcResultMatchers.status().isFound())
-        .andExpect(MockMvcResultMatchers.redirectedUrl("/admin_category_list"));
+        .andExpect(MockMvcResultMatchers.redirectedUrl("/admin/categories"));
   }
 
   private List<Category> createCategoryList(int categorySize) {

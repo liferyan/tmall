@@ -38,18 +38,18 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${category_list}" var="category">
+            <c:forEach items="${categoryList}" var="category">
                 <tr>
                     <td>${category.id}</td>
-                    <td><img src="img/category/${category.id}.jpg" height="40px"/></td>
+                    <td><img src="${ctx}/img/category/${category.id}.jpg" height="40px"/></td>
                     <td>${category.name}</td>
                     <td><a href="admin_property_list?cid=${category.id}"><span
                             class="glyphicon glyphicon-th-list"></span></a></td>
                     <td><a href="admin_product_list?cid=${category.id}"><span
                             class="glyphicon glyphicon-shopping-cart"></span></a></td>
-                    <td><a href="admin_category_edit?id=${category.id}"><span
+                    <td><a href="category/${category.id}"><span
                             class="glyphicon glyphicon-edit"></span></a></td>
-                    <td><a deleteLink="true" href="admin_category_delete?id=${category.id}"><span
+                    <td><a deleteLink="true" href="category/${category.id}/delete"><span
                             class="glyphicon glyphicon-trash"></span></a></td>
                 </tr>
             </c:forEach>
@@ -65,13 +65,13 @@
 <div class="addDiv">
     <div class="panel panel-warning">
         <div class="panel-heading">新增分类</div>
-
         <div class="panel-body">
-            <sf:form commandName="category" method="post" id="addForm" action="admin_category_add"
+            <sf:form commandName="category" method="post" id="addForm"
                      enctype="multipart/form-data">
                 <table class="addTable">
                     <tr>
-                        <td colspan="2" align="center"><sf:errors path="*" cssClass="text-danger"/></td>
+                        <td colspan="2" align="center"><sf:errors path="*"
+                                                                  cssClass="text-danger"/></td>
                     </tr>
                     <tr>
                         <td><label for="name">分类名称</label></td>
@@ -79,7 +79,7 @@
                     </tr>
                     <tr>
                         <td><label for="category_img">分类图片</label></td>
-                        <td><input id="category_img" type="file" name="categoryImage"
+                        <td><input id="category_img" type="file" name="category_image"
                                    accept="image/*">
                         </td>
                     </tr>
