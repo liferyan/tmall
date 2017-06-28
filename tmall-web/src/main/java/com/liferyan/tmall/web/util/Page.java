@@ -105,11 +105,8 @@ public class Page {
    */
   public int getLastPageStart() {
     int lastPageStart;
-    if (total == 0) {
+    if (total == 0 || total <= count) {
       return 0;
-    }
-    if (total == count) {
-      return count;
     }
     if (total % count == 0) {
       lastPageStart = count * (total / count - 1);

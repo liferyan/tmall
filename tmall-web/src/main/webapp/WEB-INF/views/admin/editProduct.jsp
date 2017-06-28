@@ -33,7 +33,7 @@
 
 <div class="workingArea">
     <ol class="breadcrumb">
-        <li><a href="${ctx}/admin/products/${category.id}">所有产品</a></li>
+        <li><a href="${ctx}/admin/products/${product.category.id}">所有产品</a></li>
         <li class="active">编辑产品</li>
     </ol>
     <div class="panel panel-warning editDiv">
@@ -48,34 +48,34 @@
                     <tr>
                         <td><label for="name">产品名称</label></td>
                         <td><sf:input path="name" id="name" class="form-control"
-                                      value="${product.name}"/></td>
+                                      value="${name}"/></td>
                     </tr>
                     <tr>
                         <td><label for="subtitle">产品小标题</label></td>
                         <td><sf:input path="subTitle" id="subtitle" class="form-control"
-                                      value="${product.subTitle}"/>
+                                      value="${subTitle}"/>
                         </td>
                     </tr>
                     <tr>
                         <td><label for="original_price">原价格</label></td>
                         <td><sf:input path="originalPrice" id="original_price"
-                                      class="form-control" value="${product.originalPrice}"/></td>
+                                      class="form-control" value="${originalPrice}"/></td>
                     </tr>
                     <tr>
                         <td><label for="promote_price">优惠价格</label></td>
                         <td><sf:input path="promotePrice" id="promote_price" class="form-control"
-                                      value="${product.promotePrice}"/></td>
+                                      value="${promotePrice}"/></td>
                     </tr>
                     <tr>
                         <td><label for="stock">库存</label></td>
                         <td><sf:input path="stock" id="stock" class="form-control"
-                                      value="${product.stock}"/></td>
+                                      value="${stock}"/></td>
                     </tr>
                     <tr>
                         <td colspan="2" align="center">
                                 <%--隐藏域--%>
-                            <sf:hidden path="id" value="${product.id}"/>
-                            <sf:hidden path="category.id" value="${product.category.id}"/>
+                            <sf:hidden path="id" value="${id}"/>
+                            <sf:hidden path="category.id" value="${category.id}"/>
                             <button type="submit" class="btn btn-success">提 交</button>
                         </td>
                     </tr>

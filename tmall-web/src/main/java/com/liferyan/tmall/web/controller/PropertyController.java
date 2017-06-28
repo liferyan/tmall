@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * Created by Ryan on 2017/6/27.
@@ -51,11 +52,13 @@ public class PropertyController {
 
   @PostMapping("/properties/{categoryId}")
   public String saveProperty(@Valid Property property, BindingResult result,
-      @PathVariable("categoryId") int categoryId, Model model) {
+      @PathVariable("categoryId") int categoryId,
+      RedirectAttributes redirectAttributes, Model model) {
     if (result.hasErrors()) {
       return showCategoryProperties(0, 5, categoryId, model);
     }
     propertyDao.saveProperty(property);
+    redirectAttributes.addFlashAttribute("success", Boolean.TRUE);
     return "redirect:/admin/properties/{categoryId}";
   }
 
@@ -66,19 +69,23 @@ public class PropertyController {
   }
 
   @PostMapping("/property/{propertyId}")
-  public String updateProperty(@Valid Property property, BindingResult result) {
+  public String updateProperty(@Valid Property property, BindingResult result,
+      RedirectAttributes redirectAttributes) {
     if (result.hasErrors()) {
       return "admin/editProperty";
     }
     int categoryId = property.getCategory().getId();
     propertyDao.updateProperty(property);
+    redirectAttributes.addFlashAttribute("success", Boolean.TRUE);
     return "redirect:/admin/properties/" + categoryId;
   }
 
   @GetMapping("/property/{propertyId}/delete")
-  public String deleteProperty(@PathVariable("propertyId") int propertyId) {
+  public String deleteProperty(@PathVariable("propertyId") int propertyId,
+      RedirectAttributes redirectAttributes) {
     int categoryId = propertyDao.getPropertyById(propertyId).getCategory().getId();
     propertyDao.deleteProperty(propertyId);
+    redirectAttributes.addFlashAttribute("success", Boolean.TRUE);
     return "redirect:/admin/properties/" + categoryId;
   }
 }

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * Created by Ryan on 2017/6/26.
@@ -62,8 +63,8 @@ public class CategoryController {
   @PostMapping("/categories")
   public String saveCategory(
       @Valid Category category, BindingResult result,
-      @RequestPart(name = "category_image") MultipartFile categoryImage, Model model)
-      throws IOException {
+      @RequestPart(name = "category_image") MultipartFile categoryImage,
+      RedirectAttributes redirectAttributes, Model model) throws IOException {
     if (categoryImage.isEmpty()) {
       result.addError(new FieldError("category", "categoryImage", "分类图片不能为空"));
     }
@@ -72,6 +73,7 @@ public class CategoryController {
     }
     categoryDao.saveCategory(category);
     saveCategoryImage(category, categoryImage);
+    redirectAttributes.addFlashAttribute("success", Boolean.TRUE);
     return "redirect:/admin/categories";
   }
 
@@ -85,7 +87,8 @@ public class CategoryController {
   @PostMapping("/category/{categoryId}")
   public String updateCategory(
       @Valid Category category, BindingResult result,
-      @RequestPart(name = "category_image", required = false) MultipartFile categoryImage)
+      @RequestPart(name = "category_image", required = false) MultipartFile categoryImage,
+      RedirectAttributes redirectAttributes)
       throws IOException {
     if (result.hasErrors()) {
       return "admin/editCategory";
@@ -94,13 +97,16 @@ public class CategoryController {
     if (!categoryImage.isEmpty()) {
       saveCategoryImage(category, categoryImage);
     }
+    redirectAttributes.addFlashAttribute("success", Boolean.TRUE);
     return "redirect:/admin/categories";
   }
 
   @GetMapping("/category/{categoryId}/delete")
-  public String deleteCategory(@PathVariable("categoryId") int categoryId) throws IOException {
+  public String deleteCategory(@PathVariable("categoryId") int categoryId,
+      RedirectAttributes redirectAttributes) throws IOException {
     categoryDao.deleteCategory(categoryId);
     deleteCategoryImage(categoryId);
+    redirectAttributes.addFlashAttribute("success", Boolean.TRUE);
     return "redirect:/admin/categories";
   }
 

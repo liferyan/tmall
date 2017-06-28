@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * Created by Ryan on 2017/6/27.
@@ -50,11 +51,13 @@ public class ProductController {
 
   @PostMapping("/products/{categoryId}")
   public String saveProduct(@Valid Product product, BindingResult result,
-      @PathVariable("categoryId") int categoryId, Model model) {
+      @PathVariable("categoryId") int categoryId,
+      RedirectAttributes redirectAttributes, Model model) {
     if (result.hasErrors()) {
       return showCategoryProducts(0, 5, categoryId, model);
     }
     productDao.saveProduct(product);
+    redirectAttributes.addFlashAttribute("success", Boolean.TRUE);
     return "redirect:/admin/products/{categoryId}";
   }
 
@@ -65,19 +68,23 @@ public class ProductController {
   }
 
   @PostMapping("/product/{productId}")
-  public String updateProduct(@Valid Product product, BindingResult result) {
+  public String updateProduct(@Valid Product product, BindingResult result,
+      RedirectAttributes redirectAttributes) {
     if (result.hasErrors()) {
       return "admin/editProduct";
     }
     int categoryId = product.getCategory().getId();
     productDao.updateProduct(product);
+    redirectAttributes.addFlashAttribute("success", Boolean.TRUE);
     return "redirect:/admin/products/" + categoryId;
   }
 
   @GetMapping("/product/{productId}/delete")
-  public String deleteProduct(@PathVariable("productId") int productId) {
+  public String deleteProduct(@PathVariable("productId") int productId,
+      RedirectAttributes redirectAttributes) {
     int categoryId = productDao.getProductById(productId).getCategory().getId();
     productDao.deleteProduct(productId);
+    redirectAttributes.addFlashAttribute("success", Boolean.TRUE);
     return "redirect:/admin/products/" + categoryId;
   }
 }

@@ -33,7 +33,7 @@
                     </tr>
                     <tr>
                         <td><label for="name">分类名称</label></td>
-                        <td><sf:input path="name" value="${category.name}"
+                        <td><sf:input path="name" value="${name}"
                                       class="form-control"/></td>
                     </tr>
                     <tr>
@@ -46,7 +46,7 @@
                     <tr>
                         <td colspan="2" align="center">
                                 <%--隐藏域--%>
-                            <input type="hidden" name="id" value="${category.id}">
+                            <input type="hidden" name="id" value="${id}">
                             <button type="submit" class="btn btn-success">提 交</button>
                         </td>
                     </tr>
