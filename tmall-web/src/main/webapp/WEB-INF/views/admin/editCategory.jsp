@@ -17,10 +17,16 @@
 <title>编辑分类</title>
 
 <div class="workingArea">
-    <ol class="breadcrumb">
-        <li><a href="admin_category_list">所有分类</a></li>
-        <li class="active">编辑分类</li>
-    </ol>
+    <c:if test="${success ne null}">
+        <p class="bg-success" style="font-size: medium;text-align: center;margin-bottom: 20px">
+            操作成功！</p>
+    </c:if>
+    <c:if test="${success eq null}">
+        <ol class="breadcrumb">
+            <li><a href="${ctx}/admin/categories">所有分类</a></li>
+            <li class="active">编辑分类</li>
+        </ol>
+    </c:if>
     <div class="panel panel-warning editDiv">
         <div class="panel-heading">编辑分类</div>
         <div class="panel-body">
@@ -46,7 +52,7 @@
                     <tr>
                         <td colspan="2" align="center">
                                 <%--隐藏域--%>
-                            <input type="hidden" name="id" value="${id}">
+                            <sf:hidden path="id" value="${id}"/>
                             <button type="submit" class="btn btn-success">提 交</button>
                         </td>
                     </tr>

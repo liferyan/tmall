@@ -66,7 +66,7 @@ public class CategoryController {
       @RequestPart(name = "category_image") MultipartFile categoryImage,
       RedirectAttributes redirectAttributes, Model model) throws IOException {
     if (categoryImage.isEmpty()) {
-      result.addError(new FieldError("category", "categoryImage", "分类图片不能为空"));
+      result.addError(new FieldError("category", "category_image", "分类图片不能为空"));
     }
     if (result.hasErrors()) {
       return showCategoryList(0, 5, model);
@@ -125,6 +125,7 @@ public class CategoryController {
     String imgPath =
         servletContext.getRealPath("img/category") + File.separator + categoryId + ".jpg";
     File imgFile = new File(imgPath);
+    imgFile.getParentFile().mkdirs();
     if (imgFile.exists()) {
       imgFile.delete();
     }

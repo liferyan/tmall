@@ -71,9 +71,9 @@
                     <td>${product.originalPrice}</td>
                     <td>${product.promotePrice}</td>
                     <td>${product.stock}</td>
-                    <td><a href="admin_productImage_list?pid=${product.id}"><span
+                    <td><a href="${ctx}/admin/productImages/${product.id}"><span
                             class="glyphicon glyphicon-picture"></span></a></td>
-                    <td><a href="admin_product_editPropertyValue?pid=${product.id}"><span
+                    <td><a href="${ctx}/admin/propertyValues/${product.id}"><span
                             class="glyphicon glyphicon-th-list"></span></a></td>
                     <td><a href="${ctx}/admin/product/${product.id}"><span
                             class="glyphicon glyphicon-edit"></span></a></td>
