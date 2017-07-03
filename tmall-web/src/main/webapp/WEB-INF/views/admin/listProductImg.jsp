@@ -20,18 +20,14 @@
 <title>产品图片管理</title>
 
 <div class="workingArea">
-    <c:if test="${success ne null}">
-        <p class="bg-success" style="font-size: medium;text-align: center;margin-bottom: 20px">
-            操作成功！</p>
-    </c:if>
-    <c:if test="${success eq null}">
-        <ol class="breadcrumb">
-            <li><a href="${ctx}/admin/categories">所有分类</a></li>
-            <li><a href="${ctx}/admin/products/${category.id}">${category.name}</a></li>
-            <li>${product.name}</li>
-            <li>产品图片管理</li>
-        </ol>
-    </c:if>
+    <p class="bg-success success">
+        操作成功！</p>
+    <ol class="breadcrumb">
+        <li><a href="${ctx}/admin/categories">所有分类</a></li>
+        <li><a href="${ctx}/admin/products/${category.id}">${category.name}</a></li>
+        <li>${product.name}</li>
+        <li>产品图片管理</li>
+    </ol>
     <table class="addPictureTable" align="center">
         <tr>
             <%--单个图片--%>

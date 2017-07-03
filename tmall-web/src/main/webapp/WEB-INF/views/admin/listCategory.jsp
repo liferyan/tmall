@@ -20,15 +20,11 @@
 <title>分类管理</title>
 
 <div class="workingArea">
-    <c:if test="${success ne null}">
-        <p class="bg-success" style="font-size: medium;text-align: center;margin-bottom: 20px">
-            操作成功！</p>
-    </c:if>
-    <c:if test="${success eq null}">
-        <div style="margin-bottom: 20px">
-            <span class="label label-info">分类管理</span>
-        </div>
-    </c:if>
+    <p class="bg-success success">
+        操作成功！</p>
+    <div style="margin-bottom: 20px">
+        <span class="label label-info">分类管理</span>
+    </div>
     <div class="listDataTableDiv">
         <table class="table table-striped table-bordered table-hover table-condensed"
                style="margin-bottom: 0">

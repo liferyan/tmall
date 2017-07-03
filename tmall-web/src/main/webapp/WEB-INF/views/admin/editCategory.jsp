@@ -17,16 +17,12 @@
 <title>编辑分类</title>
 
 <div class="workingArea">
-    <c:if test="${success ne null}">
-        <p class="bg-success" style="font-size: medium;text-align: center;margin-bottom: 20px">
-            操作成功！</p>
-    </c:if>
-    <c:if test="${success eq null}">
-        <ol class="breadcrumb">
-            <li><a href="${ctx}/admin/categories">所有分类</a></li>
-            <li class="active">编辑分类</li>
-        </ol>
-    </c:if>
+    <p class="bg-success success">
+        操作成功！</p>
+    <ol class="breadcrumb">
+        <li><a href="${ctx}/admin/categories">所有分类</a></li>
+        <li class="active">编辑分类</li>
+    </ol>
     <div class="panel panel-warning editDiv">
         <div class="panel-heading">编辑分类</div>
         <div class="panel-body">
