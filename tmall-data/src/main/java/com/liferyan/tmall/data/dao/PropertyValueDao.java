@@ -17,9 +17,14 @@ public class PropertyValueDao extends BaseDao {
   public void initPropertyValueWithProduct(Product product) {
     List<Property> properties = product.getCategory().getProperties();
     for (Property property : properties) {
+      int propertyId = property.getId();
+      int productId = product.getId();
       //数据库中没有该属性则添加属性
-      if (getPropertyValue(property.getId(), product.getId()) == null) {
-        this.getSqlSession().insert("savePropertyValue", product);
+      if (getPropertyValue(propertyId, productId) == null) {
+        Map<String, Object> parameterMap = new HashMap<>();
+        parameterMap.put("ppid", propertyId);
+        parameterMap.put("pid", productId);
+        this.getSqlSession().insert("savePropertyValue", parameterMap);
       }
     }
   }
