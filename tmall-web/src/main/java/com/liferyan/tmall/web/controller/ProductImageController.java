@@ -83,10 +83,11 @@ public class ProductImageController {
 
   @GetMapping("/productImage/{productImageId}/delete")
   public String deleteProductImage(@PathVariable("productImageId") int productImageId,
-      @RequestParam("productId") int productId) throws IOException {
+      @RequestParam("productId") int productId,RedirectAttributes redirectAttributes) throws IOException {
     ImageTypeEnum imageType = productImageDao.getProductImageById(productImageId).getImageType();
     productImageDao.deleteProductImage(productImageId);
     saveOrDeleteProductImage(null, imageType, productImageId);
+    redirectAttributes.addFlashAttribute("success", Boolean.TRUE);
     return "redirect:/admin/productImages/" + productId;
   }
 
