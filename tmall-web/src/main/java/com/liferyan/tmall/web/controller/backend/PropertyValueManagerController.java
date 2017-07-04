@@ -1,4 +1,4 @@
-package com.liferyan.tmall.web.controller;
+package com.liferyan.tmall.web.controller.backend;
 
 import com.liferyan.tmall.data.dao.ProductDao;
 import com.liferyan.tmall.data.dao.PropertyValueDao;
@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping("/admin")
-public class PropertyValueController {
+public class PropertyValueManagerController {
 
   private PropertyValueDao propertyValueDao;
 
   private ProductDao productDao;
 
   @Autowired
-  public PropertyValueController(PropertyValueDao propertyValueDao,
+  public PropertyValueManagerController(PropertyValueDao propertyValueDao,
       ProductDao productDao) {
     this.propertyValueDao = propertyValueDao;
     this.productDao = productDao;

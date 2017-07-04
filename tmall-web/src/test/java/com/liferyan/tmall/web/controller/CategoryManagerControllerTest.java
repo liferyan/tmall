@@ -5,6 +5,7 @@ import static org.mockito.Mockito.when;
 
 import com.liferyan.tmall.data.dao.CategoryDao;
 import com.liferyan.tmall.data.entity.Category;
+import com.liferyan.tmall.web.controller.backend.CategoryManagerController;
 import com.liferyan.tmall.web.util.Page;
 import java.io.FileInputStream;
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * Created by Ryan on 2017/6/26.
  */
-public class CategoryControllerTest {
+public class CategoryManagerControllerTest {
 
   private ServletContext mockServletContext;
 
@@ -37,9 +38,9 @@ public class CategoryControllerTest {
   public void setUp() throws Exception {
     mockServletContext = mock(ServletContext.class);
     mockCategoryDao = mock(CategoryDao.class);
-    CategoryController categoryController = new CategoryController(mockCategoryDao);
-    categoryController.setServletContext(mockServletContext);
-    mockMvc = MockMvcBuilders.standaloneSetup(categoryController)
+    CategoryManagerController categoryManagerController = new CategoryManagerController(mockCategoryDao);
+    categoryManagerController.setServletContext(mockServletContext);
+    mockMvc = MockMvcBuilders.standaloneSetup(categoryManagerController)
         .build();
   }
 

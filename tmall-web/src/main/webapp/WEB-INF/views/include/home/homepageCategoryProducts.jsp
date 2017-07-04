@@ -10,7 +10,7 @@
 </c:if>
 
 <div class="homepageCategoryProducts">
-    <c:forEach items="${category_list}" var="category" varStatus="st">
+    <c:forEach items="${categoryList}" var="category" varStatus="st">
         <c:if test="${st.count<=categorycount}">
             <div class="eachHomepageCategoryProducts">
                 <div class="left-mark"></div>
@@ -19,9 +19,9 @@
                 <c:forEach items="${category.products}" var="product" varStatus="st">
                     <c:if test="${st.count<=5}">
                         <div class="productItem">
-                            <a href="foreproduct?pid=${product.id}"><img width="100px"
-                                                                         src="img/productSingle_middle/${product.firstProductImage.id}.jpg"></a>
-                            <a class="productItemDescLink" href="foreproduct?pid=${product.id}">
+                            <a href="product/${product.id}"><img width="100px"
+                                                                 src="${ctx}/img/productSingle_middle/${product.firstProductImage.id}.jpg"></a>
+                            <a class="productItemDescLink" href="product/${product.id}">
 								<span class="productItemDesc">[热销]
 								${fn:substring(product.name, 0, 20)}
 								</span>
@@ -39,6 +39,6 @@
     </c:forEach>
 
 
-    <img id="endpng" class="endpng" src="img/site/end.png">
+    <img id="endpng" class="endpng" src="${ctx}/img/site/end.png">
 
 </div>

@@ -53,7 +53,7 @@
   });
 </script>
 
-<img src="img/site/catear.png" id="catear" class="catear"/>
+<img src="${ctx}/img/site/catear.png" id="catear" class="catear"/>
 
 <div class="categoryWithCarousel">
 
@@ -67,13 +67,13 @@
         </div>
 
         <div class="rightMenu">
-            <span><a href=""><img src="img/site/chaoshi.png"/></a></span>
-            <span><a href=""><img src="img/site/guoji.png"/></a></span>
+            <span><a href=""><img src="${ctx}/img/site/chaoshi.png"/></a></span>
+            <span><a href=""><img src="${ctx}/img/site/guoji.png"/></a></span>
 
-            <c:forEach items="${category_list}" var="category" varStatus="st">
+            <c:forEach items="${categoryList}" var="category" varStatus="st">
                 <c:if test="${st.count<=4}">
 				<span>
-				<a href="forecategory?cid=${category.id}">
+				<a href="category/${category.id}">
                         ${category.name}
                 </a>
                 </span>

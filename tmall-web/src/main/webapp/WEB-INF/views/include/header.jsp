@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,13 +11,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <%--导入JQuery--%>
-    <script src="js/jquery/jquery-3.2.1.min.js"></script>
+    <script src="${ctx}/js/jquery/jquery-3.2.1.min.js"></script>
     <%--导入BootStrap CSS--%>
-    <link href="css/bootstrap/3.3.7/bootstrap.css" rel="stylesheet">
+    <link href="${ctx}/css/bootstrap/3.3.7/bootstrap.css" rel="stylesheet">
     <%--导入BootStrap JS--%>
-    <script src="js/bootstrap/3.3.7/bootstrap.min.js"></script>
+    <script src="${ctx}/js/bootstrap/3.3.7/bootstrap.min.js"></script>
     <%--导入自定义 CSS--%>
-    <link href="css/fore/style.css" rel="stylesheet">
+    <link href="${ctx}/css/fore/style.css" rel="stylesheet">
 
     <%--页面通用JS函数--%>
     <script>

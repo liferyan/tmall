@@ -1,4 +1,4 @@
-package com.liferyan.tmall.web.controller;
+package com.liferyan.tmall.web.controller.backend;
 
 import com.liferyan.tmall.data.dao.ProductDao;
 import com.liferyan.tmall.data.dao.ProductImageDao;
@@ -28,7 +28,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller
 @RequestMapping("/admin")
-public class ProductImageController {
+public class ProductImageManagerController {
 
   private ProductDao productDao;
 
@@ -41,7 +41,7 @@ public class ProductImageController {
     this.servletContext = servletContext;
   }
 
-  public ProductImageController(ProductDao productDao,
+  public ProductImageManagerController(ProductDao productDao,
       ProductImageDao productImageDao) {
     this.productDao = productDao;
     this.productImageDao = productImageDao;

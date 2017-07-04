@@ -1,4 +1,4 @@
-package com.liferyan.tmall.web.controller;
+package com.liferyan.tmall.web.controller.backend;
 
 import com.liferyan.tmall.data.dao.CategoryDao;
 import com.liferyan.tmall.data.entity.Category;
@@ -29,7 +29,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller
 @RequestMapping("/admin")
-public class CategoryController {
+public class CategoryManagerController {
 
   private CategoryDao categoryDao;
 
@@ -41,10 +41,14 @@ public class CategoryController {
   }
 
   @Autowired
-  public CategoryController(CategoryDao categoryDao) {
+  public CategoryManagerController(CategoryDao categoryDao) {
     this.categoryDao = categoryDao;
   }
 
+  @GetMapping
+  public String showBackEndHome() {
+    return "redirect:/admin/categories";
+  }
 
   @GetMapping("/categories")
   public String showCategoryList(

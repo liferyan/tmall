@@ -1,4 +1,4 @@
-package com.liferyan.tmall.web.controller;
+package com.liferyan.tmall.web.controller.backend;
 
 import com.liferyan.tmall.data.dao.UserDao;
 import com.liferyan.tmall.web.util.Page;
@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Controller
 @RequestMapping("/admin")
-public class UserController {
+public class UserManagerController {
 
   private UserDao userDao;
 
   @Autowired
-  public UserController(UserDao userDao) {
+  public UserManagerController(UserDao userDao) {
     this.userDao = userDao;
   }
 

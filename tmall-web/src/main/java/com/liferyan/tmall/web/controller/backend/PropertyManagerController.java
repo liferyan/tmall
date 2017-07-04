@@ -1,4 +1,4 @@
-package com.liferyan.tmall.web.controller;
+package com.liferyan.tmall.web.controller.backend;
 
 import com.liferyan.tmall.data.dao.CategoryDao;
 import com.liferyan.tmall.data.dao.PropertyDao;
@@ -21,14 +21,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller
 @RequestMapping("/admin")
-public class PropertyController {
+public class PropertyManagerController {
 
   private CategoryDao categoryDao;
 
   private PropertyDao propertyDao;
 
   @Autowired
-  public PropertyController(CategoryDao categoryDao,
+  public PropertyManagerController(CategoryDao categoryDao,
       PropertyDao propertyDao) {
     this.categoryDao = categoryDao;
     this.propertyDao = propertyDao;

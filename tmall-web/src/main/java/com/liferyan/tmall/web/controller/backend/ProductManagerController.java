@@ -1,4 +1,4 @@
-package com.liferyan.tmall.web.controller;
+package com.liferyan.tmall.web.controller.backend;
 
 import com.liferyan.tmall.data.dao.CategoryDao;
 import com.liferyan.tmall.data.dao.ProductDao;
@@ -21,14 +21,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller
 @RequestMapping("/admin")
-public class ProductController {
+public class ProductManagerController {
 
   private CategoryDao categoryDao;
 
   private ProductDao productDao;
 
   @Autowired
-  public ProductController(CategoryDao categoryDao, ProductDao productDao) {
+  public ProductManagerController(CategoryDao categoryDao, ProductDao productDao) {
     this.categoryDao = categoryDao;
     this.productDao = productDao;
   }

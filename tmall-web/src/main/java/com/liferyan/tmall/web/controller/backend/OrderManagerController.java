@@ -1,4 +1,4 @@
-package com.liferyan.tmall.web.controller;
+package com.liferyan.tmall.web.controller.backend;
 
 import com.liferyan.tmall.data.dao.OrderDao;
 import com.liferyan.tmall.data.dao.ProductDao;
@@ -22,14 +22,14 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Controller
 @RequestMapping("/admin")
-public class OrderController {
+public class OrderManagerController {
 
   private OrderDao orderDao;
 
   private ProductDao productDao;
 
   @Autowired
-  public OrderController(OrderDao orderDao, ProductDao productDao) {
+  public OrderManagerController(OrderDao orderDao, ProductDao productDao) {
     this.orderDao = orderDao;
     this.productDao = productDao;
   }

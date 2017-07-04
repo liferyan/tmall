@@ -1,6 +1,7 @@
 package com.liferyan.tmall.data.entity;
 
 import java.io.Serializable;
+import javax.validation.constraints.Size;
 
 /**
  * Created by Ryan on 2017/4/17.
@@ -16,10 +17,12 @@ public class User implements Serializable {
   /**
    * 用户名
    */
+  @Size(min = 4, max = 10, message = "{user.name.size}")
   private String name;
   /**
    * 密码
    */
+  @Size(min = 4, max = 10, message = "{user.password.size}")
   transient private String password;
 
   public int getId() {
