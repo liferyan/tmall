@@ -9,7 +9,7 @@
     </div>
 
     <div class="productReviewContentPart">
-        <c:forEach items="${review_list}" var="review">
+        <c:forEach items="${reviewList}" var="review">
             <div class="productReviewItem">
 
                 <div class="productReviewItemDesc">

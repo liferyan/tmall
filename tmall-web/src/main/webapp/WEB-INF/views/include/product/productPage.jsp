@@ -3,8 +3,7 @@
 
 <title>模仿天猫官网 ${product.name}</title>
 <div class="categoryPictureInProductPageDiv">
-    <a href="forecategory?cid=${product.category.id}"><img class="categoryPictureInProductPage"
-                                                           src="img/category/${product.category.id}.jpg"></a>
+    <img class="categoryPictureInProductPage" src="${ctx}/img/category/${product.category.id}.jpg">
 </div>
 
 <div class="productPageDiv">

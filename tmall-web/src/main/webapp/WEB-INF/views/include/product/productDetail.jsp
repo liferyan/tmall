@@ -12,7 +12,7 @@
         <div class="productParamter">产品参数：</div>
 
         <div class="productParamterList">
-            <c:forEach items="${pv_list}" var="pv">
+            <c:forEach items="${propertyValueList}" var="pv">
                 <span>${pv.property.name}:  ${fn:substring(pv.value, 0, 10)} </span>
             </c:forEach>
         </div>
@@ -21,7 +21,7 @@
 
     <div class="productDetailImagesPart">
         <c:forEach items="${product.detailProductImageList}" var="pi">
-            <img src="img/productDetail/${pi.id}.jpg">
+            <img src="${ctx}/img/productDetail/${pi.id}.jpg">
         </c:forEach>
     </div>
 </div>
