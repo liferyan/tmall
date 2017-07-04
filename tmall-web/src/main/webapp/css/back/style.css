@@ -118,13 +118,11 @@ th {
   text-align: center
 }
 
-p {
-  padding: 8px 15px;
-  border-radius: 4px;
-}
-
 .success {
+  display: none;
   font-size: medium;
   text-align: center;
-  margin-bottom: 20px
+  padding: 8px 15px;
+  margin-bottom: 20px;
+  border-radius: 4px
 }

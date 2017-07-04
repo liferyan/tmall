@@ -20,8 +20,7 @@
 <title>分类管理</title>
 
 <div class="workingArea">
-    <p class="bg-success success">
-        操作成功！</p>
+    <p class="bg-success success">操作成功！</p>
     <div style="margin-bottom: 20px">
         <span class="label label-info">分类管理</span>
     </div>
@@ -29,7 +28,7 @@
         <table class="table table-striped table-bordered table-hover table-condensed"
                style="margin-bottom: 0">
             <thead>
-            <tr class="success">
+            <tr class="bg-success">
                 <th>ID</th>
                 <th>图片</th>
                 <th>分类名称</th>

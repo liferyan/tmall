@@ -20,8 +20,7 @@
 <title>产品图片管理</title>
 
 <div class="workingArea">
-    <p class="bg-success success">
-        操作成功！</p>
+    <p class="bg-success success">操作成功！</p>
     <ol class="breadcrumb">
         <li><a href="${ctx}/admin/categories">所有分类</a></li>
         <li><a href="${ctx}/admin/products/${category.id}">${category.name}</a></li>
@@ -65,7 +64,7 @@
                 </div>
                 <table class="table table-striped table-bordered table-hover table-condensed">
                     <thead style="text-align: center">
-                    <tr class="success">
+                    <tr class="bg-success">
                         <th>ID</th>
                         <th>产品单个图片缩略图</th>
                         <th>删除</th>
@@ -123,7 +122,7 @@
                 </div>
                 <table class="table table-striped table-bordered table-hover table-condensed">
                     <thead>
-                    <tr class="success">
+                    <tr class="bg-success">
                         <th>ID</th>
                         <th>产品详情图片缩略图</th>
                         <th>删除</th>

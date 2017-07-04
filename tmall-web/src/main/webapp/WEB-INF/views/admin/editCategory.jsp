@@ -17,8 +17,6 @@
 <title>编辑分类</title>
 
 <div class="workingArea">
-    <p class="bg-success success">
-        操作成功！</p>
     <ol class="breadcrumb">
         <li><a href="${ctx}/admin/categories">所有分类</a></li>
         <li class="active">编辑分类</li>

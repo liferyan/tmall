@@ -31,8 +31,7 @@
 <title>产品管理</title>
 
 <div class="workingArea">
-    <p class="bg-success success">
-        操作成功！</p>
+    <p class="bg-success success">操作成功！</p>
     <ol class="breadcrumb">
         <li><a href="${ctx}/admin/categories">所有分类</a></li>
         <li><a href="${category.id}">${category.name}</a></li>
@@ -41,7 +40,7 @@
     <div class="listDataTableDiv">
         <table class="table table-striped table-bordered table-hover table-condensed">
             <thead>
-            <tr class="success">
+            <tr class="bg-success">
                 <th>ID</th>
                 <th>图片</th>
                 <th>产品名称</th>

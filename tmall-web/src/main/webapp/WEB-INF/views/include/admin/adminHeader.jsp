@@ -73,9 +73,6 @@
       });
       //显示操作成功
       $(function () {
-        <c:if test="${success eq null}">
-        $("p.bg-success").hide();
-        </c:if>
         <c:if test="${success ne null}">
         $("p.bg-success").show().delay(3000).hide(0);
         </c:if>

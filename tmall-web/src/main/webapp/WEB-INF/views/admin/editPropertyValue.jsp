@@ -51,9 +51,7 @@
         <div style="clear:both"></div>
     </div>
 
-    <p class="bg-success"
-       style="display:none;font-size: medium;text-align: center;margin-top: 20px">
-        修改成功！</p>
+    <p class="bg-success success" style="margin:20px">操作成功！</p>
 
 </div>
 
