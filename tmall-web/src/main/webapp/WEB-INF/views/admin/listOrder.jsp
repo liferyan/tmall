@@ -40,8 +40,7 @@
             </tr>
             </thead>
             <tbody>
-            <jsp:useBean id="order_list" scope="request" type="java.util.List"/>
-            <c:forEach items="${order_list}" var="order">
+            <c:forEach items="${orderList}" var="order">
                 <tr>
                     <td>${order.id}</td>
                     <td>${order.orderStatus.description}</td>
@@ -61,9 +60,9 @@
                         <button oid="${order.id}"
                                 class="orderPageCheckOrderItems btn btn-primary btn-xs">查看详情
                         </button>
-                        <c:set var="status_delivery" value="<%=OrderStatusEnum.WAIT_DELIVERY%>"/>
-                        <c:if test="${order.orderStatus eq status_delivery}">
-                            <a href="admin_order_delivery?oid=${order.id}">
+                        <c:set var="statusDelivery" value="<%=OrderStatusEnum.WAIT_DELIVERY%>"/>
+                        <c:if test="${order.orderStatus eq statusDelivery}">
+                            <a href="orderDelivery/${order.id}">
                                 <button class="btn btn-primary btn-xs">发货</button>
                             </a>
                         </c:if>
@@ -77,10 +76,10 @@
                                     <tr>
                                         <td align="left">
                                             <img width="40px" height="40px"
-                                                 src="img/productSingle/${orderItem.product.firstProductImage.id}.jpg">
+                                                 src="${ctx}/img/productSingle/${orderItem.product.firstProductImage.id}.jpg">
                                         </td>
                                         <td>
-                                            <a href="foreproduct?pid=${orderItem.product.id}">
+                                            <a href="${ctx}/product/${orderItem.product.id}">
                                                 <span>${orderItem.product.name}</span>
                                             </a>
                                         </td>
