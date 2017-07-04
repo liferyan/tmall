@@ -21,8 +21,8 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${user_list}" var="user">
-                <tr>
+            <c:forEach items="${userList}" var="user">
+                <tr style="text-align: center">
                     <td>${user.id}</td>
                     <td>${user.name}</td>
                 </tr>
