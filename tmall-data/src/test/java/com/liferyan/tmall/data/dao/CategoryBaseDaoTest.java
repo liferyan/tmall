@@ -60,6 +60,14 @@ public class CategoryBaseDaoTest extends BaseDaoTest {
 
   @Test
   public void listCategory() throws Exception {
+    Category selectCategory = categoryDao.getCategoryById(60);
+    List<Product> productList = selectCategory.getProducts();
+    for(Product product:productList){
+      assertThat(product.getPromotePrice(),notNullValue());
+      assertThat(product.getCreateDate(),notNullValue());
+      assertThat(product.getReviewCount(),notNullValue());
+      assertThat(product.getSaleCount(),notNullValue());
+    }
     List<Category> categoryList = categoryDao.listCategory();
     int size = categoryDao.getCategoryCount();
     assertThat(size, is(categoryList.size()));

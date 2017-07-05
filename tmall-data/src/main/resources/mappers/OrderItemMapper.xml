@@ -86,8 +86,8 @@
     WHERE oi.oid = -1 AND u.id = #{uid}
   </select>
 
-  <select id="saleCountSelect" resultType="_int">
-    SELECT SUM(number)
+  <select id="saleCountSelect" resultType="int">
+    SELECT COALESCE(SUM(number), 0)
     FROM order_item
     WHERE pid = #{pid}
   </select>

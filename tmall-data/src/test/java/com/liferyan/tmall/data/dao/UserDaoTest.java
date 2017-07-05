@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Created by Ryan on 2017/5/21.
  */
-public class UserBaseDaoTest extends BaseDaoTest {
+public class UserDaoTest extends BaseDaoTest {
 
   @Autowired
   private UserDao userDao;
@@ -54,11 +54,11 @@ public class UserBaseDaoTest extends BaseDaoTest {
 
   @Test
   public void listUser() throws Exception {
-    user = userDao.getUserByName("admin");
+    user = userDao.getUserByName("test");
     assertThat(user.getId(), not(0));
-    assertThat(user.getName(), equalTo("admin"));
+    assertThat(user.getName(), equalTo("test"));
     assertThat(userDao.getUserCount(), greaterThan(0));
-    user = userDao.getUserByNameAndPassword("admin", "admin");
+    user = userDao.getUserByNameAndPassword("test", "test");
     assertThat(user, notNullValue());
     List<User> userList = userDao.listUser();
     assertThat(userList.size(), greaterThan(0));

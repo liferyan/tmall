@@ -61,9 +61,9 @@
     <association property="category" javaType="category" columnPrefix="c_"
       resultMap="com.liferyan.tmall.data.entity.CategoryMapper.categoryAndPropertyMap"/>
     <!--此处使用association是否合适!!!-->
-    <association column="p_id" property="saleCount" javaType="_int"
+    <association column="p_id" property="saleCount" javaType="int"
       select="com.liferyan.tmall.data.entity.OrderItemMapper.saleCountSelect"/>
-    <association column="p_id" property="reviewCount" javaType="_int"
+    <association column="p_id" property="reviewCount" javaType="int"
       select="com.liferyan.tmall.data.entity.ReviewMapper.reviewCountSelect"/>
     <association column="p_id" property="firstProductImage" javaType="productImage"
       select="com.liferyan.tmall.data.entity.ProductImageMapper.firstProductImageSelect"/>

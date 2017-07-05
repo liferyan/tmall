@@ -20,7 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Created by Ryan on 2017/5/23.
  */
-public class PropertyBaseDaoTest extends BaseDaoTest {
+public class PropertyDaoTest extends BaseDaoTest {
 
   @Autowired
   private PropertyDao propertyDao;

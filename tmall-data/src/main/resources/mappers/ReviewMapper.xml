@@ -62,7 +62,7 @@
       select="com.liferyan.tmall.data.entity.ProductMapper.productSelect"/>
   </resultMap>
 
-  <select id="reviewCountSelect" resultType="_int">
+  <select id="reviewCountSelect" resultType="int">
     SELECT COUNT(*)
     FROM review
     WHERE pid = #{pid}

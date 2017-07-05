@@ -84,12 +84,12 @@ public class Product implements Serializable {
   /**
    * 销量数
    */
-  private int saleCount;
+  private Integer saleCount;
 
   /**
    * 评价数
    */
-  private int reviewCount;
+  private Integer reviewCount;
 
   public int getId() {
     return id;
@@ -155,19 +155,19 @@ public class Product implements Serializable {
     this.category = category;
   }
 
-  public int getSaleCount() {
+  public Integer getSaleCount() {
     return saleCount;
   }
 
-  public void setSaleCount(int saleCount) {
+  public void setSaleCount(Integer saleCount) {
     this.saleCount = saleCount;
   }
 
-  public int getReviewCount() {
+  public Integer getReviewCount() {
     return reviewCount;
   }
 
-  public void setReviewCount(int reviewCount) {
+  public void setReviewCount(Integer reviewCount) {
     this.reviewCount = reviewCount;
   }
 

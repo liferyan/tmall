@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
  * Created by Ryan on 2017/6/2.
  * MyBatis缓存测试类
  */
-public class MyBatisCacheTestBase extends BaseDaoTest {
+public class MyBatisCacheTest extends BaseDaoTest {
 
-  private static final Logger logger = LoggerFactory.getLogger("MyBatisCacheTestBase");
+  private static final Logger logger = LoggerFactory.getLogger("MyBatisCacheTest");
 
   @Autowired
   private CategoryDao categoryDao;

@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Created by Ryan on 2017/6/1.
  */
-public class ReviewBaseDaoTest extends BaseDaoTest {
+public class ReviewDaoTest extends BaseDaoTest {
 
   @Autowired
   private ReviewDao reviewDao;
@@ -35,7 +35,7 @@ public class ReviewBaseDaoTest extends BaseDaoTest {
 
   @Before
   public void setUp() throws Exception {
-    user = userDao.getUserByName("admin");
+    user = userDao.getUserByName("test");
     product = productDao.getProductById(958);
   }
 

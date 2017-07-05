@@ -25,7 +25,8 @@
       c.name          AS "c_name",
       p.id            AS "p_id",
       p.name          AS "p_name",
-      p.promote_price AS "p_promotePrice"
+      p.promote_price AS "p_promotePrice",
+      p.create_date   AS "p_createDate"
     FROM category AS c
       LEFT OUTER JOIN product AS p ON c.id = p.cid
   </sql>
@@ -45,11 +46,12 @@
       <id column="p_id" property="id"/>
       <result column="p_name" property="name"/>
       <result column="p_promotePrice" property="promotePrice"/>
+      <result column="p_createDate" property="createDate"/>
       <association column="p_id" property="firstProductImage" javaType="productImage"
         select="com.liferyan.tmall.data.entity.ProductImageMapper.firstProductImageSelect"/>
-      <association column="p_id" property="saleCount" javaType="_int"
+      <association column="p_id" property="saleCount" javaType="int"
         select="com.liferyan.tmall.data.entity.OrderItemMapper.saleCountSelect"/>
-      <association column="p_id" property="reviewCount" javaType="_int"
+      <association column="p_id" property="reviewCount" javaType="int"
         select="com.liferyan.tmall.data.entity.ReviewMapper.reviewCountSelect"/>
     </collection>
   </resultMap>

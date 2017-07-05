@@ -23,7 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Created by Ryan on 2017/5/26.
  */
-public class ProductBaseDaoTest extends BaseDaoTest {
+public class ProductDaoTest extends BaseDaoTest {
 
   @Autowired
   private ProductDao productDao;

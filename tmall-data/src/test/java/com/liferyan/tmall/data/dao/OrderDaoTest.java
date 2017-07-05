@@ -24,7 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Created by Ryan on 2017/6/1.
  */
-public class OrderBaseDaoTest extends BaseDaoTest {
+public class OrderDaoTest extends BaseDaoTest {
 
   @Autowired
   private  OrderDao orderDao;
@@ -37,7 +37,7 @@ public class OrderBaseDaoTest extends BaseDaoTest {
 
   @Before
   public void setUp() throws Exception {
-    user = userDao.getUserByName("admin");
+    user = userDao.getUserByName("test");
     Date createDate = new Date();
     String now = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(createDate);
     String orderCode = now + RandomStringUtils.randomNumeric(4);

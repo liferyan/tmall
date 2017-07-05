@@ -20,7 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Created by Ryan on 2017/6/1.
  */
-public class OrderItemBaseDaoTest extends BaseDaoTest {
+public class OrderItemDaoTest extends BaseDaoTest {
 
   @Autowired
   private OrderItemDao orderItemDao;
@@ -39,7 +39,7 @@ public class OrderItemBaseDaoTest extends BaseDaoTest {
   @Before
   public void setUp() throws Exception {
     product = productDao.getProductById(958);
-    user = userDao.getUserByName("admin");
+    user = userDao.getUserByName("test");
     order.setId(-1);
   }
 

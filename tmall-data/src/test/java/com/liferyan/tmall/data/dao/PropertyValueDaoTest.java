@@ -21,7 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Created by Ryan on 2017/5/27.
  */
-public class PropertyValueBaseDaoTest extends BaseDaoTest {
+public class PropertyValueDaoTest extends BaseDaoTest {
 
   @Autowired
   private PropertyValueDao propertyValueDao;
