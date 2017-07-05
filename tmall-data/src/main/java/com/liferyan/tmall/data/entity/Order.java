@@ -3,6 +3,7 @@ package com.liferyan.tmall.data.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.validation.constraints.Size;
 
 /**
  * Created by Ryan on 2017/4/18.
@@ -24,6 +25,7 @@ public class Order implements Serializable {
   /**
    * 收货地址
    */
+  @Size(min = 4, max = 20, message = "收货地址长度必须为4至20")
   private String address;
 
   /**
@@ -34,11 +36,13 @@ public class Order implements Serializable {
   /**
    * 收货人姓名
    */
+  @Size(min = 2, max = 25, message = "收货人姓名长度必须为2至25")
   private String receiver;
 
   /**
    * 收货人手机号码
    */
+  @Size(min = 11, max = 11, message = "收货人手机号码长度必须为11")
   private String mobile;
 
   /**
@@ -84,11 +88,11 @@ public class Order implements Serializable {
   /**
    * 订单总价
    */
-  private float total;
+  private Float total;
   /**
    * 订单项数量
    */
-  private int totalNumber;
+  private Integer totalNumber;
 
   public int getId() {
     return id;
@@ -202,19 +206,19 @@ public class Order implements Serializable {
     this.orderItems = orderItems;
   }
 
-  public float getTotal() {
+  public Float getTotal() {
     return total;
   }
 
-  public void setTotal(float total) {
+  public void setTotal(Float total) {
     this.total = total;
   }
 
-  public int getTotalNumber() {
+  public Integer getTotalNumber() {
     return totalNumber;
   }
 
-  public void setTotalNumber(int totalNumber) {
+  public void setTotalNumber(Integer totalNumber) {
     this.totalNumber = totalNumber;
   }
 

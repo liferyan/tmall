@@ -70,6 +70,6 @@ public class OrderManagerController {
         throw new RuntimeException("库存不足！");
       }
     }
-    return "redirect:/orders";
+    return "redirect:/admin/orders";
   }
 }

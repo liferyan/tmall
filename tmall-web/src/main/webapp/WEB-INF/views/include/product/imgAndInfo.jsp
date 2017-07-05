@@ -49,10 +49,10 @@
             if ("success" == result) {
               var pid = ${product.id};
               var num = $(".productNumberSetting").val();
-              var addCartpage = "foreaddCart";
+              var addCartpage = "${ctx}/cart/addAjax/";
               $.get(
                   addCartpage,
-                  {"pid": pid, "num": num},
+                  {"productId": pid, "num": num},
                   function (result) {
                     if ("success" == result) {
                       $(".addCartButton").html("已加入购物车");
@@ -80,7 +80,7 @@
           function (result) {
             if ("success" == result) {
               var num = $(".productNumberSetting").val();
-              location.href = $(".buyLink").attr("href") + "&num=" + num;
+              location.href = $(".buyLink").attr("href") + "?num=" + num;
             }
             else {
               $("#loginModal").modal('show');
@@ -227,7 +227,7 @@
         </div>
 
         <div class="buyDiv">
-            <a class="buyLink" href="forebuyone?pid=${product.id}">
+            <a class="buyLink" href="${ctx}/cart/add/${product.id}">
                 <button class="buyButton">立即购买</button>
             </a>
             <a href="#nowhere" class="addCartLink">

@@ -27,19 +27,19 @@
             <th width="120px">商品总价</th>
             <th width="120px">运费</th>
             </thead>
-            <c:forEach items="${order.orderItems}" var="order_item">
+            <c:forEach items="${order.orderItems}" var="orderItem">
                 <tr>
                     <td><img width="50px"
-                             src="img/productSingle_middle/${order_item.product.firstProductImage.id}.jpg">
+                             src="img/productSingle_middle/${orderItem.product.firstProductImage.id}.jpg">
                     </td>
                     <td class="confirmPayOrderItemProductLink">
-                        <a href="#nowhere">${order_item.product.name}</a>
+                        <a href="#nowhere">${orderItem.product.name}</a>
                     </td>
-                    <td>￥<fmt:formatNumber type="number" value="${order_item.product.originalPrice}"
+                    <td>￥<fmt:formatNumber type="number" value="${orderItem.product.originalPrice}"
                                            minFractionDigits="2"/></td>
                     <td>1</td>
                     <td><span class="conformPayProductPrice">￥<fmt:formatNumber type="number"
-                                                                                value="${order_item.product.promotePrice}"
+                                                                                value="${orderItem.product.promotePrice}"
                                                                                 minFractionDigits="2"/></span>
                     </td>
                     <td><span>快递 ： 0.00 </span></td>

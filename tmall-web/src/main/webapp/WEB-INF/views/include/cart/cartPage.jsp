@@ -209,21 +209,21 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${order_item_list}" var="order_item">
-                <tr oiid="${order_item.id}" class="cartProductItemTR">
+            <c:forEach items="${order_item_list}" var="orderItem">
+                <tr oiid="${orderItem.id}" class="cartProductItemTR">
                     <td>
-                        <img selectit="false" oiid="${order_item.id}"
+                        <img selectit="false" oiid="${orderItem.id}"
                              class="cartProductItemIfSelected"
                              src="img/site/cartNotSelected.png">
                         <a style="display:none" href="#nowhere"><img
                                 src="img/site/cartSelected.png"></a>
                         <img class="cartProductImage"
-                             src="img/productSingle_middle/${order_item.product.firstProductImage.id}.jpg">
+                             src="img/productSingle_middle/${orderItem.product.firstProductImage.id}.jpg">
                     </td>
                     <td>
                         <div class="cartProductLinkOutDiv">
-                            <a href="foreproduct?pid=${order_item.product.id}"
-                               class="cartProductLink">${order_item.product.name}</a>
+                            <a href="foreproduct?pid=${orderItem.product.id}"
+                               class="cartProductLink">${orderItem.product.name}</a>
                             <div class="cartProductLinkInnerDiv">
                                 <img src="img/site/creditcard.png" title="支持信用卡支付">
                                 <img src="img/site/7day.png" title="消费者保障服务,承诺7天退货">
@@ -233,38 +233,38 @@
 
                     </td>
                     <td>
-                        <span class="cartProductItemOringalPrice">￥${order_item.product.originalPrice}</span>
-                        <span class="cartProductItemPromotionPrice">￥${order_item.product.promotePrice}</span>
+                        <span class="cartProductItemOringalPrice">￥${orderItem.product.originalPrice}</span>
+                        <span class="cartProductItemPromotionPrice">￥${orderItem.product.promotePrice}</span>
 
                     </td>
                     <td>
                         <div class="cartProductChangeNumberDiv">
                             <span class="hidden orderItemStock "
-                                  pid="${order_item.product.id}">${order_item.product.stock}</span>
+                                  pid="${orderItem.product.id}">${orderItem.product.stock}</span>
                             <span class="hidden orderItemPromotePrice "
-                                  pid="${order_item.product.id}">${order_item.product.promotePrice}</span>
-                            <a pid="${order_item.product.id}" class="numberMinus"
+                                  pid="${orderItem.product.id}">${orderItem.product.promotePrice}</span>
+                            <a pid="${orderItem.product.id}" class="numberMinus"
                                href="#nowhere">-</a>
-                            <input pid="${order_item.product.id}" oiid="${order_item.id}"
+                            <input pid="${orderItem.product.id}" oiid="${orderItem.id}"
                                    class="orderItemNumberSetting" autocomplete="off"
-                                   value="${order_item.number}">
-                            <a stock="${order_item.product.stock}" pid="${order_item.product.id}"
+                                   value="${orderItem.number}">
+                            <a stock="${orderItem.product.stock}" pid="${orderItem.product.id}"
                                class="numberPlus"
                                href="#nowhere">+</a>
                         </div>
 
                     </td>
                     <td>
-							<span class="cartProductItemSmallSumPrice" oiid="${order_item.id}"
-                                  pid="${order_item.product.id}">
+							<span class="cartProductItemSmallSumPrice" oiid="${orderItem.id}"
+                                  pid="${orderItem.product.id}">
 							￥<fmt:formatNumber type="number"
-                                               value="${order_item.product.promotePrice*order_item.number}"
+                                               value="${orderItem.product.promotePrice*orderItem.number}"
                                                minFractionDigits="2"/>
 							</span>
 
                     </td>
                     <td>
-                        <a class="deleteOrderItem" oiid="${order_item.id}" href="#nowhere">删除</a>
+                        <a class="deleteOrderItem" oiid="${orderItem.id}" href="#nowhere">删除</a>
                     </td>
                 </tr>
             </c:forEach>

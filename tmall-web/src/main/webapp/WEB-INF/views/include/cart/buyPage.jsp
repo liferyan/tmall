@@ -1,11 +1,12 @@
 <%@ page contentType="text/html;charset=utf-8" language="java" isELIgnored="false"
          pageEncoding="utf-8" %>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 
 <div class="buyPageDiv">
-    <form action="forecreateOrder" method="post">
+    <sf:form commandName="order" action="${ctx}/order/add" method="post">
         <div class="buyFlow">
-            <img class="pull-left" src="img/site/simpleLogo.png">
-            <img class="pull-right" src="img/site/buyflow.png">
+            <img class="pull-left" src="${ctx}/img/site/simpleLogo.png">
+            <img class="pull-right" src="${ctx}/img/site/buyflow.png">
             <div style="clear:both"></div>
         </div>
         <div class="address">
@@ -14,22 +15,25 @@
                 <table class="addressTable">
                     <tr>
                         <td class="firstColumn">详细地址<span class="redStar">*</span></td>
-
-                        <td><textarea name="address"
-                                      placeholder="建议您如实填写详细收货地址，例如接到名称，门牌好吗，楼层和房间号等信息"></textarea>
+                        <td><sf:input path="address"/>
+                            <sf:errors path="address" cssClass="text-danger errors"/>
                         </td>
                     </tr>
                     <tr>
                         <td>邮政编码</td>
-                        <td><input name="post" placeholder="如果您不清楚邮递区号，请填写000000" type="text"></td>
+                        <td><sf:input path="post"/></td>
                     </tr>
                     <tr>
                         <td>收货人姓名<span class="redStar">*</span></td>
-                        <td><input name="receiver" placeholder="长度不超过25个字符" type="text"></td>
+                        <td><sf:input path="receiver"/>
+                            <sf:errors path="receiver" cssClass="text-danger errors"/>
+                        </td>
                     </tr>
                     <tr>
                         <td>手机号码 <span class="redStar">*</span></td>
-                        <td><input name="mobile" placeholder="请输入11位手机号码" type="text"></td>
+                        <td><sf:input path="mobile"/>
+                            <sf:errors path="mobile" cssClass="text-danger errors"/>
+                        </td>
                     </tr>
                 </table>
 
@@ -41,7 +45,7 @@
                 <thead>
                 <tr>
                     <th colspan="2" class="productListTableFirstColumn">
-                        <img class="tmallbuy" src="img/site/tmallbuy.png">
+                        <img class="tmallbuy" src="${ctx}/img/site/tmallbuy.png">
                         <a class="marketLink" href="#nowhere">店铺：天猫店铺</a>
                         <a class="wangwanglink" href="#nowhere"> <span class="wangwangGif"></span>
                         </a>
@@ -60,32 +64,32 @@
                 </tr>
                 </thead>
                 <tbody class="productListTableTbody">
-                <c:forEach items="${order_item_list}" var="order_item" varStatus="st">
+                <c:forEach items="${orderItemList}" var="orderItem" varStatus="st">
                     <tr class="orderItemTR">
                         <td class="orderItemFirstTD"><img class="orderItemImg"
-                                                          src="img/productSingle_middle/${order_item.product.firstProductImage.id}.jpg">
+                                                          src="${ctx}/img/productSingle_middle/${orderItem.product.firstProductImage.id}.jpg">
                         </td>
                         <td class="orderItemProductInfo">
-                            <a href="foreproduct?pid=${order_item.product.id}"
+                            <a href="${ctx}/product/${orderItem.product.id}"
                                class="orderItemProductLink">
-                                    ${order_item.product.name}
+                                    ${orderItem.product.name}
                             </a>
-                            <img src="img/site/creditcard.png" title="支持信用卡支付">
-                            <img src="img/site/7day.png" title="消费者保障服务,承诺7天退货">
-                            <img src="img/site/promise.png" title="消费者保障服务,承诺如实描述">
+                            <img src="${ctx}/img/site/creditcard.png" title="支持信用卡支付">
+                            <img src="${ctx}/img/site/7day.png" title="消费者保障服务,承诺7天退货">
+                            <img src="${ctx}/img/site/promise.png" title="消费者保障服务,承诺如实描述">
 
                         </td>
                         <td>
                             <span class="orderItemProductPrice">￥<fmt:formatNumber type="number"
-                                                                                   value="${order_item.product.promotePrice}"
+                                                                                   value="${orderItem.product.promotePrice}"
                                                                                    minFractionDigits="2"/></span>
                         </td>
                         <td>
-                            <span class="orderItemProductNumber">${order_item.number}</span>
+                            <span class="orderItemProductNumber">${orderItem.number}</span>
                         </td>
                         <td><span class="orderItemUnitSum">
 						￥<fmt:formatNumber type="number"
-                                           value="${order_item.number*order_item.product.promotePrice}"
+                                           value="${orderItem.number*orderItem.product.promotePrice}"
                                            minFractionDigits="2"/>
 						</span></td>
                         <c:if test="${st.count==1}">
@@ -109,18 +113,18 @@
                 <div class="pull-left">
                     <span class="leaveMessageText">给卖家留言:</span>
                     <span>
-					<img class="leaveMessageImg" src="img/site/leaveMessage.png">
+					<img class="leaveMessageImg" src="${ctx}/img/site/leaveMessage.png">
 				</span>
                     <span class="leaveMessageTextareaSpan">
-					<textarea name="userMessage" class="leaveMessageTextarea"></textarea>
+					<sf:textarea path="userMessage" class="leaveMessageTextarea"/>
 					<div>
 						<span>还可以输入200个字符</span>
 					</div>
 				</span>
                 </div>
-                <span class="pull-right">店铺合计(含运费): ￥<fmt:formatNumber type="number"
-                                                                       value="${total_order_money}"
-                                                                       minFractionDigits="2"/></span>
+                <span class="pull-right">店铺合计(含运费): ￥
+                    <fmt:formatNumber type="number" value="${totalMoneyInOrder}"
+                                      minFractionDigits="2"/></span>
             </div>
 
 
@@ -129,14 +133,16 @@
         <div class="orderItemTotalSumDiv">
             <div class="pull-right">
                 <span>实付款：</span>
-                <span class="orderItemTotalSumSpan">￥<fmt:formatNumber type="number"
-                                                                       value="${total_order_money}"
-                                                                       minFractionDigits="2"/></span>
+                <span class="orderItemTotalSumSpan">￥
+                    <fmt:formatNumber type="number" value="${totalMoneyInOrder}"
+                                      minFractionDigits="2"/></span>
             </div>
         </div>
+
+        <sf:hidden path="total" value="${totalMoneyInOrder}"/>
 
         <div class="submitOrderDiv">
             <button type="submit" class="submitOrderButton">提交订单</button>
         </div>
-    </form>
+    </sf:form>
 </div>

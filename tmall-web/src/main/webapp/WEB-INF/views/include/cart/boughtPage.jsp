@@ -107,16 +107,16 @@
                         </a>
                     </td>
                 </tr>
-                <c:forEach items="${order.orderItems}" var="order_item" varStatus="st">
+                <c:forEach items="${order.orderItems}" var="orderItem" varStatus="st">
                     <tr class="orderItemProductInfoPartTR">
                         <td class="orderItemProductInfoPartTD">
                             <img width="80" height="80"
-                                 src="img/productSingle_middle/${order_item.product.firstProductImage.id}.jpg">
+                                 src="img/productSingle_middle/${orderItem.product.firstProductImage.id}.jpg">
                         </td>
                         <td class="orderItemProductInfoPartTD">
                             <div class="orderListItemProductLinkOutDiv">
-                                <a href="foreproduct?pid=${order_item.product.id}">
-                                        ${order_item.product.name}</a>
+                                <a href="foreproduct?pid=${orderItem.product.id}">
+                                        ${orderItem.product.name}</a>
                                 <div class="orderListItemProductLinkInnerDiv">
                                     <img src="img/site/creditcard.png" title="支持信用卡支付">
                                     <img src="img/site/7day.png" title="消费者保障服务,承诺7天退货">
@@ -127,37 +127,37 @@
 
                         <td class="orderItemProductInfoPartTD" width="100px">
                             <div class="orderListItemProductOriginalPrice">￥<fmt:formatNumber
-                                    type="number" value="${order_item.product.originalPrice}"
+                                    type="number" value="${orderItem.product.originalPrice}"
                                     minFractionDigits="2"/></div>
                             <div class="orderListItemProductPrice">
                                 ￥<fmt:formatNumber type="number"
-                                                   value="${order_item.product.promotePrice}"
+                                                   value="${orderItem.product.promotePrice}"
                                                    minFractionDigits="2"/></div>
                         </td>
                         <td valign="top"
                             class="orderListItemNumberTD orderItemOrderInfoPartTD"
                             width="100px">
-                            <span class="orderListItemNumber">${order_item.number}</span>
+                            <span class="orderListItemNumber">${orderItem.number}</span>
                         </td>
                         <td valign="top" width="120px"
                             class="orderListItemProductRealPriceTD orderItemOrderInfoPartTD">
                             <div class="orderListItemProductRealPrice">￥<fmt:formatNumber
                                     minFractionDigits="2" maxFractionDigits="2" type="number"
-                                    value="${order_item.number * order_item.product.promotePrice}"/></div>
+                                    value="${orderItem.number * orderItem.product.promotePrice}"/></div>
                             <div class="orderListItemPriceWithTransport">(含运费：￥0.00)</div>
                         </td>
-                        <c:if test="${order_item.hasReview eq true}">
+                        <c:if test="${orderItem.hasReview eq true}">
                             <td valign="top"
                                 class="orderListItemButtonTD orderItemOrderInfoPartTD"
                                 width="100px">
                                 <span>已评价</span>
                             </td>
                         </c:if>
-                        <c:if test="${order.orderStatus.code eq 'WAIT_REVIEW' and order_item.hasReview eq false}">
+                        <c:if test="${order.orderStatus.code eq 'WAIT_REVIEW' and orderItem.hasReview eq false}">
                             <td valign="top"
                                 class="orderListItemButtonTD orderItemOrderInfoPartTD"
                                 width="100px">
-                                <a href="forereview?oid=${order.id}&pid=${order_item.product.id}&oiid=${order_item.id}">
+                                <a href="forereview?oid=${order.id}&pid=${orderItem.product.id}&oiid=${orderItem.id}">
                                     <button class="orderListItemReview">评价</button>
                                 </a>
                             </td>
