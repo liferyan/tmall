@@ -7,7 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Created by Ryan on 2017/7/4.
@@ -32,5 +34,11 @@ public class ProductController {
     model.addAttribute(propertyValueDao.listPropertyValue(productId));
     model.addAttribute(productDao.getProductById(productId));
     return "product";
+  }
+
+  @PostMapping("/search")
+  public String searchProduct(@RequestParam("keyword") String keyword, Model model) {
+    model.addAttribute(productDao.searchProduct(keyword, 0, 20));
+    return "searchResult";
   }
 }

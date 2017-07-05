@@ -42,7 +42,7 @@
     });
 
     $(".addCartLink").click(function () {
-      var page = "forecheckLogin";
+      var page = "${ctx}/user/checkLogin";
       $.get(
           page,
           function (result) {
@@ -74,7 +74,7 @@
       return false;
     });
     $(".buyLink").click(function () {
-      var page = "forecheckLogin";
+      var page = "${ctx}/user/checkLoginAjax";
       $.get(
           page,
           function (result) {
@@ -98,7 +98,7 @@
         $("div.loginErrorMessageDiv").show();
         return false;
       }
-      var page = "foreloginAjax";
+      var page = "${ctx}/user/loginAjax";
       $.get(
           page,
           {"name": name, "password": password},

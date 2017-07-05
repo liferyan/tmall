@@ -6,7 +6,7 @@
     <img id="logo" src="${ctx}/img/site/logo.gif" class="logo">
 </a>
 
-<form action="foresearch" method="post">
+<form action="${ctx}/product/search" method="post">
     <div class="searchDiv">
         <input name="keyword" type="text" placeholder="时尚男鞋  太阳镜 ">
         <button type="submit" class="searchButton">搜索</button>

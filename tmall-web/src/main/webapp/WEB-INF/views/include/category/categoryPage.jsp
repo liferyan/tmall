@@ -3,7 +3,7 @@
 <title>模仿天猫官网-${category.name}</title>
 <div id="category">
     <div class="categoryPageDiv">
-        <img src="img/category/${category.id}.jpg">
+        <img src="${ctx}/img/category/${category.id}.jpg">
         <%@ include file="sortBar.jsp" %>
         <%@ include file="productsByCategory.jsp" %>
     </div>

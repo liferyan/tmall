@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Created by Ryan on 2017/7/4.
@@ -76,5 +77,26 @@ public class UserController {
   public String showlogoutPage(HttpSession session) {
     session.removeAttribute("user");
     return "redirect:/";
+  }
+
+  @ResponseBody
+  @GetMapping("/checkLoginAjax")
+  public String checkLoginAjax(HttpSession session) {
+    if (session.getAttribute("user") != null) {
+      return "success";
+    }
+    return "fail";
+  }
+
+  @ResponseBody
+  @GetMapping("/loginAjax")
+  public String loginAjax(HttpSession session,
+      @RequestParam("name") String name, @RequestParam("password") String password) {
+    User user = userDao.getUserByNameAndPassword(name, password);
+    if (user != null) {
+      session.setAttribute("user", user);
+      return "success";
+    }
+    return "fail";
   }
 }
