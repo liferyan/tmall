@@ -47,7 +47,7 @@ public class UserController {
       return "register";
     }
     userDao.saveUser(user);
-    return "redirect:/";
+    return "redirect:/user/login";
   }
 
   @GetMapping("/login")
