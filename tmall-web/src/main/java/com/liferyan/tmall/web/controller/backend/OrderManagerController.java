@@ -3,12 +3,9 @@ package com.liferyan.tmall.web.controller.backend;
 import com.liferyan.tmall.data.dao.OrderDao;
 import com.liferyan.tmall.data.dao.ProductDao;
 import com.liferyan.tmall.data.entity.Order;
-import com.liferyan.tmall.data.entity.OrderItem;
 import com.liferyan.tmall.data.entity.OrderStatusEnum;
-import com.liferyan.tmall.data.entity.Product;
 import com.liferyan.tmall.web.util.Page;
 import java.util.Date;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,22 +51,6 @@ public class OrderManagerController {
     order.setDeliveryDate(new Date());
     order.setOrderStatus(OrderStatusEnum.WAIT_CONFIRM);
     orderDao.updateOrder(order);
-
-    List<OrderItem> orderItemList = order.getOrderItems();
-    int deliveryNumber, productStock;
-    Product deliveryProduct;
-    for (OrderItem orderItem : orderItemList) {
-      deliveryNumber = orderItem.getNumber();
-      deliveryProduct = orderItem.getProduct();
-      productStock = deliveryProduct.getStock();
-      if (deliveryNumber <= productStock) {
-        productStock -= deliveryNumber;
-        deliveryProduct.setStock(productStock);
-        productDao.updateProduct(deliveryProduct);
-      } else {
-        throw new RuntimeException("库存不足！");
-      }
-    }
     return "redirect:/admin/orders";
   }
 }

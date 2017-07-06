@@ -87,9 +87,10 @@
   </select>
 
   <select id="saleCountSelect" resultType="int">
-    SELECT COALESCE(SUM(number), 0)
-    FROM order_item
-    WHERE pid = #{pid}
+    SELECT COALESCE(SUM(oi.number), 0)
+    FROM order_item AS oi
+      LEFT OUTER JOIN order_ AS o ON oi.oid = o.id
+    WHERE oi.pid = #{pid} AND o.pay_date IS NOT NULL
   </select>
 
   <resultMap id="orderItemAndProductMap" type="orderItem">

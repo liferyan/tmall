@@ -2,9 +2,11 @@ package com.liferyan.tmall.web.controller.portal;
 
 import com.liferyan.tmall.data.dao.OrderDao;
 import com.liferyan.tmall.data.dao.OrderItemDao;
+import com.liferyan.tmall.data.dao.ProductDao;
 import com.liferyan.tmall.data.entity.Order;
 import com.liferyan.tmall.data.entity.OrderItem;
 import com.liferyan.tmall.data.entity.OrderStatusEnum;
+import com.liferyan.tmall.data.entity.Product;
 import com.liferyan.tmall.data.entity.User;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,10 +34,14 @@ public class OrderController {
 
   private OrderItemDao orderItemDao;
 
+  private ProductDao productDao;
+
   @Autowired
-  public OrderController(OrderDao orderDao, OrderItemDao orderItemDao) {
+  public OrderController(OrderDao orderDao, OrderItemDao orderItemDao,
+      ProductDao productDao) {
     this.orderDao = orderDao;
     this.orderItemDao = orderItemDao;
+    this.productDao = productDao;
   }
 
   @PostMapping("/add")
@@ -56,6 +62,7 @@ public class OrderController {
     order.setOrderStatus(OrderStatusEnum.WAIT_PAY);
     order.setUser(user);
     orderDao.saveOrder(order);
+
     //将购物车里的订单项所属订单ID(-1)修改为实际的订单ID
     for (OrderItem orderItem : orderItemList) {
       orderItem.setOrder(order);
@@ -67,11 +74,30 @@ public class OrderController {
 
   @PostMapping("/pay/{orderId}")
   public String orderPay(@PathVariable("orderId") int orderId,
-      @RequestParam("totalMoneyInOrder") float totalMoneyInOrder, Model model) {
+      @RequestParam("totalMoneyInOrder") float totalMoneyInOrder,
+      HttpSession session, Model model) {
+    int deliveryNumber, productStock;
+    Product deliveryProduct;
+    List<OrderItem> orderItemList = (List<OrderItem>) session.getAttribute("orderItemList");
+    //修改每个订单项里产品的库存
+    for (OrderItem orderItem : orderItemList) {
+      deliveryNumber = orderItem.getNumber();
+      deliveryProduct = orderItem.getProduct();
+      productStock = deliveryProduct.getStock();
+      if (deliveryNumber <= productStock) {
+        productStock -= deliveryNumber;
+        deliveryProduct.setStock(productStock);
+        productDao.updateProduct(deliveryProduct);
+      } else {
+        throw new RuntimeException("库存不足！");
+      }
+    }
+
     Order order = orderDao.getOrderById(orderId);
     order.setOrderStatus(OrderStatusEnum.WAIT_DELIVERY);
     order.setPayDate(new Date());
     orderDao.updateOrder(order);
+
     model.addAttribute("totalMoneyInOrder", totalMoneyInOrder);
     model.addAttribute(order);
     return "payed";
