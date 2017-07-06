@@ -20,11 +20,18 @@
 
 
     <span class="pull-right">
-			<a href="forebought">我的订单</a>
-			<a href="forecart">
+			<a href="${ctx}/bought">我的订单</a>
+			<a href="${ctx}/cart">
 			<span style="color:#C40000;margin:0"
                   class=" glyphicon glyphicon-shopping-cart redColor"></span>
-			购物车<strong>${requestScope.cartItemCount}</strong>件</a>
+			购物车<strong>
+                <c:if test="${empty sessionScope.user}">
+                    0
+                </c:if>
+                <c:if test="${!empty sessionScope.user}">
+                    ${sessionScope.cartItemCount}
+                </c:if>
+            </strong>件</a>
 		</span>
 
 

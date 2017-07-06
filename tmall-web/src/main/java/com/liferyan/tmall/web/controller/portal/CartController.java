@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -42,19 +43,54 @@ public class CartController {
     if (user == null) {
       return "redirect:/user/login";
     }
-    OrderItem orderItem = addOrderItem(user, productId, productNum);
+    OrderItem orderItem = createOrderItem(user, productId, productNum);
+    int cartItemCount = orderItemDao.listOrderItemInCartByUser(user.getId()).size();
+    session.setAttribute("cartItemCount", cartItemCount);
     return "forward:/cart/settle?oiid=" + orderItem.getId();
   }
 
   @ResponseBody
   @GetMapping("/addAjax")
-  public String addCartAjax(@RequestParam("productId") int productId,
+  public String addCartAjax(@RequestParam("pid") int productId,
       @RequestParam("num") int productNum, HttpSession session) {
     User user = (User) session.getAttribute("user");
     if (user == null) {
       return "fail";
     }
-    OrderItem orderItem = addOrderItem(user, productId, productNum);
+    createOrderItem(user, productId, productNum);
+    int cartItemCount = orderItemDao.listOrderItemInCartByUser(user.getId()).size();
+    session.setAttribute("cartItemCount", cartItemCount);
+    return "success";
+  }
+
+  @GetMapping
+  public String showCartPage(HttpSession session, Model model) {
+    User user = (User) session.getAttribute("user");
+    if (user == null) {
+      return "redirect:/user/login";
+    }
+    model.addAttribute(orderItemDao.listOrderItemInCartByUser(user.getId()));
+    return "cart";
+  }
+
+  @ResponseBody
+  @PostMapping("/deleteOrderItemAjax")
+  public String deleteOrderItemInCartAjax(@RequestParam("oiid") int deleteOrderItemId,
+      HttpSession session) {
+    orderItemDao.deleteOrderItem(deleteOrderItemId);
+    int cartItemCount = (int) session.getAttribute("cartItemCount") - 1;
+    session.setAttribute("cartItemCount", cartItemCount);
+    return "success";
+  }
+
+  @ResponseBody
+  @PostMapping("/updateOrderItemInCartAjax")
+  public String updateOrderItemInCartAjax(@RequestParam("pid") int productId,
+      @RequestParam("num") int productNum, HttpSession session) {
+    User user = (User) session.getAttribute("user");
+    OrderItem orderItem = orderItemDao.getOrderItemInCart(user.getId(), productId);
+    orderItem.setNumber(productNum);
+    orderItemDao.updateOrderItem(orderItem);
     return "success";
   }
 
@@ -75,22 +111,37 @@ public class CartController {
     if (!model.containsAttribute("order")) {
       model.addAttribute(new Order());
     }
-    session.setAttribute("orderItemList", orderItemList);
+    session.setAttribute("orderItems", orderItemList);
+    model.addAttribute("orderItemList", orderItemList);
     model.addAttribute("totalMoneyInOrder", totalMoneyInOrder);
     return "buy";
   }
 
-  private OrderItem addOrderItem(User user, int productId, int productNum) {
+  private OrderItem createOrderItem(User user, int productId, int productNum) {
     Product product = productDao.getProductById(productId);
-    Order order = new Order();
-    order.setId(-1);
-    OrderItem orderItem = new OrderItem();
-    orderItem.setOrder(order);
-    orderItem.setProduct(product);
-    orderItem.setUser(user);
-    orderItem.setNumber(productNum);
-    orderItem.setHasReview(false);
-    orderItemDao.saveOrderItem(orderItem);
+    if (product.getStock() < productNum) {
+      throw new RuntimeException("库存不足！");
+    }
+    OrderItem orderItem = orderItemDao.getOrderItemInCart(user.getId(), productId);
+    if (orderItem == null) {
+      Order order = new Order();
+      order.setId(-1);
+      orderItem = new OrderItem();
+      orderItem.setOrder(order);
+      orderItem.setProduct(product);
+      orderItem.setUser(user);
+      orderItem.setNumber(productNum);
+      orderItem.setHasReview(false);
+      orderItemDao.saveOrderItem(orderItem);
+    } else {
+      //购物车中已经包含该产品
+      int newProductNumber = orderItem.getNumber() + productNum;
+      if (product.getStock() < newProductNumber) {
+        throw new RuntimeException("库存不足！");
+      }
+      orderItem.setNumber(newProductNumber);
+      orderItemDao.updateOrderItem(orderItem);
+    }
     return orderItem;
   }
 }

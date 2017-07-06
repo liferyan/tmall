@@ -42,7 +42,7 @@
     });
 
     $(".addCartLink").click(function () {
-      var page = "${ctx}/user/checkLogin";
+      var page = "${ctx}/user/checkLoginAjax";
       $.get(
           page,
           function (result) {
@@ -52,7 +52,7 @@
               var addCartpage = "${ctx}/cart/addAjax/";
               $.get(
                   addCartpage,
-                  {"productId": pid, "num": num},
+                  {"pid": pid, "num": num},
                   function (result) {
                     if ("success" == result) {
                       $(".addCartButton").html("已加入购物车");

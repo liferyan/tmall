@@ -52,7 +52,8 @@ public class OrderController {
       return "buy";
     }
     User user = (User) session.getAttribute("user");
-    List<OrderItem> orderItemList = (List<OrderItem>) session.getAttribute("orderItemList");
+    List<OrderItem> orderItemList = (List<OrderItem>) session.getAttribute("orderItems");
+    session.removeAttribute("orderItems");
 
     Date createDate = new Date();
     order.setCreateDate(createDate);
@@ -68,17 +69,22 @@ public class OrderController {
       orderItem.setOrder(order);
       orderItemDao.updateOrderItem(orderItem);
     }
+
+    //生成订单后修改购物车商品数量
+    int cartItemCount = (int) session.getAttribute("cartItemCount");
+    cartItemCount -= orderItemList.size();
+    session.setAttribute("cartItemCount", cartItemCount);
+
     model.addAttribute(order);
     return "alipay";
   }
 
   @PostMapping("/pay/{orderId}")
   public String orderPay(@PathVariable("orderId") int orderId,
-      @RequestParam("totalMoneyInOrder") float totalMoneyInOrder,
-      HttpSession session, Model model) {
+      @RequestParam("totalMoneyInOrder") float totalMoneyInOrder, Model model) {
     int deliveryNumber, productStock;
     Product deliveryProduct;
-    List<OrderItem> orderItemList = (List<OrderItem>) session.getAttribute("orderItemList");
+    List<OrderItem> orderItemList = orderDao.getOrderById(orderId).getOrderItems();
     //修改每个订单项里产品的库存
     for (OrderItem orderItem : orderItemList) {
       deliveryNumber = orderItem.getNumber();

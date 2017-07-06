@@ -1,10 +1,12 @@
 package com.liferyan.tmall.web.controller.portal;
 
+import com.liferyan.tmall.data.dao.OrderItemDao;
 import com.liferyan.tmall.data.dao.UserDao;
 import com.liferyan.tmall.data.entity.User;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,8 +26,12 @@ public class UserController {
 
   private UserDao userDao;
 
-  public UserController(UserDao userDao) {
+  private OrderItemDao orderItemDao;
+
+  @Autowired
+  public UserController(UserDao userDao, OrderItemDao orderItemDao) {
     this.userDao = userDao;
+    this.orderItemDao = orderItemDao;
   }
 
   @GetMapping("/register")
@@ -69,7 +75,9 @@ public class UserController {
       result.addError(new FieldError("user", "name", "用户登陆失败!"));
       return "login";
     }
+    int cartItemCount = orderItemDao.listOrderItemInCartByUser(user.getId()).size();
     session.setAttribute("user", user);
+    session.setAttribute("cartItemCount", cartItemCount);
     return "redirect:/";
   }
 
@@ -82,7 +90,8 @@ public class UserController {
   @ResponseBody
   @GetMapping("/checkLoginAjax")
   public String checkLoginAjax(HttpSession session) {
-    if (session.getAttribute("user") != null) {
+    User user = (User) session.getAttribute("user");
+    if (user != null) {
       return "success";
     }
     return "fail";
@@ -94,7 +103,9 @@ public class UserController {
       @RequestParam("name") String name, @RequestParam("password") String password) {
     User user = userDao.getUserByNameAndPassword(name, password);
     if (user != null) {
+      int cartItemCount = orderItemDao.listOrderItemInCartByUser(user.getId()).size();
       session.setAttribute("user", user);
+      session.setAttribute("cartItemCount", cartItemCount);
       return "success";
     }
     return "fail";

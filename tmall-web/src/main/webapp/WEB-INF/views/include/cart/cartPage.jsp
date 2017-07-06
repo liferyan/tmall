@@ -17,7 +17,7 @@
     });
     $('#deleteConfirmModal').on('hidden.bs.modal', function (e) {
       if (deleteOrderItem) {
-        var page = "foredeleteOrderItem";
+        var page = "${ctx}/cart/deleteOrderItemAjax";
         $.post(
             page,
             {"oiid": deleteOrderItemid},
@@ -26,7 +26,7 @@
                 $("tr.cartProductItemTR[oiid=" + deleteOrderItemid + "]").hide();
               }
               else {
-                location.href = "../../WEB-INF/views/login.jsp";
+                location.href = "${ctx}/user/login.jsp";
               }
             }
         );
@@ -35,12 +35,12 @@
     $("img.cartProductItemIfSelected").click(function () {
       var selectit = $(this).attr("selectit")
       if ("selectit" == selectit) {
-        $(this).attr("src", "img/site/cartNotSelected.png");
+        $(this).attr("src", "${ctx}/img/site/cartNotSelected.png");
         $(this).attr("selectit", "false")
         $(this).parents("tr.cartProductItemTR").css("background-color", "#fff");
       }
       else {
-        $(this).attr("src", "img/site/cartSelected.png");
+        $(this).attr("src", "${ctx}/img/site/cartSelected.png");
         $(this).attr("selectit", "selectit")
         $(this).parents("tr.cartProductItemTR").css("background-color", "#FFF8E1");
       }
@@ -51,19 +51,19 @@
     $("img.selectAllItem").click(function () {
       var selectit = $(this).attr("selectit")
       if ("selectit" == selectit) {
-        $("img.selectAllItem").attr("src", "img/site/cartNotSelected.png");
+        $("img.selectAllItem").attr("src", "${ctx}/img/site/cartNotSelected.png");
         $("img.selectAllItem").attr("selectit", "false")
         $(".cartProductItemIfSelected").each(function () {
-          $(this).attr("src", "img/site/cartNotSelected.png");
+          $(this).attr("src", "${ctx}/img/site/cartNotSelected.png");
           $(this).attr("selectit", "false");
           $(this).parents("tr.cartProductItemTR").css("background-color", "#fff");
         });
       }
       else {
-        $("img.selectAllItem").attr("src", "img/site/cartSelected.png");
+        $("img.selectAllItem").attr("src", "${ctx}/img/site/cartSelected.png");
         $("img.selectAllItem").attr("selectit", "selectit")
         $(".cartProductItemIfSelected").each(function () {
-          $(this).attr("src", "img/site/cartSelected.png");
+          $(this).attr("src", "${ctx}/img/site/cartSelected.png");
           $(this).attr("selectit", "selectit");
           $(this).parents("tr.cartProductItemTR").css("background-color", "#FFF8E1");
         });
@@ -114,7 +114,7 @@
         }
       });
       params = params.substring(1);
-      location.href = "forebuy?" + params;
+      location.href = "${ctx}/cart/settle?" + params;
     });
   })
 
@@ -143,9 +143,9 @@
       }
     });
     if (selectAll)
-      $("img.selectAllItem").attr("src", "img/site/cartSelected.png");
+      $("img.selectAllItem").attr("src", "${ctx}/img/site/cartSelected.png");
     else
-      $("img.selectAllItem").attr("src", "img/site/cartNotSelected.png");
+      $("img.selectAllItem").attr("src", "${ctx}/img/site/cartNotSelected.png");
   }
 
   function calcCartSumPriceAndNumber() {
@@ -170,13 +170,13 @@
     var cartProductItemSmallSumPrice = formatMoney(num * price);
     $(".cartProductItemSmallSumPrice[pid=" + pid + "]").html("￥" + cartProductItemSmallSumPrice);
     calcCartSumPriceAndNumber();
-    var page = "forechangeOrderItem";
+    var page = "${ctx}/cart/updateOrderItemInCartAjax";
     $.post(
         page,
-        {"pid": pid, "number": num},
+        {"pid": pid, "num": num},
         function (result) {
           if ("success" != result) {
-            location.href = "../../WEB-INF/views/login.jsp";
+            location.href = "${ctx}/user/login.jsp";
           }
         }
     );
@@ -197,7 +197,7 @@
             <thead>
             <tr>
                 <th class="selectAndImage">
-                    <img selectit="false" class="selectAllItem" src="img/site/cartNotSelected.png">
+                    <img selectit="false" class="selectAllItem" src="${ctx}/img/site/cartNotSelected.png">
                     全选
 
                 </th>
@@ -209,25 +209,25 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${order_item_list}" var="orderItem">
+            <c:forEach items="${orderItemList}" var="orderItem">
                 <tr oiid="${orderItem.id}" class="cartProductItemTR">
                     <td>
                         <img selectit="false" oiid="${orderItem.id}"
                              class="cartProductItemIfSelected"
-                             src="img/site/cartNotSelected.png">
+                             src="${ctx}/img/site/cartNotSelected.png">
                         <a style="display:none" href="#nowhere"><img
-                                src="img/site/cartSelected.png"></a>
+                                src="${ctx}/img/site/cartSelected.png"></a>
                         <img class="cartProductImage"
-                             src="img/productSingle_middle/${orderItem.product.firstProductImage.id}.jpg">
+                             src="${ctx}/img/productSingle_middle/${orderItem.product.firstProductImage.id}.jpg">
                     </td>
                     <td>
                         <div class="cartProductLinkOutDiv">
                             <a href="foreproduct?pid=${orderItem.product.id}"
                                class="cartProductLink">${orderItem.product.name}</a>
                             <div class="cartProductLinkInnerDiv">
-                                <img src="img/site/creditcard.png" title="支持信用卡支付">
-                                <img src="img/site/7day.png" title="消费者保障服务,承诺7天退货">
-                                <img src="img/site/promise.png" title="消费者保障服务,承诺如实描述">
+                                <img src="${ctx}/img/site/creditcard.png" title="支持信用卡支付">
+                                <img src="${ctx}/img/site/7day.png" title="消费者保障服务,承诺7天退货">
+                                <img src="${ctx}/img/site/promise.png" title="消费者保障服务,承诺如实描述">
                             </div>
                         </div>
 
@@ -274,7 +274,7 @@
     </div>
 
     <div class="cartFoot">
-        <img selectit="false" class="selectAllItem" src="img/site/cartNotSelected.png">
+        <img selectit="false" class="selectAllItem" src="${ctx}/img/site/cartNotSelected.png">
         <span>全选</span>
         <!-- 		<a href="#">删除</a> -->
 
