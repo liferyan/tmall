@@ -82,6 +82,7 @@ public class OrderController {
   public String orderConfirm(@RequestParam("oid") int orderId) {
     Order order = orderDao.getOrderById(orderId);
     order.setOrderStatus(OrderStatusEnum.WAIT_REVIEW);
+    order.setConfirmDate(new Date());
     orderDao.updateOrder(order);
     return "orderConfirmed";
   }
