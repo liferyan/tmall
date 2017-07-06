@@ -9,8 +9,12 @@
     <span>喵，欢迎来天猫</span>
 
     <c:if test="${!empty sessionScope.user}">
-        <a>${sessionScope.user.name}</a>
-        <a href="${ctx}/user/logout">退出</a>
+        <span>
+            Hi,<a>${sessionScope.user.name}</a>
+            <a href="${ctx}/user/logout">退出</a>
+        </span>
+
+
     </c:if>
 
     <c:if test="${empty sessionScope.user}">
@@ -26,11 +30,11 @@
                   class=" glyphicon glyphicon-shopping-cart redColor"></span>
 			购物车
                 <c:if test="${!empty sessionScope.user}">
-                    <strong>
+                    <strong class="cartItemCount" style="color:#666">
                             ${sessionScope.cartItemCount}
-                    </strong>件</a>
+                    </strong>件
                 </c:if>
-
+            </a>
 		</span>
 
 

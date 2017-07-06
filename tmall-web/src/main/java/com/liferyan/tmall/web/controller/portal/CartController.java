@@ -60,7 +60,7 @@ public class CartController {
     createOrderItem(user, productId, productNum);
     int cartItemCount = orderItemDao.listOrderItemInCartByUser(user.getId()).size();
     session.setAttribute("cartItemCount", cartItemCount);
-    return "success";
+    return "success|" + cartItemCount;
   }
 
   @GetMapping

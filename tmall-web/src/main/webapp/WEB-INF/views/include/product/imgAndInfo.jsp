@@ -54,7 +54,9 @@
                   addCartpage,
                   {"pid": pid, "num": num},
                   function (result) {
-                    if ("success" == result) {
+                    if (result.indexOf("success") >= 0) {
+                      var arr = result.split('|');
+                      $(".cartItemCount").html(arr[1] + ' ');
                       $(".addCartButton").html("已加入购物车");
                       $(".addCartButton").attr("disabled", "disabled");
                       $(".addCartButton").css("background-color", "lightgray")
