@@ -1,4 +1,4 @@
-package com.liferyan.tmall.web.comparator;
+package com.liferyan.tmall.web.util.comparator;
 
 
 import com.liferyan.tmall.data.entity.Product;
