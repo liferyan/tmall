@@ -20,7 +20,7 @@
 
 
     <span class="pull-right">
-			<a href="${ctx}/bought">我的订单</a>
+			<a href="${ctx}/order">我的订单</a>
 			<a href="${ctx}/cart">
 			<span style="color:#C40000;margin:0"
                   class=" glyphicon glyphicon-shopping-cart redColor"></span>

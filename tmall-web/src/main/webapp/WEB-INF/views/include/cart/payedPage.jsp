@@ -16,8 +16,8 @@
         </ul>
         <div class="paedCheckLinkDiv">
             您可以
-            <a class="payedCheckLink" href="forebought">查看已买到的宝贝</a>
-            <a class="payedCheckLink" href="forebought">查看交易详情 </a>
+            <a class="payedCheckLink" href="${ctx}/order">查看已买到的宝贝</a>
+            <a class="payedCheckLink" href="${ctx}/order">查看交易详情 </a>
         </div>
     </div>
     <div class="payedSeperateLine"></div>

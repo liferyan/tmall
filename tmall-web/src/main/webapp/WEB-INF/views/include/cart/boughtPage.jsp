@@ -31,7 +31,7 @@
 
     $('#deleteConfirmModal').on('hidden.bs.modal', function (e) {
       if (deleteOrder) {
-        var page = "foredeleteOrder";
+        var page = "${ctx}/order/deleteAjax";
         $.post(
             page,
             {"oid": deleteOrderid},
@@ -40,7 +40,7 @@
                 $("table.orderListItemTable[oid=" + deleteOrderid + "]").hide();
               }
               else {
-                location.href = "../../WEB-INF/views/login.jsp";
+                location.href = "${ctx}/user/login";
               }
             }
         );
@@ -85,7 +85,7 @@
     </div>
 
     <div class="orderListItem">
-        <c:forEach items="${order_list}" var="order">
+        <c:forEach items="${orderList}" var="order">
             <table class="orderListItemTable" orderStatus="${order.orderStatus.code}"
                    oid="${order.id}">
                 <tr class="orderListItemFirstTR">
@@ -95,7 +95,8 @@
                         <span>订单号: ${order.orderCode}
 					</span>
                     </td>
-                    <td colspan="2"><img width="13px" src="img/site/orderItemTmall.png">天猫商场</td>
+                    <td colspan="2"><img width="13px" src="${ctx}/img/site/orderItemTmall.png">天猫商场
+                    </td>
                     <td colspan="1">
                         <a class="wangwanglink" href="#nowhere">
                             <div class="orderItemWangWangGif"></div>
@@ -111,16 +112,16 @@
                     <tr class="orderItemProductInfoPartTR">
                         <td class="orderItemProductInfoPartTD">
                             <img width="80" height="80"
-                                 src="img/productSingle_middle/${orderItem.product.firstProductImage.id}.jpg">
+                                 src="${ctx}/img/productSingle_middle/${orderItem.product.firstProductImage.id}.jpg">
                         </td>
                         <td class="orderItemProductInfoPartTD">
                             <div class="orderListItemProductLinkOutDiv">
-                                <a href="foreproduct?pid=${orderItem.product.id}">
+                                <a href="${ctx}/product/${orderItem.product.id}">
                                         ${orderItem.product.name}</a>
                                 <div class="orderListItemProductLinkInnerDiv">
-                                    <img src="img/site/creditcard.png" title="支持信用卡支付">
-                                    <img src="img/site/7day.png" title="消费者保障服务,承诺7天退货">
-                                    <img src="img/site/promise.png" title="消费者保障服务,承诺如实描述">
+                                    <img src="${ctx}/img/site/creditcard.png" title="支持信用卡支付">
+                                    <img src="${ctx}/img/site/7day.png" title="消费者保障服务,承诺7天退货">
+                                    <img src="${ctx}/img/site/promise.png" title="消费者保障服务,承诺如实描述">
                                 </div>
                             </div>
                         </td>
@@ -157,7 +158,7 @@
                             <td valign="top"
                                 class="orderListItemButtonTD orderItemOrderInfoPartTD"
                                 width="100px">
-                                <a href="forereview?oid=${order.id}&pid=${orderItem.product.id}&oiid=${orderItem.id}">
+                                <a href="${ctx}/order/review?oid=${order.id}&pid=${orderItem.product.id}&oiid=${orderItem.id}">
                                     <button class="orderListItemReview">评价</button>
                                 </a>
                             </td>
@@ -168,7 +169,7 @@
                                 class="orderListItemButtonTD orderItemOrderInfoPartTD"
                                 width="100px">
                                 <c:if test="${order.orderStatus.code eq 'WAIT_PAY'}">
-                                    <a href="forealipay?oid=${order.id}&total=${order.total}">
+                                    <a href="${ctx}/order/pay/${order.id}?totalMoneyInOrder=${order.total}">
                                         <button class="orderListItemConfirm">付款</button>
                                     </a>
                                 </c:if>
@@ -176,12 +177,12 @@
                                     <span>待发货</span>
                                 </c:if>
                                 <c:if test="${order.orderStatus.code eq 'WAIT_CONFIRM'}">
-                                    <a href="foreconfirmPay?oid=${order.id}">
+                                    <a href="${ctx}/order/confirmPay?oid=${order.id}">
                                         <button class="orderListItemConfirm">确认收货</button>
                                     </a>
                                 </c:if>
                                 <c:if test="${order.orderStatus.code eq 'WAIT_REVIEW'}">
-                                    <a href="forereview?oid=${order.id}">
+                                    <a href="${ctx}/order/review?oid=${order.id}&pid=${orderItem.product.id}&oiid=${orderItem.id}">
                                         <button class="orderListItemReview">评价</button>
                                     </a>
                                 </c:if>
