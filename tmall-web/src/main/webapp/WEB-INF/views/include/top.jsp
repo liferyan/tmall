@@ -24,14 +24,13 @@
 			<a href="${ctx}/cart">
 			<span style="color:#C40000;margin:0"
                   class=" glyphicon glyphicon-shopping-cart redColor"></span>
-			购物车<strong>
-                <c:if test="${empty sessionScope.user}">
-                    0
-                </c:if>
+			购物车
                 <c:if test="${!empty sessionScope.user}">
-                    ${sessionScope.cartItemCount}
+                    <strong>
+                            ${sessionScope.cartItemCount}
+                    </strong>件</a>
                 </c:if>
-            </strong>件</a>
+
 		</span>
 
 

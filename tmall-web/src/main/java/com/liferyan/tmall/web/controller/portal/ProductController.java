@@ -2,6 +2,7 @@ package com.liferyan.tmall.web.controller.portal;
 
 import com.liferyan.tmall.data.dao.ProductDao;
 import com.liferyan.tmall.data.dao.PropertyValueDao;
+import com.liferyan.tmall.data.dao.ReviewDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,15 +23,19 @@ public class ProductController {
 
   private PropertyValueDao propertyValueDao;
 
+  private ReviewDao reviewDao;
+
   @Autowired
   public ProductController(ProductDao productDao,
-      PropertyValueDao propertyValueDao) {
+      PropertyValueDao propertyValueDao, ReviewDao reviewDao) {
     this.productDao = productDao;
     this.propertyValueDao = propertyValueDao;
+    this.reviewDao = reviewDao;
   }
 
   @GetMapping("/{productId}")
   public String showProductPage(@PathVariable("productId") int productId, Model model) {
+    model.addAttribute(reviewDao.listProductReview(productId));
     model.addAttribute(propertyValueDao.listPropertyValue(productId));
     model.addAttribute(productDao.getProductById(productId));
     return "product";
