@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=utf-8" language="java" pageEncoding="utf-8"
          isELIgnored="false" %>
-<%@ include file="../include/backend/backendHeader.jsp" %>
-<%@ include file="../include/backend/backendNavigator.jsp" %>
+<%@ include file="../include/backend/header.jsp" %>
+<%@ include file="../include/backend/navigator.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <script>
@@ -150,4 +150,4 @@
     </table>
 </div>
 
-<%@ include file="../include/backend/backendFooter.jsp" %>
+<%@ include file="../include/backend/footer.jsp" %>
