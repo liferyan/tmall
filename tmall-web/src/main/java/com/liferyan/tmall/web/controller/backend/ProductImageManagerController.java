@@ -27,7 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * Created by Ryan on 2017/6/28.
  */
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/backend")
 public class ProductImageManagerController {
 
   private ProductDao productDao;
@@ -56,7 +56,7 @@ public class ProductImageManagerController {
         productImageDao.listProductImage(product, ImageTypeEnum.SINGLE));
     model.addAttribute("detailImageList",
         productImageDao.listProductImage(product, ImageTypeEnum.DETAIL));
-    return "admin/listProductImg";
+    return "backend/listProductImg";
   }
 
   @PostMapping("/productImages/{productId}")
@@ -78,7 +78,7 @@ public class ProductImageManagerController {
       saveOrDeleteProductImage(imageFile, imageType, productImage.getId());
       redirectAttributes.addFlashAttribute("success", Boolean.TRUE);
     }
-    return "redirect:/admin/productImages/{productId}";
+    return "redirect:/backend/productImages/{productId}";
   }
 
   @GetMapping("/productImage/{productImageId}/delete")
@@ -88,7 +88,7 @@ public class ProductImageManagerController {
     productImageDao.deleteProductImage(productImageId);
     saveOrDeleteProductImage(null, imageType, productImageId);
     redirectAttributes.addFlashAttribute("success", Boolean.TRUE);
-    return "redirect:/admin/productImages/" + productId;
+    return "redirect:/backend/productImages/" + productId;
   }
 
   private void saveOrDeleteProductImage(MultipartFile imageFile, ImageTypeEnum imageType,

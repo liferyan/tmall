@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=utf-8" language="java" isELIgnored="false"
          pageEncoding="utf-8" %>
-<%@ include file="../include/admin/adminHeader.jsp" %>
-<%@ include file="../include/admin/adminNavigator.jsp" %>
+<%@ include file="../include/backend/adminHeader.jsp" %>
+<%@ include file="../include/backend/adminNavigator.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 
@@ -33,7 +33,7 @@
 
 <div class="workingArea">
     <ol class="breadcrumb">
-        <li><a href="${ctx}/admin/products/${product.category.id}">所有产品</a></li>
+        <li><a href="${ctx}/backend/products/${product.category.id}">所有产品</a></li>
         <li class="active">编辑产品</li>
     </ol>
     <div class="panel panel-warning editDiv">
@@ -85,4 +85,4 @@
     </div>
 </div>
 
-<%@include file="../include/admin/adminFooter.jsp" %>
+<%@include file="../include/backend/adminFooter.jsp" %>

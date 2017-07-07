@@ -20,7 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * Created by Ryan on 2017/6/27.
  */
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/backend")
 public class PropertyManagerController {
 
   private CategoryDao categoryDao;
@@ -47,7 +47,7 @@ public class PropertyManagerController {
     model.addAttribute(categoryDao.getCategoryById(categoryId));
     model.addAttribute(propertyDao.listPropertyByPage(categoryId, pageStart, pageCount));
     model.addAttribute(page);
-    return "admin/listProperty";
+    return "backend/listProperty";
   }
 
   @PostMapping("/properties/{categoryId}")
@@ -59,25 +59,25 @@ public class PropertyManagerController {
     }
     propertyDao.saveProperty(property);
     redirectAttributes.addFlashAttribute("success", Boolean.TRUE);
-    return "redirect:/admin/properties/{categoryId}";
+    return "redirect:/backend/properties/{categoryId}";
   }
 
   @GetMapping("/property/{propertyId}")
   public String showProperty(@PathVariable("propertyId") int propertyId, Model model) {
     model.addAttribute(propertyDao.getPropertyById(propertyId));
-    return "admin/editProperty";
+    return "backend/editProperty";
   }
 
   @PostMapping("/property/{propertyId}")
   public String updateProperty(@Valid Property property, BindingResult result,
       RedirectAttributes redirectAttributes) {
     if (result.hasErrors()) {
-      return "admin/editProperty";
+      return "backend/editProperty";
     }
     int categoryId = property.getCategory().getId();
     propertyDao.updateProperty(property);
     redirectAttributes.addFlashAttribute("success", Boolean.TRUE);
-    return "redirect:/admin/properties/" + categoryId;
+    return "redirect:/backend/properties/" + categoryId;
   }
 
   @GetMapping("/property/{propertyId}/delete")
@@ -86,6 +86,6 @@ public class PropertyManagerController {
     int categoryId = propertyDao.getPropertyById(propertyId).getCategory().getId();
     propertyDao.deleteProperty(propertyId);
     redirectAttributes.addFlashAttribute("success", Boolean.TRUE);
-    return "redirect:/admin/properties/" + categoryId;
+    return "redirect:/backend/properties/" + categoryId;
   }
 }

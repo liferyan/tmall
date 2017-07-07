@@ -20,7 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * Created by Ryan on 2017/6/27.
  */
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/backend")
 public class ProductManagerController {
 
   private CategoryDao categoryDao;
@@ -46,7 +46,7 @@ public class ProductManagerController {
     model.addAttribute(categoryDao.getCategoryById(categoryId));
     model.addAttribute(productDao.listProductByPage(categoryId, pageStart, pageCount));
     model.addAttribute(page);
-    return "admin/listProduct";
+    return "backend/listProduct";
   }
 
   @PostMapping("/products/{categoryId}")
@@ -58,25 +58,25 @@ public class ProductManagerController {
     }
     productDao.saveProduct(product);
     redirectAttributes.addFlashAttribute("success", Boolean.TRUE);
-    return "redirect:/admin/products/{categoryId}";
+    return "redirect:/backend/products/{categoryId}";
   }
 
   @GetMapping("/product/{productId}")
   public String showProduct(@PathVariable("productId") int productId, Model model) {
     model.addAttribute(productDao.getProductById(productId));
-    return "admin/editProduct";
+    return "backend/editProduct";
   }
 
   @PostMapping("/product/{productId}")
   public String updateProduct(@Valid Product product, BindingResult result,
       RedirectAttributes redirectAttributes) {
     if (result.hasErrors()) {
-      return "admin/editProduct";
+      return "backend/editProduct";
     }
     int categoryId = product.getCategory().getId();
     productDao.updateProduct(product);
     redirectAttributes.addFlashAttribute("success", Boolean.TRUE);
-    return "redirect:/admin/products/" + categoryId;
+    return "redirect:/backend/products/" + categoryId;
   }
 
   @GetMapping("/product/{productId}/delete")
@@ -85,6 +85,6 @@ public class ProductManagerController {
     int categoryId = productDao.getProductById(productId).getCategory().getId();
     productDao.deleteProduct(productId);
     redirectAttributes.addFlashAttribute("success", Boolean.TRUE);
-    return "redirect:/admin/products/" + categoryId;
+    return "redirect:/backend/products/" + categoryId;
   }
 }

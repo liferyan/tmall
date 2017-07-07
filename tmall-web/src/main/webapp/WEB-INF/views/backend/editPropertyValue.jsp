@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=utf-8" language="java" isELIgnored="false"
          pageEncoding="utf-8" %>
-<%@ include file="../include/admin/adminHeader.jsp" %>
-<%@ include file="../include/admin/adminNavigator.jsp" %>
+<%@ include file="../include/backend/adminHeader.jsp" %>
+<%@ include file="../include/backend/adminNavigator.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 
@@ -9,7 +9,7 @@
   $(function () {
     $("input.pvValue").change(function () {
       var value = $(this).val();
-      var page = "${ctx}/admin/propertyValues/${product.id}";
+      var page = "${ctx}/backend/propertyValues/${product.id}";
       var pvid = $(this).attr("pvid");
       var parentSpan = $(this).parent("span");
       parentSpan.css("border", "1px solid yellow");
@@ -34,8 +34,8 @@
 
 <div class="workingArea">
     <ol class="breadcrumb">
-        <li><a href="${ctx}/admin/categories">所有分类</a></li>
-        <li><a href="${ctx}/admin/products/${category.id}">${category.name}</a></li>
+        <li><a href="${ctx}/backend/categories">所有分类</a></li>
+        <li><a href="${ctx}/backend/products/${category.id}">${category.name}</a></li>
         <li>${product.name}</li>
         <li>编辑产品属性</li>
     </ol>
@@ -55,4 +55,4 @@
 
 </div>
 
-<%@include file="../include/admin/adminFooter.jsp" %>
+<%@include file="../include/backend/adminFooter.jsp" %>

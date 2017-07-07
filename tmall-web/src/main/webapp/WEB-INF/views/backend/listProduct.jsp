@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=utf-8" language="java" isELIgnored="false"
          pageEncoding="utf-8" %>
-<%@ include file="../include/admin/adminHeader.jsp" %>
-<%@ include file="../include/admin/adminNavigator.jsp" %>
+<%@ include file="../include/backend/adminHeader.jsp" %>
+<%@ include file="../include/backend/adminNavigator.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 
@@ -33,7 +33,7 @@
 <div class="workingArea">
     <p class="bg-success success">操作成功！</p>
     <ol class="breadcrumb">
-        <li><a href="${ctx}/admin/categories">所有分类</a></li>
+        <li><a href="${ctx}/backend/categories">所有分类</a></li>
         <li><a href="${category.id}">${category.name}</a></li>
         <li>产品管理</li>
     </ol>
@@ -66,13 +66,13 @@
                     <td>${product.originalPrice}</td>
                     <td>${product.promotePrice}</td>
                     <td>${product.stock}</td>
-                    <td><a href="${ctx}/admin/productImages/${product.id}"><span
+                    <td><a href="${ctx}/backend/productImages/${product.id}"><span
                             class="glyphicon glyphicon-picture"></span></a></td>
-                    <td><a href="${ctx}/admin/propertyValues/${product.id}"><span
+                    <td><a href="${ctx}/backend/propertyValues/${product.id}"><span
                             class="glyphicon glyphicon-th-list"></span></a></td>
-                    <td><a href="${ctx}/admin/product/${product.id}"><span
+                    <td><a href="${ctx}/backend/product/${product.id}"><span
                             class="glyphicon glyphicon-edit"></span></a></td>
-                    <td><a deleteLink="true" href="${ctx}/admin/product/${product.id}/delete"><span
+                    <td><a deleteLink="true" href="${ctx}/backend/product/${product.id}/delete"><span
                             class="glyphicon glyphicon-trash"></span></a></td>
                 </tr>
             </c:forEach>
@@ -83,7 +83,7 @@
 </div>
 
 <div class="pageDiv">
-    <%@include file="../include/admin/adminPage.jsp" %>
+    <%@include file="../include/backend/adminPage.jsp" %>
 </div>
 
 <div class="addDiv">
@@ -133,4 +133,4 @@
 </div>
 
 
-<%@include file="../include/admin/adminFooter.jsp" %>
+<%@include file="../include/backend/adminFooter.jsp" %>

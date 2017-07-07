@@ -1,7 +1,6 @@
 package com.liferyan.tmall.web.controller.backend;
 
 import com.liferyan.tmall.data.dao.OrderDao;
-import com.liferyan.tmall.data.dao.ProductDao;
 import com.liferyan.tmall.data.entity.Order;
 import com.liferyan.tmall.data.entity.OrderStatusEnum;
 import com.liferyan.tmall.web.util.Page;
@@ -18,17 +17,14 @@ import org.springframework.web.bind.annotation.RequestParam;
  * Created by Ryan on 2017/7/4.
  */
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/backend")
 public class OrderManagerController {
 
   private OrderDao orderDao;
 
-  private ProductDao productDao;
-
   @Autowired
-  public OrderManagerController(OrderDao orderDao, ProductDao productDao) {
+  public OrderManagerController(OrderDao orderDao) {
     this.orderDao = orderDao;
-    this.productDao = productDao;
   }
 
   @GetMapping("/orders")
@@ -42,7 +38,7 @@ public class OrderManagerController {
     page.setTotal(orderDao.getOrderCount());
     model.addAttribute(orderDao.listOrderByPage(pageStart, pageCount));
     model.addAttribute(page);
-    return "admin/listOrder";
+    return "backend/listOrder";
   }
 
   @GetMapping("/orderDelivery/{orderId}")
@@ -51,6 +47,6 @@ public class OrderManagerController {
     order.setDeliveryDate(new Date());
     order.setOrderStatus(OrderStatusEnum.WAIT_CONFIRM);
     orderDao.updateOrder(order);
-    return "redirect:/admin/orders";
+    return "redirect:/backend/orders";
   }
 }

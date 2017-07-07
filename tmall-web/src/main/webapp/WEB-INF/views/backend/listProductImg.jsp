@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=utf-8" language="java" pageEncoding="utf-8"
          isELIgnored="false" %>
-<%@ include file="../include/admin/adminHeader.jsp" %>
-<%@ include file="../include/admin/adminNavigator.jsp" %>
+<%@ include file="../include/backend/adminHeader.jsp" %>
+<%@ include file="../include/backend/adminNavigator.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <script>
@@ -22,8 +22,8 @@
 <div class="workingArea">
     <p class="bg-success success">操作成功！</p>
     <ol class="breadcrumb">
-        <li><a href="${ctx}/admin/categories">所有分类</a></li>
-        <li><a href="${ctx}/admin/products/${category.id}">${category.name}</a></li>
+        <li><a href="${ctx}/backend/categories">所有分类</a></li>
+        <li><a href="${ctx}/backend/products/${category.id}">${category.name}</a></li>
         <li>${product.name}</li>
         <li>产品图片管理</li>
     </ol>
@@ -80,7 +80,7 @@
                                     src="${ctx}/img/productSingle/${single_img.id}.jpg"></a>
                             </td>
                             <td>
-                                <a href="${ctx}/admin/productImage/${single_img.id}/delete?productId=${product.id}"><span
+                                <a href="${ctx}/backend/productImage/${single_img.id}/delete?productId=${product.id}"><span
                                         class="glyphicon glyphicon-trash"></span></a>
                             </td>
                         </tr>
@@ -138,7 +138,7 @@
                                     src="${ctx}/img/productDetail/${detail_img.id}.jpg"></a>
                             </td>
                             <td>
-                                <a href="${ctx}/admin/productImage/${detail_img.id}/delete?productId=${product.id}"><span
+                                <a href="${ctx}/backend/productImage/${detail_img.id}/delete?productId=${product.id}"><span
                                         class="glyphicon glyphicon-trash"></span></a>
                             </td>
                         </tr>
@@ -150,4 +150,4 @@
     </table>
 </div>
 
-<%@ include file="../include/admin/adminFooter.jsp" %>
+<%@ include file="../include/backend/adminFooter.jsp" %>

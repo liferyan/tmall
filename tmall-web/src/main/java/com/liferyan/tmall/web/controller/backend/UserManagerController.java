@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * Created by Ryan on 2017/7/4.
  */
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/backend")
 public class UserManagerController {
 
   private UserDao userDao;
@@ -34,6 +34,6 @@ public class UserManagerController {
     page.setTotal(userDao.getUserCount());
     model.addAttribute(userDao.listUserByPage(pageStart, pageCount));
     model.addAttribute(page);
-    return "admin/listUser";
+    return "backend/listUser";
   }
 }

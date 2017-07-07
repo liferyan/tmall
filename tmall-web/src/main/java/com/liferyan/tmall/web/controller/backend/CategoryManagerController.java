@@ -18,7 +18,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,7 +27,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * Created by Ryan on 2017/6/26.
  */
 @Controller
-@RequestMapping("/admin")
 public class CategoryManagerController {
 
   private CategoryDao categoryDao;
@@ -45,12 +43,12 @@ public class CategoryManagerController {
     this.categoryDao = categoryDao;
   }
 
-  @GetMapping
+  @GetMapping("/admin")
   public String showBackEndHome() {
-    return "redirect:/admin/categories";
+    return "redirect:/backend/categories";
   }
 
-  @GetMapping("/categories")
+  @GetMapping("/backend/categories")
   public String showCategoryList(
       @RequestParam(name = "page.start", defaultValue = "0") int pageStart,
       @RequestParam(name = "page.count", defaultValue = "5") int pageCount, Model model) {
@@ -61,10 +59,10 @@ public class CategoryManagerController {
     page.setTotal(categoryDao.getCategoryCount());
     model.addAttribute(categoryDao.listCategoryByPage(pageStart, pageCount));
     model.addAttribute(page);
-    return "admin/listCategory";
+    return "backend/listCategory";
   }
 
-  @PostMapping("/categories")
+  @PostMapping("/backend/categories")
   public String saveCategory(
       @Valid Category category, BindingResult result,
       @RequestPart(name = "category_image") MultipartFile categoryImage,
@@ -78,40 +76,40 @@ public class CategoryManagerController {
     categoryDao.saveCategory(category);
     saveCategoryImage(category, categoryImage);
     redirectAttributes.addFlashAttribute("success", Boolean.TRUE);
-    return "redirect:/admin/categories";
+    return "redirect:/backend/categories";
   }
 
 
-  @GetMapping("/category/{categoryId}")
+  @GetMapping("/backend/category/{categoryId}")
   public String showCategory(@PathVariable("categoryId") int id, Model model) {
     model.addAttribute("category", categoryDao.getCategoryById(id));
-    return "admin/editCategory";
+    return "backend/editCategory";
   }
 
-  @PostMapping("/category/{categoryId}")
+  @PostMapping("/backend/category/{categoryId}")
   public String updateCategory(
       @Valid Category category, BindingResult result,
       @RequestPart(name = "category_image", required = false) MultipartFile categoryImage,
       RedirectAttributes redirectAttributes)
       throws IOException {
     if (result.hasErrors()) {
-      return "admin/editCategory";
+      return "backend/editCategory";
     }
     categoryDao.updateCategory(category);
     if (!categoryImage.isEmpty()) {
       saveCategoryImage(category, categoryImage);
     }
     redirectAttributes.addFlashAttribute("success", Boolean.TRUE);
-    return "redirect:/admin/categories";
+    return "redirect:/backend/categories";
   }
 
-  @GetMapping("/category/{categoryId}/delete")
+  @GetMapping("/backend/category/{categoryId}/delete")
   public String deleteCategory(@PathVariable("categoryId") int categoryId,
       RedirectAttributes redirectAttributes) throws IOException {
     categoryDao.deleteCategory(categoryId);
     deleteCategoryImage(categoryId);
     redirectAttributes.addFlashAttribute("success", Boolean.TRUE);
-    return "redirect:/admin/categories";
+    return "redirect:/backend/categories";
   }
 
   private void saveCategoryImage(Category category, MultipartFile categoryImage)

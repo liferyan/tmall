@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * Created by Ryan on 2017/6/28.
  */
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/backend")
 public class PropertyValueManagerController {
 
   private PropertyValueDao propertyValueDao;
@@ -39,7 +39,7 @@ public class PropertyValueManagerController {
     model.addAttribute(product.getCategory());
     model.addAttribute(product);
     model.addAttribute(propertyValueDao.listPropertyValue(productId));
-    return "admin/editPropertyValue";
+    return "backend/editPropertyValue";
   }
 
   @ResponseBody
