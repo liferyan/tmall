@@ -1,8 +1,8 @@
 <%@ page contentType="text/html;charset=utf-8" language="java" isELIgnored="false"
          pageEncoding="utf-8" %>
-<%@ include file="include/header.jsp" %>
-<%@ include file="include/top.jsp" %>
-<%@include file="include/simpleSearch.jsp" %>
-<%@include file="include/registerSuccessPage.jsp" %>
-<%@ include file="include/footer.jsp" %>
+<%@ include file="include/portal/header.jsp" %>
+<%@ include file="include/portal/top.jsp" %>
+<%@include file="include/portal/simpleSearch.jsp" %>
+<%@include file="include/portal/registerSuccessPage.jsp" %>
+<%@ include file="include/portal/footer.jsp" %>
 
