@@ -15,7 +15,7 @@
     <%--导入BootStrap JS--%>
     <script src="${ctx}/js/bootstrap/3.3.7/bootstrap.min.js"></script>
     <%--导入自定义 CSS--%>
-    <link href="${ctx}/css/back/style.css" rel="stylesheet">
+    <link href="${ctx}/css/backend/style.css" rel="stylesheet">
 
     <%--页面通用JS函数--%>
     <script>
