@@ -4,6 +4,7 @@ import com.liferyan.tmall.data.dao.CategoryDao;
 import com.liferyan.tmall.data.dao.ProductDao;
 import com.liferyan.tmall.data.entity.Product;
 import com.liferyan.tmall.web.util.Page;
+import java.util.Date;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -56,6 +57,7 @@ public class ProductManagerController {
     if (result.hasErrors()) {
       return showCategoryProducts(0, 5, categoryId, model);
     }
+    product.setCreateDate(new Date());
     productDao.saveProduct(product);
     redirectAttributes.addFlashAttribute("success", Boolean.TRUE);
     return "redirect:/backend/products/{categoryId}";

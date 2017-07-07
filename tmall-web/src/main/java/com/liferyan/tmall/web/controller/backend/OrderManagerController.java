@@ -10,14 +10,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Created by Ryan on 2017/7/4.
  */
 @Controller
-@RequestMapping("/backend")
 public class OrderManagerController {
 
   private OrderDao orderDao;
@@ -27,7 +25,12 @@ public class OrderManagerController {
     this.orderDao = orderDao;
   }
 
-  @GetMapping("/orders")
+  @GetMapping("/admin")
+  public String showBackEndHome() {
+    return "redirect:/backend/orders";
+  }
+
+  @GetMapping("/backend/orders")
   public String showOrderList(
       @RequestParam(name = "page.start", defaultValue = "0") int pageStart,
       @RequestParam(name = "page.count", defaultValue = "5") int pageCount, Model model) {
@@ -41,7 +44,7 @@ public class OrderManagerController {
     return "backend/listOrder";
   }
 
-  @GetMapping("/orderDelivery/{orderId}")
+  @GetMapping("/backend/orderDelivery/{orderId}")
   public String orderDelivery(@PathVariable("orderId") int orderId) {
     Order order = orderDao.getOrderById(orderId);
     order.setDeliveryDate(new Date());
