@@ -111,8 +111,7 @@ public class CartController {
     if (!model.containsAttribute("order")) {
       model.addAttribute(new Order());
     }
-    session.setAttribute("orderItems", orderItemList);
-    model.addAttribute("orderItemList", orderItemList);
+    session.setAttribute("orderItemList", orderItemList);
     model.addAttribute("totalMoneyInOrder", totalMoneyInOrder);
     return "buy";
   }

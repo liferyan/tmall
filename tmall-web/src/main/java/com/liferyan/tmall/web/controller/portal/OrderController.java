@@ -153,8 +153,8 @@ public class OrderController {
       return "buy";
     }
     User user = (User) session.getAttribute("user");
-    List<OrderItem> orderItemList = (List<OrderItem>) session.getAttribute("orderItems");
-    session.removeAttribute("orderItems");
+    List<OrderItem> orderItemList = (List<OrderItem>) session.getAttribute("orderItemList");
+    session.removeAttribute("orderItemList");
 
     Date createDate = new Date();
     order.setCreateDate(createDate);
