@@ -25,6 +25,7 @@
       c.name          AS "c_name",
       p.id            AS "p_id",
       p.name          AS "p_name",
+      p.subtitle      AS "p_subTitle",
       p.promote_price AS "p_promotePrice",
       p.create_date   AS "p_createDate"
     FROM category AS c
@@ -45,6 +46,7 @@
     <collection property="products" ofType="product">
       <id column="p_id" property="id"/>
       <result column="p_name" property="name"/>
+      <result column="p_subTitle" property="subTitle"/>
       <result column="p_promotePrice" property="promotePrice"/>
       <result column="p_createDate" property="createDate"/>
       <association column="p_id" property="firstProductImage" javaType="productImage"

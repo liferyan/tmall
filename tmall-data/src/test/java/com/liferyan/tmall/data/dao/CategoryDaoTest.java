@@ -21,7 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Created by Ryan on 2017/5/23.
  */
-public class CategoryBaseDaoTest extends BaseDaoTest {
+public class CategoryDaoTest extends BaseDaoTest {
 
   @Autowired
   private CategoryDao categoryDao;
@@ -62,11 +62,11 @@ public class CategoryBaseDaoTest extends BaseDaoTest {
   public void listCategory() throws Exception {
     Category selectCategory = categoryDao.getCategoryById(60);
     List<Product> productList = selectCategory.getProducts();
-    for(Product product:productList){
-      assertThat(product.getPromotePrice(),notNullValue());
-      assertThat(product.getCreateDate(),notNullValue());
-      assertThat(product.getReviewCount(),notNullValue());
-      assertThat(product.getSaleCount(),notNullValue());
+    for (Product product : productList) {
+      assertThat(product.getPromotePrice(), notNullValue());
+      assertThat(product.getCreateDate(), notNullValue());
+      assertThat(product.getReviewCount(), notNullValue());
+      assertThat(product.getSaleCount(), notNullValue());
     }
     List<Category> categoryList = categoryDao.listCategory();
     int size = categoryDao.getCategoryCount();
@@ -88,12 +88,10 @@ public class CategoryBaseDaoTest extends BaseDaoTest {
           for (List<Product> products : listProductsByRow) {
             int rowSize = products.size();
             assertThat(rowSize, lessThanOrEqualTo(CategoryDao.PRODUCT_NUMBER_EACH_ROW));
+            for (Product product : products) {
+              assertThat(product.getSubTitle(), notNullValue());
+            }
           }
-          /*List<Product> productList = category.getProducts();
-          for (Product product : productList) {
-            assertThat(product.getOriginalPrice(), not(0));
-            assertThat(product.getPromotePrice(), not(0));
-          }*/
         }
       }
     }

@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,12 +44,12 @@ public class UserController {
   @PostMapping("/register")
   public String register(
       @RequestParam("repeatPassword") String repeatPassword,
-      @Valid User user, BindingResult result) {
+      @Valid User user, BindingResult result, Model model) {
     if (result.hasErrors()) {
       return "register";
     }
     if (StringUtils.isEmpty(repeatPassword) || !repeatPassword.equals(user.getPassword())) {
-      result.addError(new FieldError("user", "password", "密码输入不一致!"));
+      model.addAttribute("errorMsg", "密码输入不一致!");
       return "register";
     }
     userDao.saveUser(user);
@@ -66,13 +65,14 @@ public class UserController {
   }
 
   @PostMapping("/login")
-  public String login(@Valid User user, BindingResult result, HttpSession session) {
+  public String login(@Valid User user, BindingResult result,
+      HttpSession session, Model model) {
     if (result.hasErrors()) {
       return "login";
     }
     user = userDao.getUserByNameAndPassword(user.getName(), user.getPassword());
     if (user == null) {
-      result.addError(new FieldError("user", "name", "用户登陆失败!"));
+      model.addAttribute("errorMsg", "用户登陆失败!");
       return "login";
     }
     int cartItemCount = orderItemDao.listOrderItemInCartByUser(user.getId()).size();
